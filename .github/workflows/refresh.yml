@@ -87,32 +87,6 @@ jobs:
       - name: Render site
         run: mkdocs build
 
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-      # Deploy in THIS job. A push made with GITHUB_TOKEN does not trigger another
-      # workflow, so splitting collection and deployment into two workflows produces a
-      # dashboard that silently stops updating while every run still shows green --
-      # exactly what happened to the project this one is modelled on.
-      - name: Deploy to Pages
-        id: deploy
-        uses: actions/deploy-pages@v4
-
-      - name: Publish snapshots to the data branch
-        run: |
-          git config user.name "tgx-outputs bot"
-          git config user.email "noreply@github.com"
-          tmp=$(mktemp -d)
-          cp -r data/. "$tmp/"
-          git checkout --orphan data-tmp
-          git rm -rf --cached . >/dev/null 2>&1 || true
-          rm -rf ./* 2>/dev/null || true
-          cp -r "$tmp/." .
-          git add -A
-          git commit -m "data: $(date -u +%Y-%m-%d)" || { echo "nothing changed"; exit 0; }
-          git push --force origin HEAD:data
 
       - name: Report source health
         if: always()
@@ -133,3 +107,35 @@ jobs:
                   for err in src["errors"][:2]:
                       print(f"::warning title={name}::{err.splitlines()[0][:200]}")
           PY
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      # Deploy in THIS job. A push made with GITHUB_TOKEN does not trigger another
+      # workflow, so splitting collection and deployment into two workflows produces a
+      # dashboard that silently stops updating while every run still shows green --
+      # exactly what happened to the project this one is modelled on.
+      - name: Deploy to Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      # KEEP THIS STEP LAST. It checks out an orphan branch and empties the working
+      # directory to build the data tree, so anything after it runs against a
+      # checkout that no longer has data/ -- or src/, or the site. The health report
+      # above used to sit here and failed with "no manifest written" on the first
+      # real run for exactly that reason.
+      - name: Publish snapshots to the data branch
+        run: |
+          git config user.name "tgx-outputs bot"
+          git config user.email "noreply@github.com"
+          tmp=$(mktemp -d)
+          cp -r data/. "$tmp/"
+          git checkout --orphan data-tmp
+          git rm -rf --cached . >/dev/null 2>&1 || true
+          rm -rf ./* 2>/dev/null || true
+          cp -r "$tmp/." .
+          git add -A
+          git commit -m "data: $(date -u +%Y-%m-%d)" || { echo "nothing changed"; exit 0; }
+          git push --force origin HEAD:data
