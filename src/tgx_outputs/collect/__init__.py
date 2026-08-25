@@ -3,7 +3,6 @@ from . import (  # noqa: F401  (import for side-effect: registration)
     citations,
     dockerhub,
     ecosystems,
-    ghcr,
     github_graphql,
     rsd,
     services,

@@ -67,8 +67,6 @@ would read as a score for this department.
 
 --8<-- "fig_docker_pulls.md"
 
---8<-- "fig_ghcr_tags.md"
-
 ---
 
 To add a project, copy a block in

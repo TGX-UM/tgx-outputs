@@ -137,16 +137,6 @@ def docker_pulls() -> dict[str, Any]:
     )
 
 
-def ghcr_tags() -> dict[str, Any]:
-    return _spec(
-        {"type": "bar", "tooltip": True},
-        {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Tags published"}},
-        "data/ghcr_tags.csv",
-        height=280,
-    )
-
-
 def dataset_downloads() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
@@ -225,6 +215,5 @@ CHARTS = {
     "rsd_mentions": (rsd_mentions, "rsd_mentions"),
     "citations": (citations, "paper_citations"),
     "docker_pulls": (docker_pulls, "docker_pulls_total"),
-    "ghcr_tags": (ghcr_tags, "ghcr_tags"),
     "dataset_downloads": (dataset_downloads, "dataset_downloads"),
 }

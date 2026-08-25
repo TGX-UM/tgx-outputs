@@ -14,8 +14,6 @@
 #             Registries: bioconductor.org, pypi.org, npmjs.org, cran.r-project.org,
 #             repo1.maven.org (use group:artifact), conda-forge.org
 #   docker    Docker Hub namespace/image. Gives pull counts
-#   ghcr      GitHub Container Registry owner/image. Gives tags published, not pulls,
-#             because GHCR reports no pull count anywhere. Private images are skipped
 #   rsd       Research Software Directory slug. Gives papers mentioning the tool.
 #             Find it in the URL: research-software-directory.org/software/<slug>
 #             Not registered there? Register it -- that is worth more than adding it here
@@ -201,6 +199,7 @@ projects:
       The VHP4Safety portal: a single entry point to the chemical safety assessment
       services the consortium runs.
     repos: [VHP4Safety/virtual-human-platform]
+    docker: [vhp4safety/virtual-human-platform]
     papers:
       - 10.14573/altex.2407211              # The Virtual Human Platform, ALTEX 2024
     rsd: [virtual-human-platform]
@@ -220,9 +219,6 @@ projects:
       - marvinm2/AOPWikiRDF
       - marvinm2/AOP-Wiki-Snorql-UI
       - marvinm2/AOP-Wiki-RDF-dashboard
-    ghcr:
-      - marvinm2/aopwiki-dashboard
-      - marvinm2/aop-wiki-snorql-ui
     services:
       - name: AOP-Wiki SPARQL endpoint
         url: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
@@ -244,7 +240,6 @@ projects:
       Maps Adverse Outcome Pathway key events onto molecular pathways, and analyses
       the resulting molecular AOPs.
     repos: [marvinm2/molAOP-builder, marvinm2/molAOP-analyser]
-    ghcr: [marvinm2/molaop-builder, marvinm2/molaop-analyser]
     papers:
       - 10.1101/2023.03.02.530766           # Molecular AOPs, bioRxiv 2023
     services:
@@ -256,3 +251,20 @@ projects:
         what: Analyse the resulting molecular AOPs.
     links:
       preprint: https://doi.org/10.1101/2023.03.02.530766
+
+  - id: biodatafuse
+    mark: BDF
+    name: pyBiodatafuse
+    what: >-
+      Queries many biomedical databases at once and merges what comes back into a
+      single knowledge graph, so a gene or compound list can be annotated from all
+      of them in one step.
+    repos: [BioDataFuse/pyBiodatafuse, BioDataFuse/biodatafuseUI]
+    packages:
+      - pypi.org/pybiodatafuse
+    papers:
+      - 10.1093/bioinformatics/btag064      # pyBiodatafuse, Bioinformatics 2026
+      - 10.37044/osf.io/mhsqp               # BioHackEU23 report, BioHackrXiv 2023
+    links:
+      source: https://github.com/BioDataFuse/pyBiodatafuse
+      PyPI: https://pypi.org/project/pybiodatafuse/

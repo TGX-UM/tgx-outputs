@@ -1,6 +1,0 @@
-{
- "url": "https://ghcr.io/v2/marvinm2/aopwiki-dashboard/tags/list",
- "params": null,
- "status": 200,
- "text": "{\"name\":\"marvinm2/aopwiki-dashboard\",\"tags\":[\"main\",\"latest\",\"sha-b2b3c64\",\"sha-5a2669b\",\"sha-ffda5d2\",\"sha-d8561a6\",\"sha-e333b05\",\"sha-a342002\",\"sha-18004be\",\"sha-908d8c7\",\"sha-674e6bf\",\"sha-c51b505\",\"sha-bdc8f14\",\"sha-283b2fb\",\"sha-ce29bf7\",\"sha-e49e30e\",\"sha-e15a3a3\",\"sha-0ff9d4a\",\"sha-e1af861\",\"sha-f394cf5\",\"sha-7c870ec\",\"sha-4c5327b\",\"sha-fb360b1\",\"sha-da49128\",\"sha-90af4c0\"]}\n"
-}

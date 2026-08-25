@@ -90,16 +90,8 @@ metrics:
     cumulative: true
     granularity: none
     caveat: One pull is not one user. A CI job rebuilding hourly pulls the base image every
-      time, and a single pull of a multi-arch image can register more than once. GHCR publishes
-      no equivalent figure, so images there are missing from this chart.
-  ghcr_tags:
-    label: Tags published to GHCR
-    counts: Tags on a public image in the GitHub Container Registry.
-    source: ghcr
-    cumulative: true
-    granularity: none
-    caveat: GHCR reports no pull count anywhere, so this measures how often an image was
-      rebuilt rather than how often anyone ran it. Private images are skipped.
+      time, and a single pull of a multi-arch image can register more than once. Images
+      published only to other registries are missing from this chart.
   latest_release:
     label: Last release
     counts: The date of a project's most recent release or tag.

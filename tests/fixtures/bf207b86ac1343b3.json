@@ -1,6 +1,0 @@
-{
- "url": "https://ghcr.io/v2/marvinm2/molaop-analyser/manifests/latest",
- "params": null,
- "status": 200,
- "text": "{\n  \"schemaVersion\": 2,\n  \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n  \"manifests\": [\n    {\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"digest\": \"sha256:17872c86cf31a5c1f5fa9be62e51dc741df421654bc55ce924fda639de2a746b\",\n      \"size\": 2972,\n      \"platform\": {\n        \"architecture\": \"amd64\",\n        \"os\": \"linux\"\n      }\n    },\n    {\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"digest\": \"sha256:3f7e98ad0c02a3722ecf68fb877d547040660625786d470c872f0a6417bdeb60\",\n      \"size\": 838,\n      \"annotations\": {\n        \"vnd.docker.reference.digest\": \"sha256:17872c86cf31a5c1f5fa9be62e51dc741df421654bc55ce924fda639de2a746b\",\n        \"vnd.docker.reference.type\": \"attestation-manifest\"\n      },\n      \"platform\": {\n        \"architecture\": \"unknown\",\n        \"os\": \"unknown\"\n      }\n    }\n  ]\n}"
-}

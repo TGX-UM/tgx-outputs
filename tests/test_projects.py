@@ -40,7 +40,7 @@ def test_adding_a_project_needs_no_code_change():
     """
     from tgx_outputs.collect import COLLECTORS
 
-    project_driven = {"github", "ecosystems", "bioconductor", "dockerhub", "ghcr", "rsd"}
+    project_driven = {"github", "ecosystems", "bioconductor", "dockerhub", "rsd"}
     assert project_driven <= set(COLLECTORS)
-    for field in ("repos", "packages", "docker", "ghcr", "rsd"):
+    for field in ("repos", "packages", "docker", "rsd"):
         assert cfg.project_field(field) is not None

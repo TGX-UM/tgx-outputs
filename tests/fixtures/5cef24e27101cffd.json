@@ -1,0 +1,12 @@
+{
+ "url": "https://api.github.com/graphql",
+ "body": {
+  "query": "\nquery($owner:String!, $name:String!) {\n  repository(owner:$owner, name:$name) {\n    nameWithOwner pushedAt isArchived stargazerCount\n    primaryLanguage { name }\n    licenseInfo { spdxId }\n    releases(first:100, orderBy:{field:CREATED_AT, direction:DESC}) {\n      nodes { tagName publishedAt isDraft }\n    }\n    refs(refPrefix:\"refs/tags/\", first:100,\n         orderBy:{field:TAG_COMMIT_DATE, direction:DESC}) {\n      nodes { name target { ... on Commit { committedDate }\n                            ... on Tag { target { ... on Commit { committedDate } } } } }\n    }\n  }\n}\n",
+  "variables": {
+   "owner": "BioDataFuse",
+   "name": "pyBiodatafuse"
+  }
+ },
+ "status": 200,
+ "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"BioDataFuse/pyBiodatafuse\",\"pushedAt\":\"2026-04-22T12:59:35Z\",\"isArchived\":false,\"stargazerCount\":15,\"primaryLanguage\":{\"name\":\"Python\"},\"licenseInfo\":{\"spdxId\":\"MIT\"},\"releases\":{\"nodes\":[{\"tagName\":\"v1.3.0\",\"publishedAt\":\"2026-02-03T07:19:38Z\",\"isDraft\":false},{\"tagName\":\"v1.2.0\",\"publishedAt\":\"2025-07-01T12:36:35Z\",\"isDraft\":false}]},\"refs\":{\"nodes\":[{\"name\":\"v1.3.0\",\"target\":{\"committedDate\":\"2026-02-03T07:17:36Z\"}},{\"name\":\"v1.2.0\",\"target\":{\"committedDate\":\"2025-07-01T12:33:10Z\"}},{\"name\":\"v0.0.3\",\"target\":{\"target\":{\"committedDate\":\"2023-10-31T09:24:30Z\"}}},{\"name\":\"v0.0.1\",\"target\":{\"target\":{\"committedDate\":\"2023-10-18T10:29:52Z\"}}}]}}}}"
+}

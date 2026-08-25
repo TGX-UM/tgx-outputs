@@ -4,5 +4,5 @@
   "select": "doi,title,publication_year,cited_by_count"
  },
  "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1021/ci025584y\",\"title\":\"The Chemistry Development Kit (CDK): An Open-Source Java Library for Chemo- and Bioinformatics\",\"publication_year\":2003,\"cited_by_count\":1121}\n"
+ "text": "{\"doi\":\"https://doi.org/10.1021/ci025584y\",\"title\":\"The Chemistry Development Kit (CDK): An Open-Source Java Library for Chemo- and Bioinformatics\",\"publication_year\":2003,\"cited_by_count\":1122}\n"
 }

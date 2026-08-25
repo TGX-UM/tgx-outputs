@@ -53,7 +53,6 @@ with a link back rather than redistributed.
 | [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms of service |
 | [Research Software Directory](https://research-software-directory.org) | literature mentions of software | platform Apache-2.0, content CC-BY |
 | [Docker Hub](https://hub.docker.com) | image pulls | Docker terms of service |
-| [GitHub Container Registry](https://ghcr.io) | tags published | GitHub terms of service |
 
 If you maintain one of these services and would rather this project used your data
 differently, please [open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new).

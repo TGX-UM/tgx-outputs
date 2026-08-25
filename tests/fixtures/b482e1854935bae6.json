@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.64898/2026.07.13.738193",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.64898/2026.07.13.738193\",\"title\":\"User-friendly transcriptomic data analysis with ArrayAnalysis\",\"publication_year\":2026,\"cited_by_count\":0}\n"
+}

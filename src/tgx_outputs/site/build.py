@@ -176,7 +176,6 @@ def _cards(snapshot: dict[str, Any]) -> str:
          "downloads, last 30 days", "npm"),
         ("Docker Hub", total("docker_pulls_total"), "#containers", "pulls, all time",
          "docker"),
-        ("GHCR", total("ghcr_tags"), "#containers", "tags published", "github"),
         ("Citations", total("paper_citations"), "#citations", "of these tools' papers",
          "book"),
         ("Datasets", total("dataset_downloads"), "#services", "downloads, all time",
@@ -290,11 +289,6 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
         pid = (r.get("extra") or {}).get("project")
         if pid:
             pulls[pid] = pulls.get(pid, 0) + r["value"]
-    tags: dict[str, float] = {}
-    for r in by("ghcr_tags"):
-        pid = (r.get("extra") or {}).get("project")
-        if pid:
-            tags[pid] = tags.get(pid, 0) + r["value"]
     cites = {r["entity"]: r["value"] for r in by("paper_citations")}
     papers = {r["entity"]: (r.get("extra") or {}).get("papers", 0)
               for r in by("paper_citations")}
@@ -320,9 +314,6 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
             stats.append(_stat(_fmt(value), f"{registry} downloads · {window}"))
         if pulls.get(pid):
             stats.append(_stat(_fmt(pulls[pid]), "Docker Hub pulls · all time"))
-        elif tags.get(pid):
-            # GHCR publishes no pull count anywhere, so tags are what there is.
-            stats.append(_stat(_fmt(tags[pid]), "GHCR tags published"))
         if pid in recent:
             stats.append(_stat(_fmt(recent[pid]), f"releases since {cutoff}"))
         if latest.get(pid):
@@ -387,8 +378,8 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
             "*Downloads are listed per registry with the window each one reports and are "
             "never added up: Bioconductor publishes a lifetime total, npm and PyPI a "
             "rolling 30 days.*\n\n"
-            "*Containers are Docker Hub pulls where they exist and GHCR tags published "
-            "where they do not, because GHCR reports no pulls at all.*\n")
+            "*Container pulls are Docker Hub's own counter. An image published only "
+            "elsewhere has no pull count to show: no other registry publishes one.*\n")
     return "\n".join(out) + "\n" + note
 
 

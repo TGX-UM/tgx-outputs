@@ -1,6 +1,0 @@
-{
- "url": "https://ghcr.io/v2/marvinm2/aopwiki-dashboard/manifests/latest",
- "params": null,
- "status": 200,
- "text": "{\n  \"schemaVersion\": 2,\n  \"mediaType\": \"application/vnd.oci.image.index.v1+json\",\n  \"manifests\": [\n    {\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"digest\": \"sha256:9ef02b57cb435a5f70df633b656b088e0ac7c2e234a37ce60400781659a933d7\",\n      \"size\": 1816,\n      \"platform\": {\n        \"architecture\": \"amd64\",\n        \"os\": \"linux\"\n      }\n    },\n    {\n      \"mediaType\": \"application/vnd.oci.image.manifest.v1+json\",\n      \"digest\": \"sha256:f14ab0e810c74c1f1f91e0830b41bad2ce77e6a0427d1d326fa658d1aacf1167\",\n      \"size\": 838,\n      \"annotations\": {\n        \"vnd.docker.reference.digest\": \"sha256:9ef02b57cb435a5f70df633b656b088e0ac7c2e234a37ce60400781659a933d7\",\n        \"vnd.docker.reference.type\": \"attestation-manifest\"\n      },\n      \"platform\": {\n        \"architecture\": \"unknown\",\n        \"os\": \"unknown\"\n      }\n    }\n  ]\n}"
-}

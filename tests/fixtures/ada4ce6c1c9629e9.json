@@ -1,6 +1,0 @@
-{
- "url": "https://ghcr.io/v2/marvinm2/molaop-builder/tags/list",
- "params": null,
- "status": 200,
- "text": "{\"name\":\"marvinm2/molaop-builder\",\"tags\":[\"main\",\"latest\",\"main-48e3f8f\",\"main-d397dfd\",\"main-b4891a8\",\"main-e74a6ae\",\"main-254a369\",\"main-863d59b\",\"main-f4626ef\",\"main-640d8a1\",\"main-3059647\",\"main-162d8a0\",\"main-6517522\",\"main-9d7e24a\",\"main-bae6d31\",\"main-d1e386b\",\"main-e487732\",\"main-4c2b650\",\"main-58486af\",\"main-2297b5d\",\"main-304ba21\",\"main-9aeff4e\",\"main-c598ddc\",\"main-4858bcd\",\"main-f4d8c97\",\"main-60be919\",\"main-eb2dd5c\",\"main-8f05db1\",\"main-4903291\",\"main-b5fff45\",\"main-e7f1897\",\"main-b5de6a3\",\"main-8bfe69b\",\"main-109845a\",\"main-d31c8d9\",\"main-4f261cc\",\"main-8dafc4d\",\"main-8f89995\",\"main-23f85ed\",\"main-ba5c3a3\",\"main-a36bb31\",\"main-1200a78\",\"main-af422df\",\"main-8c58dfd\",\"main-0e0a898\",\"0.0.0-citest\",\"v0.0.0-citest\",\"2.9.0\",\"2.9\",\"2\",\"v2.9.0\",\"main-5760ee5\"]}\n"
-}

@@ -6,9 +6,9 @@
 
 A gap that is not declared reads as a zero, so:
 
-- GHCR publishes no pull count for containers, and no API offers one. Docker Hub
-  does, so GHCR images are counted by tags published instead. Private images are
-  skipped rather than listed.
+- Container pulls come from Docker Hub, which is the only registry that publishes a
+  count. An image pushed only to GitHub's registry or another one has no usage figure
+  here, and none of them offer an API that would give one.
 - GitHub page views and clones are not collected. They need push access to every
   repository, which means storing a token, and this runs without secrets. The window
   is 14 days anyway.

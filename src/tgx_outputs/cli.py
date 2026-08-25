@@ -119,16 +119,6 @@ def cmd_doctor_projects() -> int:
                     ok = False
                 print(f"    docker   {'ok ' if ok else 'BAD'}  {image}")
                 bad += 0 if ok else 1
-            for image in proj.get("ghcr") or []:
-                try:
-                    tok = http.get_json("https://ghcr.io/token",
-                                        params={"scope": f"repository:{image}:pull"})["token"]
-                    data = http.get_json(f"https://ghcr.io/v2/{image}/tags/list",
-                                         headers={"Authorization": f"Bearer {tok}"})
-                    ok = bool(data.get("tags"))
-                except Exception:  # noqa: BLE001
-                    ok = False
-                print(f"    ghcr     {'ok ' if ok else 'private/BAD'}  {image}")
     print(f"\n  {bad} identifier(s) did not resolve" if bad else "\n  every identifier resolves")
     return 1 if bad else 0
 

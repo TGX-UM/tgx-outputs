@@ -15,7 +15,6 @@ out anything the project does not have and nothing about it is shown.
     repos: [someorg/my-tool]
     packages: [pypi.org/my-tool]
     docker: [somenamespace/my-tool]
-    ghcr: [someowner/my-tool]
     rsd: [my-tool]
 ```
 

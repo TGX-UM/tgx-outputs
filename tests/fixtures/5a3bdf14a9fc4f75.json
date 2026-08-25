@@ -1,6 +1,0 @@
-{
- "url": "https://ghcr.io/v2/marvinm2/aop-wiki-snorql-ui/tags/list",
- "params": null,
- "status": 200,
- "text": "{\"name\":\"marvinm2/aop-wiki-snorql-ui\",\"tags\":[\"master\",\"latest\",\"sha-1d19b3c\",\"sha-ebdcc0e\",\"sha-52fee0b\",\"sha-f4e8564\",\"sha-1ba2bfc\",\"sha-deddf6e\",\"sha-33615ef\",\"sha-634b7c6\",\"sha-3afd602\",\"sha-72983ad\",\"sha-65bebe2\",\"sha-c069ff6\"]}\n"
-}
