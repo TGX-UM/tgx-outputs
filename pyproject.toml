@@ -6,12 +6,11 @@ requires-python = ">=3.11"
 dependencies = [
     "httpx~=0.28",
     "PyYAML~=6.0",
-    "jsonschema~=4.23",
     "mkdocs-material~=9.5",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest~=8.3", "ruff~=0.8", "check-jsonschema~=0.30"]
+dev = ["pytest~=8.3", "ruff~=0.8"]
 
 [project.scripts]
 tgx = "tgx_outputs.cli:main"

@@ -1,22 +1,33 @@
 # Contributing
 
-Almost every useful change is one block in one file. No Python needed.
+Almost every useful change is a row in a table. No Python needed, and every file in
+`config/` is a CSV you can open in a spreadsheet — the columns are documented in
+[`config/README.md`](config/README.md).
 
 ## Add a project
 
-Copy a block in `config/projects.yml`, change the values, open a pull request. That
-file explains every field at the top. Only `id`, `name` and `what` are required; leave
-out anything the project does not have and nothing about it is shown.
+One row in `config/projects.csv`:
 
-```yaml
-  - id: my-tool
-    name: My Tool
-    what: One sentence a stranger would understand.
-    repos: [someorg/my-tool]
-    packages: [pypi.org/my-tool]
-    docker: [somenamespace/my-tool]
-    rsd: [my-tool]
+```csv
+id,name,what,mark,logo
+my-tool,My Tool,One sentence a stranger would understand.,MT,
 ```
+
+Then a row in `config/identifiers.csv` for each thing it publishes. Leave out anything
+the project does not have; nothing about it is shown.
+
+```csv
+project,kind,value,note
+my-tool,repo,someorg/my-tool,
+my-tool,package,pypi.org/my-tool,
+my-tool,docker,somenamespace/my-tool,
+my-tool,rsd,my-tool,
+my-tool,paper,10.1234/example,"My Tool, J Example 2026"
+```
+
+Anything the project runs goes in `config/services.csv`, and anything worth linking to
+in `config/links.csv` — the first link listed is the first one shown, so put the
+project's own site there.
 
 Then check the identifiers actually resolve:
 
@@ -32,14 +43,14 @@ and it is maintained by someone else.
 
 ## Leave something out
 
-`config/exclusions.yml`, by repository, package or DOI. A reason is required and is
-published on the methodology page, because an undeclared omission looks the same as a
-bug. To have something removed, open an issue or email the contact in
-`config/sources.yml`; no reason needed.
+A row in `config/exclusions.csv`, by repository, package or DOI. A reason is required
+and is published on the methodology page, because an undeclared omission looks the same
+as a bug. To have something removed, open an issue or email the contact in
+`config/settings.csv`; no reason needed.
 
 ## Add a number to the page
 
-1. Define it in `config/metric_semantics.yml` first: what one unit counts, whether it
+1. Define it in `config/metrics.csv` first: what one unit counts, whether it
    is a running total or a per-period count, and what it does not mean. Nothing renders
    without this, and the methodology page is generated from it.
 2. Emit it from a collector in `src/tgx_outputs/collect/`.

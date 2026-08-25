@@ -6,7 +6,7 @@ database, and no credential beyond the token GitHub issues to its own workflow.
 
 ## What counts as TGX
 
-The tracked list is [`config/projects.yml`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.yml):
+The tracked list is [`config/projects.csv`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.csv):
 software and data resources the department builds or co-maintains, each named
 explicitly with the repositories, packages, images, endpoints and papers that belong to
 it. Nothing is discovered by matching a person, an affiliation string or an ORCID, so

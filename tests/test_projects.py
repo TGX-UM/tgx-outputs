@@ -1,4 +1,4 @@
-"""config/projects.yml is the file people edit, so it gets its own checks."""
+"""config/projects.csv is the file people edit, so it gets its own checks."""
 
 from tgx_outputs import config as cfg
 
@@ -35,7 +35,7 @@ def test_repo_refs_are_owner_slash_name():
 def test_adding_a_project_needs_no_code_change():
     """The contract the contributing guide promises.
 
-    Every collector reads its targets from projects.yml, so a new block is picked up
+    Every collector reads its targets from projects.csv, so a new block is picked up
     without touching Python. If this fails, someone wired a target list somewhere else.
     """
     from tgx_outputs.collect import COLLECTORS

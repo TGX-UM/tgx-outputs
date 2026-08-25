@@ -21,12 +21,6 @@ jobs:
       - name: Install
         run: pip install -e ".[dev]"
 
-      - name: Validate config against its schemas
-        run: |
-          check-jsonschema --schemafile schemas/sources.schema.json config/sources.yml
-          check-jsonschema --schemafile schemas/exclusions.schema.json config/exclusions.yml
-          check-jsonschema --schemafile schemas/metric_semantics.schema.json config/metric_semantics.yml
-
       - name: Config consistency
         run: tgx doctor
 

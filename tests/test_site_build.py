@@ -218,7 +218,7 @@ def test_a_disabled_source_is_left_off_the_calls_page(monkeypatch):
 def test_every_project_gets_a_tile_even_with_nothing_collected():
     """A project with no measurable output still belongs on the page.
 
-    It is in projects.yml because the department builds it. Dropping it from the
+    It is in projects.csv because the department builds it. Dropping it from the
     grid when a collector returns nothing would quietly shorten the inventory, and
     the shortened list is the thing people would quote.
     """

@@ -1,0 +1,17 @@
+project,label,url
+bridgedb,site,https://www.bridgedb.org
+bridgedb,Docker Hub,https://hub.docker.com/r/bigcatum/bridgedb
+wikipathways,site,https://www.wikipathways.org
+wikipathways,Bioconductor,https://bioconductor.org/packages/rWikiPathways
+wikipathways,PyPI,https://pypi.org/project/pywikipathways/
+wikipathways,npm,https://www.npmjs.com/package/@wikipathways/pvjs
+pathvisio,site,https://pathvisio.org
+cdk,site,https://cdk.github.io
+arrayanalysis,site,https://www.arrayanalysis.org
+arrayanalysis,preprint,https://www.biorxiv.org/content/10.64898/2026.07.13.738193v1
+r-odaf,site,https://r-odaf.nl
+r-odaf,source,https://github.com/TGX-UM/R-ODAF-Shiny
+aopwiki-rdf,SNORQL query interface,https://aopwiki.rdf.bigcat-bioinformatics.org/
+molaop,preprint,https://doi.org/10.1101/2023.03.02.530766
+biodatafuse,source,https://github.com/BioDataFuse/pyBiodatafuse
+biodatafuse,PyPI,https://pypi.org/project/pybiodatafuse/

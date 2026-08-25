@@ -58,6 +58,6 @@ catches use that never becomes a citation, and for no other reason.
 ---
 
 To add a project, copy a block in
-[`config/projects.yml`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.yml)
+[`config/projects.csv`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.csv)
 and open a pull request. The file explains each field, and `tgx doctor --projects`
 checks the identifiers resolve. No code changes needed.

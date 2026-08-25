@@ -36,16 +36,16 @@ is a different job with a different cadence, and the cluster already has monitor
 
 ```mermaid
 flowchart LR
-    subgraph edit["config/ (the only files a person edits)"]
+    subgraph edit["config/ (CSV tables, the only files a person edits)"]
         direction TB
-        proj["<b>projects.yml</b><br/>repos · packages · docker<br/>ghcr · rsd · papers · probes"]
-        sem["<b>metric_semantics.yml</b><br/>what each number counts"]
-        exc["<b>exclusions.yml</b><br/>what is left out, and why"]
+        proj["<b>projects.csv</b> + <b>identifiers.csv</b><br/>services.csv · links.csv<br/>the tools and what they publish"]
+        sem["<b>metrics.csv</b><br/>what each number counts"]
+        exc["<b>exclusions.csv</b><br/>what is left out, and why"]
     end
 
     subgraph coll["collectors (read public APIs, no credentials)"]
         direction TB
-        tools["<b>per project</b><br/>github · ecosystems · bioconductor<br/>dockerhub · ghcr · rsd<br/>citations · services"]
+        tools["<b>per project</b><br/>github · ecosystems · bioconductor<br/>dockerhub · rsd · citations"]
     end
 
     proj --> tools
@@ -76,7 +76,7 @@ modelled on served a two-month-old page while every run showed green.
 Three properties hold by construction, and each has a test:
 
 - **Nothing is published without a definition.** A metric absent from
-  `metric_semantics.yml` does not render, and the methodology page is generated from
+  `metrics.csv` does not render, and the methodology page is generated from
   that same file, so a definition cannot drift from the figure it describes.
 - **A failed source reads as "not collected", never as 0.** Summing the records of a
   source that returned nothing gives zero, and a tile then states it as fact.
@@ -97,17 +97,20 @@ over, and rebuilt in five years.
 
 ## Changing what is tracked
 
-Everything a human edits lives in `config/`, and each file is validated against a JSON
-schema in CI, so a malformed change fails the pull request rather than the next refresh:
+Everything a human edits lives in `config/` as a CSV table, one row per thing, so it
+opens in a spreadsheet and a change reads as a one-line diff. `tgx doctor` validates
+every table in CI — columns, foreign keys, enumerations — so a malformed change fails
+the pull request rather than the next refresh. The columns are documented in
+[`config/README.md`](config/README.md).
 
 | To do this | Edit |
 |---|---|
-| Track another project | `config/projects.yml`, then `tgx doctor --projects` |
-| Leave something out | `config/exclusions.yml`; a reason is required and is published |
-| Add a number to the page | `config/metric_semantics.yml` first, or it will not render |
+| Track another project | `config/projects.csv` and `config/identifiers.csv`, then `tgx doctor --projects` |
+| Leave something out | `config/exclusions.csv`; a reason is required and is published |
+| Add a number to the page | `config/metrics.csv` first, or it will not render |
 
 To have a project, repository, package or DOI excluded from the queries, open an issue
-or email the address in `config/sources.yml`. No reason is needed and none will be
+or email the address in `config/settings.csv`. No reason is needed and none will be
 asked for.
 
 ## Numbers that look wrong

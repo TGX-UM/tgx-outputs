@@ -32,7 +32,7 @@ The traceback is in the manifest. Common causes, in the order they actually happ
 1. *An upstream response shape changed.* A field was renamed or nested one level
    deeper. Fix the collector, re-record its fixture (`make record`), commit both.
 2. *An endpoint moved or was retired.* Update the URL in the collector, or disable the
-   collector in `config/sources.yml` — that is a one-line change and an honest one. The
+   collector in `config/settings.csv` — that is a one-line change and an honest one. The
    page will say the source is absent rather than pretending.
 3. *A rate limit tightened.* Reduce what the collector asks for, or lengthen its
    `cadence_days`.
@@ -41,7 +41,7 @@ The traceback is in the manifest. Common causes, in the order they actually happ
 
 | Rule | What it means | What to do |
 |---|---|---|
-| `semantics_gate` | A collector emits a metric with no definition | Add it to `config/metric_semantics.yml`, or stop emitting it |
+| `semantics_gate` | A collector emits a metric with no definition | Add it to `config/metrics.csv`, or stop emitting it |
 | `period_class` | A cumulative counter was given a period | Store it as a level; derive deltas at query time |
 | `future_period` | Upstream shipped placeholder rows for future months | Usually correct behaviour; check the collector filters them at source too |
 | `no_silent_zero` | A value collapsed to zero | Almost always an upstream problem. Do **not** override it without understanding why |
@@ -57,7 +57,7 @@ the top of the workflow page. Re-enable it and push something.
 report. Every figure links to its CSV and names its source and collection date; the
 [methodology page](https://tgx-um.github.io/tgx-outputs/methodology/) gives the exact
 query. If the number is genuinely wrong, the fix is usually either a definition that
-does not say what people assume, or an entry for `config/exclusions.yml`.
+does not say what people assume, or an entry for `config/exclusions.csv`.
 
 ## What never to do
 

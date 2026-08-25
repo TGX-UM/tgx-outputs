@@ -33,7 +33,7 @@ def test_collector_runs_and_produces_defined_metrics(name, http):
     semantics = cfg.semantics()
     for rec in env.records:
         assert rec.metric in semantics, (
-            f"{name} emits {rec.metric!r}, which has no entry in metric_semantics.yml")
+            f"{name} emits {rec.metric!r}, which has no entry in metrics.csv")
 
 
 @pytest.mark.parametrize("name", OFFLINE)

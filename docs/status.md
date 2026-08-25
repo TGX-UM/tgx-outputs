@@ -15,8 +15,8 @@ A gap that is not declared reads as a zero, so:
 - PyPI download history cannot be backfilled. The public API keeps about 180 days.
 - The Research Software Directory only knows registered tools. Software nobody
   registered shows no mentions, which is a good argument for registering it.
-- Only the projects listed in `config/projects.yml` are counted. A missing tool means
-  nobody has added it yet, and adding one is a block of YAML.
+- Only the projects listed in `config/projects.csv` are counted. A missing tool means
+  nobody has added it yet, and adding one is a row in a table.
 - Citations are counted for the papers a project declares. A tool with no paper of its
   own therefore shows none, however much it is used.
 

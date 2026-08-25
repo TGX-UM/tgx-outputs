@@ -1,0 +1,8 @@
+collector,enabled,cadence_days,note
+bioconductor,true,7,
+ecosystems,true,7,
+github,true,7,
+citations,true,7,
+dockerhub,true,7,
+rsd,true,7,
+wikipathways,false,7,"community content, not TGX output"

@@ -13,8 +13,6 @@ install:
 	pip install -e ".[dev]"
 
 check:
-	@for f in sources exclusions metric_semantics; do \
-		check-jsonschema --schemafile schemas/$$f.schema.json config/$$f.yml; done
 	tgx doctor
 	ruff check src tests
 	pytest -q

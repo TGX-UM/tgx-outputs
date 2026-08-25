@@ -128,18 +128,11 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     if getattr(args, "projects", False):
         return cmd_doctor_projects()
 
-    problems: list[str] = []
+    # Everything that can be judged from the tables alone -- shapes, foreign keys,
+    # enumerations, a logo file that is not there. This replaced three JSON schemas
+    # when the config moved from YAML to CSV.
+    problems: list[str] = cfg.validate()
     semantics = cfg.semantics()
-
-    required = {"label", "counts", "source", "cumulative", "granularity", "caveat"}
-    for name, spec in semantics.items():
-        missing = required - set(spec)
-        if missing:
-            problems.append(f"metric {name}: missing {sorted(missing)}")
-        if spec.get("cumulative") and spec.get("granularity") != "none":
-            problems.append(
-                f"metric {name}: cumulative metrics must be granularity:none "
-                f"(a level cannot belong to a period)")
 
     known = set(COLLECTORS)
     for name in cfg.sources().get("collectors", {}):

@@ -1,5 +1,7 @@
 """Config invariants that a reviewer cannot be expected to hold in their head."""
 
+import pytest
+
 from tgx_outputs import config as cfg
 from tgx_outputs.collect import COLLECTORS
 from tgx_outputs.site.charts import CHARTS
@@ -47,7 +49,75 @@ def test_no_config_file_names_a_person():
     queried by person, so an ORCID appearing in config would be a change of scope
     rather than a typo.
     """
-    for path in sorted(cfg.CONFIG_DIR.glob("*.yml")):
+    for path in sorted(cfg.CONFIG_DIR.glob("*.csv")):
         text = path.read_text()
         assert "orcid" not in text.lower(), (
             f"{path.name} mentions ORCID; this dashboard queries software, not people")
+
+
+def test_the_shipped_tables_validate():
+    """`tgx doctor` runs this; so does CI. A green suite should mean a green doctor."""
+    assert cfg.validate() == []
+
+
+def test_every_table_has_the_columns_the_loader_expects():
+    """A renamed or reordered column is the likeliest way a spreadsheet edit breaks.
+
+    Caught here with a clear message rather than as a KeyError three layers down.
+    """
+    for name in cfg.COLUMNS:
+        assert (cfg.CONFIG_DIR / name).exists(), f"{name} is missing"
+        cfg._read(name)  # raises ConfigError if the header does not match
+
+
+def test_a_row_pointing_at_no_project_is_an_error(tmp_path, monkeypatch):
+    """The foreign key a JSON schema could never check.
+
+    Every row in identifiers, services and links names a project. A typo there used to
+    mean the identifier was silently attached to nothing and never collected.
+    """
+    for name, header, row in (
+        ("identifiers.csv", "project,kind,value,note", "nosuch,repo,a/b,"),
+        ("services.csv", "project,name,url,what", "nosuch,S,https://x,y."),
+        ("links.csv", "project,label,url", "nosuch,site,https://x"),
+    ):
+        for other, cols in cfg.COLUMNS.items():
+            (tmp_path / other).write_text(",".join(cols) + "\n")
+        (tmp_path / "projects.csv").write_text(
+            "id,name,what,mark,logo\nreal,Real,A sentence.,RE,\n")
+        (tmp_path / name).write_text(f"{header}\n{row}\n")
+
+        monkeypatch.setattr(cfg, "CONFIG_DIR", tmp_path)
+        cfg.projects.cache_clear()
+        with pytest.raises(cfg.ConfigError, match="nosuch"):
+            cfg.projects()
+    cfg.projects.cache_clear()
+
+
+def test_an_unknown_identifier_kind_is_an_error(tmp_path, monkeypatch):
+    """`kind` is an enumeration. A misspelling must not read as "collect nothing"."""
+    for other, cols in cfg.COLUMNS.items():
+        (tmp_path / other).write_text(",".join(cols) + "\n")
+    (tmp_path / "projects.csv").write_text(
+        "id,name,what,mark,logo\nreal,Real,A sentence.,RE,\n")
+    (tmp_path / "identifiers.csv").write_text(
+        "project,kind,value,note\nreal,repoo,a/b,\n")
+
+    monkeypatch.setattr(cfg, "CONFIG_DIR", tmp_path)
+    cfg.projects.cache_clear()
+    with pytest.raises(cfg.ConfigError, match="repoo"):
+        cfg.projects()
+    cfg.projects.cache_clear()
+
+
+def test_blank_spreadsheet_rows_are_not_data(tmp_path, monkeypatch):
+    """Editing a CSV in a spreadsheet leaves trailing empty rows behind."""
+    for other, cols in cfg.COLUMNS.items():
+        (tmp_path / other).write_text(",".join(cols) + "\n")
+    (tmp_path / "projects.csv").write_text(
+        "id,name,what,mark,logo\nreal,Real,A sentence.,RE,\n,,,,\n,,,,\n")
+
+    monkeypatch.setattr(cfg, "CONFIG_DIR", tmp_path)
+    cfg.projects.cache_clear()
+    assert cfg.project_ids() == ["real"]
+    cfg.projects.cache_clear()
