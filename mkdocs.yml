@@ -75,11 +75,9 @@ extra:
       name: Department of Translational Genomics
 
 nav:
-  - What we build: index.md
-  - How the numbers are made: methodology.md
-  - Every call this page makes: calls.md
-  - Collection status: status.md
-  - Download the data: downloads.md
+  - Overview: index.md
+  - Methods: methods.md
+  - About: about.md
 
 copyright: >-
   Code MIT. Figures are derived aggregates of public data; see the attribution table

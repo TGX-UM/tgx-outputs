@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Before filing, it may be worth checking the
-        [methodology page](https://tgx-um.github.io/tgx-outputs/methodology/), which
+        [methodology page](https://tgx-um.github.io/tgx-outputs/methods/), which
         gives the exact query behind every figure and what it does not mean.
   - type: input
     id: figure

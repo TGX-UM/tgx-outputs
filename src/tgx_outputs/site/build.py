@@ -84,7 +84,7 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
             f'**{spec["label"]} — {MISSING}.** The `{source}` source did not return data '
             f'on the last run ({collected}), so this figure is not shown rather than '
             f'drawn from stale or partial values. '
-            f'See [collection status](status.md).\n'
+            f'See [collection status](methods.md#collection-status).\n'
             f'</div>\n')
 
     spec_json = json.dumps(builder(), separators=(",", ":")).replace("</", "<\\/")
@@ -132,7 +132,10 @@ def _methodology(semantics: dict[str, Any], snapshot: dict[str, Any]) -> str:
     for name, spec in sorted(semantics.items()):
         by_source.setdefault(spec["source"], []).append((name, spec))
     for source, entries in sorted(by_source.items()):
-        out.append(f"### `{source}`\n")
+        # An explicit id, because the calls section further down the same page also
+        # has a heading per source. Left to itself the slugger hands one of the two
+        # a `_1` suffix, and which one gets it depends on the order of the page.
+        out.append(f"### `{source}` {{ #metrics-{source} }}\n")
         for name, spec in entries:
             kind = "level (all-time)" if spec.get("cumulative") else f"per {spec['granularity']}"
             out.append(
@@ -412,7 +415,7 @@ def _calls(snapshot: dict[str, Any], semantics: dict[str, Any]) -> str:
         if status == "skipped":
             continue
 
-        out.append(f"### `{name}` {{ #{name} }}\n")
+        out.append(f"#### `{name}` {{ #calls-{name} }}\n")
 
         out.append(
             f"{len(calls)} request{'s' if len(calls) != 1 else ''} on {when}, "

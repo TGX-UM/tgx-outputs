@@ -27,7 +27,7 @@ describe each tool.
 It is **not** a measure of individuals. There are no per-person pages, counts or
 rankings, and there never will be — no person is queried and no ORCID is stored. Nor
 are there stars, forks, h-indices or journal rankings: every figure names what it
-counts and what it does not mean, and the methodology page carries both.
+counts and what it does not mean, and the Methods page carries both.
 
 It is also not service monitoring. Whether the department's endpoints are up right now
 is a different job with a different cadence, and the cluster already has monitoring for it.
@@ -76,7 +76,7 @@ modelled on served a two-month-old page while every run showed green.
 Three properties hold by construction, and each has a test:
 
 - **Nothing is published without a definition.** A metric absent from
-  `metrics.csv` does not render, and the methodology page is generated from
+  `metrics.csv` does not render, and the Methods page is generated from
   that same file, so a definition cannot drift from the figure it describes.
 - **A failed source reads as "not collected", never as 0.** Summing the records of a
   source that returned nothing gives zero, and a tile then states it as fact.
@@ -133,5 +133,5 @@ consumes that rather than rebuilding it.
 
 Code MIT. Figures are derived aggregates of public data; every source and its terms are
 listed on the site's
-[methodology page](https://tgx-um.github.io/tgx-outputs/methodology/#sources), which is
+[methodology page](https://tgx-um.github.io/tgx-outputs/methods/#sources), which is
 generated from the same config the collectors read.

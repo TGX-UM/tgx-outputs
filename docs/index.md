@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-# What we build
+# Overview
 
 The software and data resources of the Department of Translational Genomics, collected
 once a week from public sources.

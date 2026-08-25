@@ -1,4 +1,4 @@
-# How the numbers are made
+# Methods
 
 Everything comes from public APIs, collected weekly by a job in
 [this repository](https://github.com/TGX-UM/tgx-outputs). No manual data entry, no
@@ -56,7 +56,69 @@ with a link back rather than redistributed.
 If you maintain one of these services and would rather this project used your data
 differently, please [open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new).
 
+## Blind spots { #blind-spots }
+
+A gap that is not declared reads as a zero, so:
+
+- Container pulls come from Docker Hub, which is the only registry that publishes a
+  count. An image pushed only to GitHub's registry or another one has no usage figure
+  here, and none of them offer an API that would give one.
+- GitHub page views and clones are not collected. They need push access to every
+  repository, which means storing a token, and this runs without secrets. The window
+  is 14 days anyway.
+- PyPI download history cannot be backfilled. The public API keeps about 180 days.
+- The Research Software Directory only knows registered tools. Software nobody
+  registered shows no mentions, which is a good argument for registering it.
+- Only the projects listed in `config/projects.csv` are counted. A missing tool means
+  nobody has added it yet, and adding one is a row in a table.
+- Citations are counted for the papers a project declares. A tool with no paper of its
+  own therefore shows none, however much it is used.
+
+## Collection status { #collection-status }
+
+--8<-- "freshness.md"
+
+Sources are collected independently, so one broken API degrades one section and the
+page still builds with that section marked stale rather than showing last week's
+number as if it were current.
+
+[Open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new). Every figure links
+to its data, and the run manifests record what each source returned and what failed.
+
+## Every call this page makes { #calls }
+
+One section per source: the shape of what it asks for, every individual request from
+the last run, and the metrics that came out. Generated from the run manifest, so it
+describes what actually happened rather than what the code is supposed to do.
+
+If a number on this site looks wrong, this is where to start. Every URL below can be
+pasted into a browser — they are all public, none of them needs a key — and the answer
+you get is the answer this page got.
+
+
+### How to read a diagram
+
+Requests on the left, the collector in the middle, the metrics it produced on the
+right. A box marked `×19` is one endpoint asked nineteen times, once per repository or
+package; the table underneath it lists all nineteen in the order they were made.
+
+An endpoint pattern with `…` in it means that segment varied between calls. The literal
+URLs are in the tables, never abbreviated.
+
+### The sources
+
+--8<-- "calls.md"
+
+### What is not here
+
+The response bodies. They are large, they are somebody else's data, and republishing
+them wholesale is a different act from publishing what we derived. What each call
+returned in summary is in the right-hand column; the derived numbers are in
+[the CSVs](about.md#download-the-data); and the raw run manifests on the `data` branch record every
+call, every error and every quarantined record for every run, not just the last one.
+
 ## Charts and icons
+
 
 Charts are drawn with [Vega-Lite](https://vega.github.io/vega-lite/) (BSD-3-Clause),
 vendored into `docs/assets/js/` and pinned rather than loaded from a CDN, so the page
