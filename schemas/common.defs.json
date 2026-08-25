@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tgx-um.github.io/tgx-outputs/schemas/common.defs.json",
+  "$defs": {
+    "orcid": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]$",
+      "description": "A bare ORCID identifier, no URL prefix."
+    },
+    "slug": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+    "exclusion": {
+      "type": "object",
+      "required": ["value", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "value": {"type": "string"},
+        "reason": {
+          "type": "string",
+          "minLength": 8,
+          "description": "Rendered on the methodology page. Every omission is on the record."
+        }
+      }
+    }
+  }
+}

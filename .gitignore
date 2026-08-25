@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+site/
+.cache/
+data/raw/
+*.egg-info/
+
+# Snapshots live on the orphan `data` branch, written by the refresh workflow.
+# Keeping them off main keeps `git log main` about code, not about bot commits.
+/data/
+
+# Generated: rebuilt by `tgx derive` and `tgx build` on every run.
+/includes/*.md
+/docs/data/*.csv

@@ -1,0 +1,43 @@
+[project]
+name = "tgx-outputs"
+version = "0.1.0"
+description = "Output and impact reporting for the Department of Translational Genomics, Maastricht University"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx~=0.28",
+    "PyYAML~=6.0",
+    "jsonschema~=4.23",
+    "mkdocs-material~=9.5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest~=8.3", "ruff~=0.8", "check-jsonschema~=0.30"]
+
+[project.scripts]
+tgx = "tgx_outputs.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+# Selected explicitly so linting is identical here, in CI, and in a fork -- ruff
+# otherwise inherits whatever config happens to sit above the checkout.
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "DTZ", "PIE"]
+ignore = [
+    "E501",   # line length is handled by the formatter, not by failing the build
+    "B008",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

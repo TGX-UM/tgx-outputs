@@ -1,0 +1,71 @@
+site_name: TGX Outputs
+site_description: >-
+  What the Department of Translational Genomics at Maastricht University publishes,
+  ships and maintains — collected automatically from public sources.
+site_url: https://tgx-um.github.io/tgx-outputs/
+repo_url: https://github.com/TGX-UM/tgx-outputs
+repo_name: TGX-UM/tgx-outputs
+edit_uri: ""
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle: {icon: material/weather-night, name: Switch to dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle: {icon: material/weather-sunny, name: Switch to light mode}
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc: {permalink: true}
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.snippets: {base_path: [includes], check_paths: true}
+
+extra_css:
+  - assets/css/extra.css
+# Vendored and pinned rather than loaded from a CDN, so the page keeps working
+# unchanged in five years and can be archived intact. Versions and SHA-384 hashes
+# are recorded on the methodology page.
+extra_javascript:
+  - assets/js/vega.min.js
+  - assets/js/vega-lite.min.js
+  - assets/js/vega-embed.min.js
+  - assets/js/charts.js
+
+extra:
+  social:
+    - icon: fontawesome/solid/building-columns
+      link: https://www.maastrichtuniversity.nl/research/translational-genomics
+      name: Department of Translational Genomics
+
+nav:
+  - Overview: index.md
+  - Publications: publications.md
+  - Software: software.md
+  - Infrastructure: infrastructure.md
+  - How the numbers are made: methodology.md
+  - What we deliberately do not show: not-shown.md
+  - Collection status: status.md
+  - Download the data: downloads.md
+
+copyright: >-
+  Code MIT. Figures are derived aggregates of public data; see the attribution table
+  on the methodology page. This dashboard measures the department's output. It is not,
+  and must not be used as, an assessment of individuals.

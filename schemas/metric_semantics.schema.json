@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "config/metric_semantics.yml",
+  "description": "The render gate. Nothing appears on the site without an entry here.",
+  "type": "object",
+  "required": ["metrics"],
+  "additionalProperties": false,
+  "properties": {
+    "metrics": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "counts", "source", "cumulative", "granularity", "caveat"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string", "minLength": 3},
+          "counts": {"type": "string", "minLength": 15,
+                     "description": "One sentence: what exactly one unit of this metric is."},
+          "source": {"type": "string"},
+          "cumulative": {"type": "boolean",
+                         "description": "true = an all-time level with no period. A level may never carry a period label."},
+          "granularity": {"enum": ["year", "month", "none"]},
+          "caveat": {"type": "string", "minLength": 20,
+                     "description": "What the number does NOT mean. Rendered in the figure caption."},
+          "allow_zero": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

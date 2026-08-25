@@ -1,0 +1,131 @@
+# config/sources.yml — the machine-target list for the TGX output dashboard.
+#
+# NOTHING IN THIS FILE IS PERSONAL DATA beyond ORCID identifiers, which are public
+# research identifiers used here only as a query key. No name, role, or employment
+# date is stored, and no individual is rendered on the published page.
+#
+# Every entry may carry `note:`; notes are rendered on the methodology page.
+
+meta:
+  department: Translational Genomics (TGX)
+  institution: Maastricht University
+  institution_ror: "https://ror.org/02jz4aj89"
+  # Verified 2026-08-25 by paging the openaire_cris_orgunits set of UM's Pure CERIF feed.
+  # name "Translational Genomics", acronym 306, parent "Res. Inst. for Oncology and Reproduction".
+  pure_orgunit_id: "aa0b41cd-a526-424c-8515-f8f789aa92b1"
+  pure_oai_base: "https://cris.maastrichtuniversity.nl/ws/oai"
+  contact: "marvin.martens@maastrichtuniversity.nl"
+
+# ── ATTRIBUTION BANDS ─────────────────────────────────────────────────────────
+# Rendered in visually distinct bands and NEVER summed across bands without a
+# qualifier. "TGX produced 430 repositories" is not a defensible claim.
+#   tgx        — the department's own org
+#   heritage   — BiGCaT-lineage orgs; same department under its former name
+#   community  — resources TGX co-maintains with other institutions
+#   consortium — project orgs TGX participates in
+attribution_bands:
+  tgx: "Department org"
+  heritage: "Department work under its former name (BiGCaT)"
+  community: "Community resources we co-maintain"
+  consortium: "Project and consortium orgs we participate in"
+
+github_orgs:
+  - login: TGX-UM
+    band: tgx
+  - login: BiGCAT-UM
+    band: heritage
+  - login: wikipathways
+    band: community
+  - login: bridgedb
+    band: community
+  - login: VHP4Safety
+    band: consortium
+  - login: CyTargetLinker
+    band: community
+  - login: enanomapper
+    band: consortium
+    note: "Past H2020 project (grant 604134)."
+  - login: TXG-MAP
+    band: consortium
+  - login: FAIR4ChemNL
+    band: consortium
+  - login: BioSB-courses
+    band: heritage
+
+# Flagship repositories: used to seed package auto-discovery via ecosyste.ms and
+# to decide what appears on the software page. Everything else is counted, not named.
+flagship_repos:
+  - wikipathways/rWikiPathways
+  - wikipathways/pywikipathways
+  - wikipathways/pvjs
+  - wikipathways/wikipathways-database
+  - wikipathways/pathway-figure-ocr
+  - bridgedb/BridgeDb
+  - bridgedb/bridgedbjs
+  - bridgedb/docker
+  - BiGCAT-UM/sparql-examples
+  - TGX-UM/R-ODAF-Shiny
+
+# Packages we know about. The ecosyste.ms reverse lookup adds to this list at run
+# time and writes the union to data/derived/packages.lock.yml as a reviewable diff.
+packages_seed:
+  - registry: bioconductor.org
+    name: rWikiPathways
+  - registry: bioconductor.org
+    name: BridgeDbR
+  - registry: bioconductor.org
+    name: RCy3
+  - registry: pypi.org
+    name: pywikipathways
+  - registry: pypi.org
+    name: pybiodatafuse
+
+# Research Software Directory (NL eScience Center). Verified 2026-08-25:
+# the Maastricht tenant holds 28 entries incl. BridgeDb Java, ArrayAnalysis, CDK,
+# rWikiPathways, PathVisio, BridgeDbR, libGPML, PinPath, ToxTempAssistant.
+rsd:
+  base: "https://research-software-directory.org/api/v1"
+  organisation_id: "34e58775-bba6-48ee-9e0e-d1821cd33108"
+
+# Knowledge infrastructure TGX builds and operates. The CONTENT of these resources is
+# authored by international communities; what TGX contributes is the infrastructure.
+infrastructure:
+  - id: wikipathways
+    name: WikiPathways
+    url: "https://www.wikipathways.org"
+    sparql: "https://sparql.wikipathways.org/sparql"
+    contribution: >-
+      TGX co-founded and co-maintains WikiPathways, and builds its RDF layer,
+      SPARQL endpoint, GPML tooling and the rWikiPathways / pywikipathways clients.
+    content_authorship: "Pathway content is curated by the international WikiPathways community."
+  - id: bridgedb
+    name: BridgeDb
+    url: "https://www.bridgedb.org"
+    webservice: "https://webservice.bridgedb.org/contents"
+    contribution: >-
+      Identifier-mapping framework developed and operated by TGX: the Java library,
+      the web service, the Docker distribution and the quarterly mapping releases.
+    content_authorship: "Mappings are derived from primary databases (Ensembl, HGNC, ChEBI, and others)."
+  - id: aopwiki_rdf
+    name: AOP-Wiki RDF
+    url: "https://aopwiki.rdf.bigcat-bioinformatics.org/sparql"
+    sparql: "https://aopwiki-multirdf.vhp4safety.nl/sparql"
+    enabled: false   # v2 — self-hosted dependency, see plan
+    contribution: >-
+      TGX converts the AOP-Wiki XML export to RDF, versions every release as a named
+      graph, and operates the SPARQL endpoint and the RDF dashboard.
+    content_authorship: "AOP content is authored by the international AOP community via the AOP-Wiki."
+
+# ── COLLECTOR REGISTRY ────────────────────────────────────────────────────────
+# Disabling a broken source is a ONE-LINE PR. `cadence` is used by the freshness
+# strip to decide when a source is amber (2x) and red (5x).
+collectors:
+  openalex:      {enabled: true,  cadence_days: 7}
+  bioconductor:  {enabled: true,  cadence_days: 7}
+  ecosystems:    {enabled: true,  cadence_days: 7}
+  github:        {enabled: true,  cadence_days: 7}
+  zenodo:        {enabled: true,  cadence_days: 7}
+  coverage:      {enabled: true,  cadence_days: 7}
+  rsd:           {enabled: true,  cadence_days: 7}
+  wikipathways:  {enabled: true,  cadence_days: 7}
+  pure_cerif:    {enabled: false, cadence_days: 30}   # week 2-3; see plan
