@@ -13,12 +13,12 @@ A gap that is not declared reads as a zero, so:
   repository, which means storing a token, and this runs without secrets. The window
   is 14 days anyway.
 - PyPI download history cannot be backfilled. The public API keeps about 180 days.
-- The Research Software Directory only knows registered tools. Software that was never
-  registered shows no mentions, which is an argument for registering it.
-- Only the projects listed in `config/projects.yml` are counted. A tool nobody has
-  added is absent, and absence here means nobody added it, not that it does not exist.
-- Citations are counted for the papers a project declares. A tool with no paper shows
-  no citations, which is a property of the tool, not of its use.
+- The Research Software Directory only knows registered tools. Software nobody
+  registered shows no mentions, which is a good argument for registering it.
+- Only the projects listed in `config/projects.yml` are counted. A missing tool means
+  nobody has added it yet, and adding one is a block of YAML.
+- Citations are counted for the papers a project declares. A tool with no paper of its
+  own therefore shows none, however much it is used.
 
 ## When something breaks
 

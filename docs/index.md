@@ -35,19 +35,20 @@ they did the work.
 
 ### Software mentions
 
-A different and much smaller measure: software named in a paper's text, from a
-text-mining dataset the Research Software Directory carries. It is badly incomplete,
-reporting 6 for rWikiPathways against thousands of citations. Shown because it counts
-use that never turns into a citation, not because the number is right.
+A much smaller and weaker measure: software named in a paper's text, from a text-mining
+dataset the Research Software Directory carries. It is badly incomplete. For
+rWikiPathways it reports 6, against thousands of citations. It is here because it
+catches use that never becomes a citation, and for no other reason.
 
 --8<-- "fig_rsd_mentions.md"
 
 ## Services we run { #services }
 
-BridgeDb and WikiPathways are web services and web sites as much as they are packages.
-What is counted here is what the department builds for them: the mapping databases,
-and the RDF layer behind the endpoints. The pathway and AOP content those endpoints
-carry is curated by international communities and is not counted as our output.
+BridgeDb and WikiPathways are web services and web sites as much as they are packages,
+and a page showing only releases and downloads undersells them. What we count is what
+the department builds for them: the mapping databases, and the RDF layer behind the
+endpoints. The pathway and AOP content those endpoints serve belongs to the
+international communities who curate it, and none of it is counted here.
 
 --8<-- "fig_service_scale.md"
 

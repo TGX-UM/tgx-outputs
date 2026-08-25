@@ -23,8 +23,8 @@ metrics:
     source: bioconductor
     cumulative: false
     granularity: month
-    caveat: 'Closer to people than raw downloads, but still not a user count: shared institutional
-      networks collapse into one address.'
+    caveat: 'Closer to people than raw downloads, though it still is not a user count:
+      everyone behind one institutional network collapses into a single address.'
   bioc_rank:
     label: Bioconductor download rank
     counts: Position in Bioconductor's published download score table.
@@ -57,7 +57,8 @@ metrics:
     source: ecosystems
     cumulative: true
     granularity: none
-    caveat: Breadth, not volume. Found by reverse lookup from the repository URL.
+    caveat: Says how many registries carry the software, not how much of it anyone
+      downloads. Found by reverse lookup from the repository URL.
   releases_by_year:
     label: Releases per year
     counts: A tagged release of a project's repositories, from GitHub Releases and git tags.
@@ -72,33 +73,33 @@ metrics:
     source: github
     cumulative: true
     granularity: none
-    caveat: Activity, not health. A finished tool needs no commits.
+    caveat: A quiet repository is not a dead one. A finished tool needs no commits.
   rsd_mentions:
     label: Papers mentioning the software
     counts: Works the Research Software Directory records as mentioning a tool.
     source: rsd
     cumulative: true
     granularity: none
-    caveat: Computed by the NL eScience Center, not by us. Mentions, not formal citations,
-      and it misses tools used without being named.
+    caveat: Computed by the NL eScience Center rather than here. It counts a tool being
+      named in a paper's text, which is a much weaker signal than a citation, and it misses
+      software that was used without being named at all.
   docker_pulls_total:
     label: Container pulls, all time
     counts: Docker Hub's lifetime pull counter for an image.
     source: dockerhub
     cumulative: true
     granularity: none
-    caveat: Reach, not installs. A CI job rebuilding hourly pulls the base image every time,
-      and one pull of a multi-arch image can register more than once. GHCR publishes no equivalent,
-      so images there are absent.
+    caveat: One pull is not one user. A CI job rebuilding hourly pulls the base image every
+      time, and a single pull of a multi-arch image can register more than once. GHCR publishes
+      no equivalent figure, so images there are missing from this chart.
   ghcr_tags:
     label: Tags published to GHCR
     counts: Tags on a public image in the GitHub Container Registry.
     source: ghcr
     cumulative: true
     granularity: none
-    caveat: Publishing activity, not use. GHCR reports no pull count anywhere, so this says
-      how often an image was rebuilt, not how often anyone ran it. Private images are not
-      listed.
+    caveat: GHCR reports no pull count anywhere, so this measures how often an image was
+      rebuilt rather than how often anyone ran it. Private images are skipped.
   latest_release:
     label: Last release
     counts: The date of a project's most recent release or tag.
@@ -113,9 +114,9 @@ metrics:
     source: services
     cumulative: true
     granularity: none
-    caveat: The size of the service, not authorship. The department builds and serves
-      the RDF; the pathway and AOP content inside it is curated by international
-      communities.
+    caveat: This is how big the service is. The department builds and serves the RDF; the
+      pathway and AOP content inside it is curated by international communities, and that
+      authorship stays theirs.
   species_served:
     label: Species served
     counts: Species the live BridgeDb webservice can map identifiers for.
@@ -146,7 +147,7 @@ metrics:
     source: services
     cumulative: true
     granularity: none
-    caveat: What the department operates, not whether it responded today. Uptime is a
+    caveat: Counts what the department operates. Whether any of it answered today is a
       different job at a different cadence and is not measured here.
   paper_citations:
     label: Citations of the tool's papers

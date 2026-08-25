@@ -55,15 +55,18 @@ Only derived aggregates are republished, never a copy of a third-party dataset.
 
 ## Charts and icons
 
-Vega-Lite, vendored and pinned rather than loaded from a CDN, so the page renders the
-same in five years and archives intact. The same applies to the type and the icons:
-Open Sans — the substitute UM's own web guidance names for the licensed house typeface —
-is served from this repository, and no part of this page requests anything from a third
-party. Colours follow the UM house style, with the chart series taking the department's
-own `#00A2DB` and `#E84E10`. The tile icons are inline SVG on the same
-principle, from [Simple Icons](https://simpleicons.org) (CC0-1.0) and
-[Octicons](https://primer.style/octicons) (MIT); the brand marks belong to their owners
-and point at the registry each number comes from.
+Vega-Lite is vendored and pinned rather than loaded from a CDN, so the page renders the
+same in five years and archives intact.
+
+The type and the icons work the same way. Open Sans is the substitute UM's own web
+guidance names for its licensed house typeface, and it is served from this repository.
+The tile icons are inline SVG taken from [Simple Icons](https://simpleicons.org)
+(CC0-1.0) and [Octicons](https://primer.style/octicons) (MIT); the brand marks belong to
+their owners, and they are there to say which registry a number came from. Nothing on
+this page is requested from anyone else.
+
+Colours follow the UM house style, and the chart series take the department's own
+`#00A2DB` and `#E84E10`.
 
 | File | Version | SHA-384 |
 |---|---|---|

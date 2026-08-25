@@ -304,16 +304,19 @@ def _project_table(snapshot: dict[str, Any]) -> str:
             f"| {container} "
             f"| {_cite_cell(cites, papers, pid)} |")
 
-    note = ("\n*Citations are of the papers describing each tool, all update papers "
-            "counted, from OpenAlex. Citing a paper is not proof the software was used, "
-            "and tools built by large communities carry their community's citations. "
-            "An empty cell means the project has no identifier of that kind, not "
-            "that the number is zero. Downloads are shown per registry with the window "
-            "each one reports, and are never added together: Bioconductor publishes a "
-            "lifetime total while npm and PyPI publish a rolling 30 days. Container "
-            "counts are Docker Hub pulls where they exist and "
-            "GHCR tags published where they do not, because GHCR reports no pulls. "
-            "Papers are mentions counted by the Research Software Directory.*\n")
+    # Four separate points, so four sentences a reader can stop after. Run together as
+    # one paragraph it reads as boilerplate and gets skipped, which defeats the purpose.
+    note = ("\n*An empty cell means the project has no identifier of that kind. It does "
+            "not mean zero.*\n\n"
+            "*Citations come from OpenAlex and cover every paper describing a tool, "
+            "update papers included. Citing a paper is not proof the software was used, "
+            "and a tool built by a community much larger than this department carries "
+            "that community's citations too.*\n\n"
+            "*Downloads are listed per registry with the window each one reports and are "
+            "never added up: Bioconductor publishes a lifetime total, npm and PyPI a "
+            "rolling 30 days.*\n\n"
+            "*Containers are Docker Hub pulls where they exist and GHCR tags published "
+            "where they do not, because GHCR reports no pulls at all.*\n")
     return "\n".join(rows) + "\n" + note
 
 
