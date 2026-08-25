@@ -516,15 +516,6 @@ html { scroll-padding-top: var(--tgx-header-height); }
   color: var(--md-default-fg-color--light);
 }
 
-/* The caveat under a figure, folded away like a tile's lists. */
-.md-typeset .tgx-caveat { margin: .1rem 0 .5rem; }
-.md-typeset .tgx-caveat > summary { font-size: .66rem; }
-.md-typeset .tgx-caveat p {
-  margin: .2rem 0 0 .8rem;
-  font-size: .74rem;
-  line-height: 1.55;
-}
-
 /* Freshness strip --------------------------------------------------------- */
 .tgx-strip {
   border-left: 4px solid;

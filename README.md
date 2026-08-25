@@ -27,7 +27,7 @@ describe each tool.
 It is **not** a measure of individuals. There are no per-person pages, counts or
 rankings, and there never will be — no person is queried and no ORCID is stored. Nor
 are there stars, forks, h-indices or journal rankings: every figure names what it
-counts and what it does not mean, and the Methods page carries both.
+counts, and the Methods page says what each one does not mean.
 
 It is also not service monitoring. Whether the department's endpoints are up right now
 is a different job with a different cadence, and the cluster already has monitoring for it.
@@ -57,7 +57,7 @@ flowchart LR
     guards -- passes --> snap[("data branch<br/>one whole-state<br/>snapshot per run")]
     snap --> csv["docs/data/*.csv<br/>one file per metric"]
     csv --> build["build"]
-    sem -. "labels and caveats" .-> build
+    sem -. "labels and definitions" .-> build
     build --> site["GitHub Pages"]
 
     classDef cfg fill:#3d6fb422,stroke:#3d6fb4,color:#000

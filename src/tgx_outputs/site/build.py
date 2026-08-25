@@ -5,8 +5,10 @@ Two rules are enforced here rather than trusted to whoever writes the Markdown:
 1. **A metric with no entry in metric_semantics.yml does not render.** The definition
    and the figure ship together or neither ships.
 2. **Every figure carries its caption block** -- what it counts, the source, when that
-   source was last collected, the caveat, and a link to the CSV behind it. A reader who
-   wants to check a number should never have to ask how it was made.
+   source was last collected, and a link to the CSV behind it. A reader who wants to
+   check a number should never have to ask how it was made. The caveat is still
+   required of every metric and is printed in full in the Methods catalogue; it is
+   simply not repeated under each chart.
 
 Freshness comes from the data's own timestamps. ``datetime.now()`` is never used to
 describe how current the page is.
@@ -94,13 +96,6 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
         f'</div>\n\n'
         f'<div class="tgx-caption" markdown>\n'
         f'**{spec["label"]}.** {spec["counts"]}\n\n'
-        # The caveat is the thing this project will not drop -- a number published
-        # without what it does not mean is the failure the whole page argues against.
-        # It does not have to be the largest block of text under every chart, though,
-        # so it sits one click away rather than on the page by default.
-        f'<details class="tgx-drop tgx-caveat">'
-        f'<summary><span class="tgx-caret"></span>What this does not mean</summary>'
-        f'<p>{spec["caveat"].strip()}</p></details>\n\n'
         f'<small>Source: `{source}` · collected {collected}{badge} · '
         f'[download CSV](data/{metric}.csv)</small>\n'
         f'</div>\n'

@@ -43,7 +43,20 @@ def test_figure_caption_carries_source_date_and_csv_link():
     assert "Source: `github`" in html
     assert "collected " in html
     assert "download CSV](data/releases_by_year.csv)" in html
-    assert cfg.semantics()["releases_by_year"]["caveat"].strip()[:40] in html
+    assert cfg.semantics()["releases_by_year"]["counts"][:40] in html
+
+
+def test_the_caveat_is_still_required_and_still_published():
+    """It is no longer printed under each chart, which is a presentation choice.
+
+    It is not an excuse to stop writing one. Every metric must still declare what its
+    number does not mean, and the Methods catalogue must still print it, or the page
+    has quietly dropped the thing it argues for.
+    """
+    catalogue = build._methodology(cfg.semantics(), _snapshot(0))
+    for name, spec in cfg.semantics().items():
+        assert spec["caveat"].strip(), f"{name} has no caveat"
+        assert spec["caveat"].strip() in catalogue, f"{name}'s caveat is not published"
 
 
 def test_freshness_is_computed_from_the_data_not_the_clock():
