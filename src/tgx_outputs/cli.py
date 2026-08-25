@@ -176,7 +176,10 @@ def cmd_doctor(args: argparse.Namespace) -> int:
           f"{', '.join(cfg.project_ids())}")
     print(f"  roster            {len(orcids)} ORCIDs")
     print(f"  metrics defined   {len(semantics)}")
-    print(f"  orgs              {len(cfg.sources().get('github_orgs', []))}")
+    print(f"  tracked           {len(cfg.project_field('repos'))} repos, "
+          f"{len(cfg.project_field('packages'))} packages, "
+          f"{len(cfg.project_field('papers'))} papers, "
+          f"{sum(len(p.get('services') or []) for p in cfg.projects())} services")
     print(f"  collectors        {len(enabled)} enabled of {len(known)}: {', '.join(sorted(enabled))}")
     print("  secrets required  none (GITHUB_TOKEN optional, OPENALEX_API_KEY optional)")
 
