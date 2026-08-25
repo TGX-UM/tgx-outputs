@@ -70,8 +70,12 @@ The type and the icons work the same way. [Open Sans](https://fonts.google.com/s
 house typeface; the four subset faces are served from this repository, licence included.
 The tile icons are inline SVG taken from [Simple Icons](https://simpleicons.org)
 (CC0-1.0) and [Octicons](https://primer.style/octicons) (MIT); the brand marks belong to
-their owners, and they are there to say which registry a number came from. Nothing on
-this page is requested from anyone else.
+their owners, and they are there to say which registry a number came from. The project
+logos work the same way: each is the mark that project publishes in its own repository,
+copied into `docs/assets/images/logos/` so the page fetches nothing, and shown only to
+identify the tool whose figures sit beneath it. Every one of them remains the property
+of the project that made it. A project with no mark of its own gets initials instead.
+Nothing on this page is requested from anyone else.
 
 The TGX logo and icon are the department's own marks. Colours follow the UM house style,
 and the chart series take the department's own `#00A2DB` and `#E84E10`.

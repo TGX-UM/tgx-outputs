@@ -23,7 +23,10 @@ theme:
   # keeps the page free of third-party requests and archivable in one piece.
   font: false
   features:
-    - navigation.sections
+    # Tabs rather than a left-hand tree. Five flat pages need no tree, and the
+    # sidebar it produced cost the content a fifth of the window on every screen --
+    # which the figures and the tile grid feel more than prose would.
+    - navigation.tabs
     - navigation.top
     - content.code.copy
     - toc.follow

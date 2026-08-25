@@ -12,17 +12,23 @@ from __future__ import annotations
 
 from typing import Any
 
-# The first two are the department's own logo colours, so a chart on this page is
-# recognisably from the same family as the mark in the header. The rest extend the
-# range. All six read acceptably in light and dark and stay distinguishable in
-# greyscale print, which rules out putting the navy in here: at chart weight it is
-# indistinguishable from the axis furniture.
+# For a series that genuinely needs telling apart -- the packages on the Bioconductor
+# line chart, the monogram on each project tile. The first two are the department's own
+# logo colours, so the page is recognisably from the same family as the mark in the
+# header; the rest extend the range. All six read acceptably in light and dark and stay
+# distinguishable in greyscale print.
+#
+# A bar chart here is NOT one of those cases. Every bar chart on this page has one bar
+# per package or per project, so colouring by that field encodes nothing the y-axis
+# label does not already say, and six rotating colours read as a category that is not
+# there. Bars take the single house colour instead: UM Blue on white, the logo's blue
+# on the slate ground. That pair lives in ``themed()`` in charts.js and only there,
+# because the theme is a fact the browser knows and this build does not.
 PALETTE = ["#00a2db", "#e84e10", "#4a8a72", "#8a5fa8", "#a8484f", "#6b7c93"]
 
-# How each registry is written on the page, and the colour it keeps everywhere it
-# appears. Fixing the colour per registry rather than letting Vega assign one by
-# sort order means Bioconductor is the same blue in the lifetime chart as in the
-# rolling one, and stays that blue when a new registry is added above it.
+
+# How each registry is written on the page, wherever it appears -- the panel headers
+# on the download charts and the labels under every figure on a project tile.
 REGISTRY_NAMES = {
     "bioconductor.org": "Bioconductor",
     "pypi.org": "PyPI",
@@ -31,8 +37,6 @@ REGISTRY_NAMES = {
     "repo1.maven.org": "Maven",
     "conda-forge.org": "conda-forge",
 }
-REGISTRY_COLOURS = dict(zip(REGISTRY_NAMES.values(), PALETTE, strict=True))
-
 
 def _registry_label() -> str:
     """A Vega expression turning `pypi.org/pybacting` into `PyPI`.
@@ -117,8 +121,7 @@ def rsd_mentions() -> dict[str, Any]:
         {"type": "bar", "tooltip": True},
         {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
          "x": {"field": "value", "type": "quantitative", "title": "Papers mentioning",
-               "scale": {"type": "sqrt"}},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
+               "scale": {"type": "sqrt"}}},
         "data/rsd_mentions.csv",
         height=320,
     )
@@ -128,8 +131,7 @@ def docker_pulls() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
         {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Pulls, all time"},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
+         "x": {"field": "value", "type": "quantitative", "title": "Pulls, all time"}},
         "data/docker_pulls_total.csv",
         height=280,
     )
@@ -139,8 +141,7 @@ def ghcr_tags() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
         {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Tags published"},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
+         "x": {"field": "value", "type": "quantitative", "title": "Tags published"}},
         "data/ghcr_tags.csv",
         height=280,
     )
@@ -150,8 +151,7 @@ def dataset_downloads() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
         {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Unique downloads"},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
+         "x": {"field": "value", "type": "quantitative", "title": "Unique downloads"}},
         "data/dataset_downloads.csv",
         height=140,
     )
@@ -163,7 +163,8 @@ def _downloads(csv: str, title: str) -> dict[str, Any]:
     Faceted rather than merged into one ranking, because a registry is not a
     category of package but the thing that did the counting. Panels keep PyPI's
     number next to PyPI's name and make the day a CRAN package appears a new panel
-    rather than a bar that has to be read carefully to be told apart.
+    rather than a bar that has to be read carefully to be told apart. The panel
+    header carries the registry, so the bars themselves need no colour to say it.
 
     ``step`` sizing rather than a fixed height: the panel grows a row per package,
     so adding one never squeezes the others into unreadable slivers.
@@ -184,9 +185,6 @@ def _downloads(csv: str, title: str) -> dict[str, Any]:
                 "y": {"field": "package", "type": "nominal", "sort": "-x",
                       "title": None},
                 "x": {"field": "value", "type": "quantitative", "title": title},
-                "color": {"field": "registry", "type": "nominal", "legend": None,
-                          "scale": {"domain": list(REGISTRY_COLOURS),
-                                    "range": list(REGISTRY_COLOURS.values())}},
             },
         },
         # Each panel ranks its own packages. A shared y scale would print every
@@ -213,8 +211,7 @@ def citations() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
         {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Citations"},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
+         "x": {"field": "value", "type": "quantitative", "title": "Citations"}},
         "data/paper_citations.csv",
         height=280,
     )

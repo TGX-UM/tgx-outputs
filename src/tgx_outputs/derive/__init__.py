@@ -1,1 +1,1 @@
-from . import freshness, tables, whats_new  # noqa: F401
+from . import freshness, tables  # noqa: F401

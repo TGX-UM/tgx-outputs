@@ -143,14 +143,28 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .md-footer a { color: var(--tgx-blue); }
 
 /* A dashboard reads better wider than Material's default prose measure. */
-.md-grid { max-width: 68rem; }
+.md-grid { max-width: 78rem; }
+
+/* With every page in the tab bar, the left sidebar holds one link to the page already
+   open and still charges the content 266px for it. Hidden only above the width where
+   the tabs are actually drawn -- below that Material collapses the same nav into the
+   hamburger drawer, which is the only way to reach the other pages on a phone. */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary { display: none; }
+}
 
 /* Summary cards ----------------------------------------------------------- */
+/* Ten cards, so five and five rather than whatever auto-fit lands on: an automatic
+   track count put seven on the first row and three on the second, and the short row
+   read as though the last three were an afterthought. */
 .tgx-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: .6rem;
   margin: 1.2rem 0 2rem;
+}
+@media screen and (min-width: 50em) {
+  .tgx-cards { grid-template-columns: repeat(5, 1fr); }
 }
 .tgx-card {
   display: flex;
@@ -198,11 +212,22 @@ html { scroll-padding-top: var(--tgx-header-height); }
    the type stay neutral, and the accent appears only in the monogram and the rule
    above it. Ten filled tiles would be a paint chart.
    -------------------------------------------------------------------------- */
+/* Column counts stated outright rather than left to auto-fit. Ten tiles divide badly:
+   auto-fit settled on two wide columns at desktop widths and left each tile far wider
+   than its own content needed, and the count changed under the table-of-contents on
+   some pages and not others. Three across is the widest that keeps the two-column
+   block of statistics inside each tile readable. */
 .tgx-projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin: 1.4rem 0 1.6rem;
+}
+@media screen and (min-width: 45em) {
+  .tgx-projects { grid-template-columns: repeat(2, 1fr); }
+}
+@media screen and (min-width: 68em) {
+  .tgx-projects { grid-template-columns: repeat(3, 1fr); }
 }
 .tgx-project {
   display: flex;
@@ -214,13 +239,21 @@ html { scroll-padding-top: var(--tgx-header-height); }
   padding: .95rem 1rem 1rem;
   background: var(--md-code-bg-color);
 }
-.tgx-project-head { display: flex; align-items: flex-start; gap: .7rem; }
-.tgx-project-mark,
-.tgx-project-logo {
+/* One brand row of a fixed height per tile, whatever fills it. The marks these tools
+   actually have range from a square icon to a 7:1 wordmark, so anything sized on width
+   makes one of them a smudge; a common height and a free width lines the row of tiles
+   up without squashing any of them. */
+.tgx-project-brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  min-height: 2.1rem;
+}
+.tgx-project-mark {
   flex: 0 0 auto;
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: .45rem;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: .4rem;
 }
 /* The monogram, for the projects with no mark of their own -- which is most of
    them. Drawn from the accent rather than filled with it, so a grid of ten does not
@@ -238,24 +271,50 @@ html { scroll-padding-top: var(--tgx-header-height); }
   background: color-mix(in srgb, var(--tgx-project-accent) 12%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tgx-project-accent) 35%, transparent);
 }
-.tgx-project-logo { object-fit: contain; }
+/* Every one of these marks is drawn for a white page -- PathVisio's navy wordmark and
+   WikiPathways' black one vanish on the slate ground. Rather than filtering the brand
+   colours into something their owners did not choose, the logo sits on a white plate
+   in both themes, which is how each of them is meant to be seen. */
+/* Prefixed with .md-typeset only to outrank the theme's own `.md-typeset img
+   { height: auto }`, which otherwise wins on specificity and collapses every one of
+   these to a few pixels. */
+.md-typeset .tgx-project-logo {
+  display: block;
+  height: 2.1rem;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: .3rem;
+  background: #fff;
+  padding: .2rem .35rem;
+}
 .md-typeset .tgx-project-name {
   margin: .1rem 0 .15rem;
   font-size: .95rem;
   font-weight: 600;
   line-height: 1.25;
 }
+/* After the rule above, not before it: the two have equal specificity, so a branded
+   heading only loses its leading if it is stated last. */
+.md-typeset .tgx-project-branded {
+  margin: 0;
+  min-width: 0;
+  line-height: 0;
+}
 .md-typeset .tgx-project-what {
   margin: 0;
+  flex: 0 0 auto;
   font-size: .74rem;
   line-height: 1.5;
   color: var(--md-default-fg-color--light);
 }
-/* Two columns of numbers, not one line each: a tile with six statistics in a stack
-   is taller than the description it belongs to. */
+/* Two columns of numbers, not one line each: a tile with six statistics in a stack is
+   taller than the description it belongs to. The floor is in rem and Material scales
+   the root font to 22px on a wide screen, so 7.5rem is 165px there -- wide enough that
+   a tile in the three-column grid fell back to a single column and doubled in height. */
 .tgx-project-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
   gap: .5rem .8rem;
   padding-top: .2rem;
 }

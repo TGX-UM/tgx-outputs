@@ -9,7 +9,7 @@ import sys
 from . import config as cfg
 from . import guards, store
 from .collect import COLLECTORS, run_all
-from .derive import freshness, tables, whats_new
+from .derive import freshness, tables
 from .http import HttpClient
 
 
@@ -62,17 +62,11 @@ def cmd_derive(args: argparse.Namespace) -> int:
     out = cfg.DOCS_DIR / "data"
     written = tables.write_long(snapshot, out)
     fresh = freshness.assess(snapshot)
-    snaps = sorted(store.snapshot_dir().glob("*.json"))
-    prev = json.loads(snaps[-2].read_text()) if len(snaps) > 1 else None
-    changes = whats_new.diff(snapshot, prev)
-
     (cfg.DATA_DIR / "derived").mkdir(parents=True, exist_ok=True)
     (cfg.DATA_DIR / "derived" / "freshness.json").write_text(json.dumps(fresh, indent=1))
-    (cfg.DATA_DIR / "derived" / "whats_new.json").write_text(json.dumps(changes, indent=1))
 
     print(f"  {len(written) - 1} metric CSVs → {out.relative_to(cfg.ROOT)}")
     print(f"  freshness: {fresh['summary']}")
-    print(f"  changes since previous run: {len(changes)}")
     return 0
 
 

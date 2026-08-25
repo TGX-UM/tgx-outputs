@@ -9,10 +9,6 @@ sources.
 
 --8<-- "projects.md"
 
-## What changed since the last refresh
-
---8<-- "whats_new.md"
-
 ## Releases { #releases }
 
 --8<-- "fig_releases_by_year.md"

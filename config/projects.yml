@@ -73,8 +73,10 @@ projects:
       bridgedb_manifest: https://data.bridgedb.org/gene.json
     links:
       site: https://www.bridgedb.org
+      Docker Hub: https://hub.docker.com/r/bigcatum/bridgedb
 
   - id: wikipathways
+    logo: wikipathways.svg
     mark: WP
     name: WikiPathways
     what: >-
@@ -109,8 +111,12 @@ projects:
         what: The pathway database itself, which the department co-founded and helps run.
     links:
       site: https://www.wikipathways.org
+      Bioconductor: https://bioconductor.org/packages/rWikiPathways
+      PyPI: https://pypi.org/project/pywikipathways/
+      npm: https://www.npmjs.com/package/@wikipathways/pvjs
 
   - id: pathvisio
+    logo: pathvisio.png
     mark: PV
     name: PathVisio
     what: Desktop editor for biological pathways, and the origin of the GPML format.
@@ -123,6 +129,7 @@ projects:
       site: https://pathvisio.org
 
   - id: cdk
+    logo: cdk.png
     mark: CDK
     name: Chemistry Development Kit
     what: >-
@@ -163,6 +170,7 @@ projects:
     rsd: [arrayanalysis]
     links:
       site: https://www.arrayanalysis.org
+      preprint: https://www.biorxiv.org/content/10.64898/2026.07.13.738193v1
 
   - id: r-odaf
     mark: RO
@@ -180,8 +188,10 @@ projects:
         what: The analysis app, hosted so it can be used without installing anything.
     links:
       site: https://r-odaf.nl
+      source: https://github.com/TGX-UM/R-ODAF-Shiny
 
   - id: vhp
+    logo: vhp.svg
     mark: VHP
     name: Virtual Human Platform
     what: >-
@@ -195,10 +205,9 @@ projects:
       - name: VHP4Safety platform
         url: https://platform.vhp4safety.nl
         what: One entry point to the chemical safety services the consortium runs.
-    links:
-      site: https://platform.vhp4safety.nl
 
   - id: aopwiki-rdf
+    logo: aopwiki-rdf.png
     mark: AW
     name: AOP-Wiki RDF
     what: >-
@@ -222,7 +231,7 @@ projects:
       - 10.1089/aivt.2021.0010              # AOP-Wiki RDF, Appl In Vitro Toxicol 2022
       - 10.14573/altex.2307131              # Why AOPs need to be FAIR, ALTEX 2023
     links:
-      sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
+      SNORQL query interface: https://aopwiki.rdf.bigcat-bioinformatics.org/
 
   - id: molaop
     mark: MA
@@ -239,3 +248,5 @@ projects:
       - name: molAOP Analyser
         url: https://molaop-analyser.vhp4safety.nl
         what: Analyse the resulting molecular AOPs.
+    links:
+      preprint: https://doi.org/10.1101/2023.03.02.530766

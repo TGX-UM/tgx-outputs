@@ -125,25 +125,6 @@ def _freshness_strip(fresh: dict[str, Any]) -> str:
     )
 
 
-def _whats_new(changes: list[dict[str, Any]], semantics: dict[str, Any]) -> str:
-    if not changes:
-        return (
-            "*Nothing to compare yet — this is the first collected snapshot. "
-            "The next refresh will list what moved.*\n")
-    lines = ["| What | Change |", "|---|---|"]
-    for c in changes[:15]:
-        label = semantics.get(c["metric"], {}).get("label", c["metric"])
-        where = f"{c['entity']}" + (f" ({c['period']})" if c.get("period") else "")
-        if c["kind"] == "new":
-            lines.append(f"| {label} — {where} | new: {_fmt(c['to'])} |")
-        else:
-            sign = "+" if c["delta"] > 0 else ""
-            lines.append(
-                f"| {label} — {where} | {_fmt(c['from'])} → {_fmt(c['to'])} "
-                f"({sign}{_fmt(c['delta'])}) |")
-    return "\n".join(lines) + "\n"
-
-
 def _methodology(semantics: dict[str, Any], snapshot: dict[str, Any]) -> str:
     out = []
     by_source: dict[str, list] = {}
@@ -309,23 +290,39 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
         if latest.get(pid):
             stats.append(_stat(latest[pid], "last release"))
 
-        mark = proj.get("logo")
-        chip = (f'<img class="tgx-project-logo" src="assets/images/logos/{mark}" alt="">'
-                if mark else
-                f'<span class="tgx-project-mark" aria-hidden="true">{_mark(proj)}</span>')
+        # The logo goes inside the heading rather than beside it. Every mark that
+        # exists for these tools is a wordmark that already says the name, so showing
+        # both prints it twice; putting the image in the h3 with the name as its alt
+        # text keeps the heading for anyone navigating by them, and for the five
+        # projects with no mark of their own the same heading holds the monogram.
+        if proj.get("logo"):
+            brand = (f'<h3 class="tgx-project-name tgx-project-branded">'
+                     f'<img class="tgx-project-logo" '
+                     f'src="assets/images/logos/{proj["logo"]}" alt="{proj["name"]}">'
+                     f'</h3>')
+        else:
+            brand = (f'<span class="tgx-project-mark" aria-hidden="true">'
+                     f'{_mark(proj)}</span>'
+                     f'<h3 class="tgx-project-name">{proj["name"]}</h3>')
 
-        links = []
-        for svc in proj.get("services") or []:
-            links.append(f'<a href="{svc["url"]}">{svc["name"]}</a>')
-        for label, url in (proj.get("links") or {}).items():
-            if not any(url == s.get("url") for s in proj.get("services") or []):
-                links.append(f'<a href="{url}">{label}</a>')
+        # `links:` first and in the order projects.yml writes them, then the services.
+        # Which link leads is an editorial choice about the project -- for BridgeDb and
+        # WikiPathways the project's own site is what a stranger wants first, not the
+        # machine endpoint -- and the YAML file is where that choice belongs, not here.
+        # Deduplicated on the URL because a service and a link often name the same page.
+        links, seen = [], set()
+        entries = [(label, url) for label, url in (proj.get("links") or {}).items()]
+        entries += [(svc["name"], svc["url"]) for svc in proj.get("services") or []]
+        for label, url in entries:
+            if url in seen:
+                continue
+            seen.add(url)
+            links.append(f'<a href="{url}">{label}</a>')
 
         out.append(
             f'<article class="tgx-project" style="--tgx-project-accent: {accent}">'
-            f'<div class="tgx-project-head">{chip}'
-            f'<div><h3 class="tgx-project-name">{proj["name"]}</h3>'
-            f'<p class="tgx-project-what">{proj["what"].strip()}</p></div></div>'
+            f'<div class="tgx-project-brand">{brand}</div>'
+            f'<p class="tgx-project-what">{proj["what"].strip()}</p>'
             + (f'<div class="tgx-project-stats">{"".join(stats)}</div>'
                if stats else
                '<div class="tgx-project-stats tgx-project-quiet">'
@@ -422,14 +419,11 @@ def build() -> int:
     INCLUDES.mkdir(parents=True, exist_ok=True)
 
     fresh = freshness.assess(snapshot)
-    changes_path = cfg.DATA_DIR / "derived" / "whats_new.json"
-    changes = json.loads(changes_path.read_text()) if changes_path.exists() else []
 
     fragments = {
         "freshness.md": _freshness_strip(fresh),
         "cards.md": _cards(snapshot),
         "projects.md": _project_tiles(snapshot),
-        "whats_new.md": _whats_new(changes, semantics),
         "methodology.md": _methodology(semantics, snapshot),
         "calls.md": _calls(snapshot, semantics),
     }

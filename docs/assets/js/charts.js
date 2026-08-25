@@ -38,13 +38,21 @@
   }
 
   function themed(spec) {
-    var ink = currentScheme() === "dark" ? "#b6bcc6" : "#5b6470";
+    var dark = currentScheme() === "dark";
+    var ink = dark ? "#b6bcc6" : "#5b6470";
     var clone = JSON.parse(JSON.stringify(spec));
     clone.config = clone.config || {};
     clone.config.axis = Object.assign({}, clone.config.axis,
       { labelColor: ink, titleColor: ink });
     clone.config.legend = Object.assign({}, clone.config.legend,
       { labelColor: ink, titleColor: ink });
+    // Bars are one house colour, and which one depends on the ground they sit on:
+    // UM Blue on white, the logo's blue on slate. Set on `config.bar` rather than
+    // `config.mark`, so the one chart that colours by series -- the Bioconductor
+    // lines -- keeps its own scale. An explicit colour encoding wins over this
+    // either way, which is what makes that safe.
+    clone.config.bar = Object.assign({}, clone.config.bar,
+      { color: dark ? "#4fc3f0" : "#001c3d" });
     return clone;
   }
 
