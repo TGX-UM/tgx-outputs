@@ -1,0 +1,8 @@
+{
+ "url": "https://sparql.wikipathways.org/sparql",
+ "params": {
+  "query": "SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
+ },
+ "status": 200,
+ "text": "\"n\"\n12263484\n"
+}

@@ -8,6 +8,7 @@ from . import (  # noqa: F401  (import for side-effect: registration)
     openalex,
     pure_cerif,
     rsd,
+    services,
     wikipathways,
     zenodo,
 )

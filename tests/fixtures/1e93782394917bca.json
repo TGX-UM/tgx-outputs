@@ -8,5 +8,5 @@
   }
  },
  "status": 200,
- "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"wikipathways/wikipathways-database\",\"pushedAt\":\"2026-08-25T13:01:46Z\",\"isArchived\":false,\"stargazerCount\":18,\"primaryLanguage\":{\"name\":\"Shell\"},\"licenseInfo\":{\"spdxId\":\"CC0-1.0\"},\"releases\":{\"nodes\":[]},\"refs\":{\"nodes\":[{\"name\":\"20220310\",\"target\":{\"committedDate\":\"2022-03-10T23:22:22Z\"}}]}}}}"
+ "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"wikipathways/wikipathways-database\",\"pushedAt\":\"2026-08-25T13:12:46Z\",\"isArchived\":false,\"stargazerCount\":18,\"primaryLanguage\":{\"name\":\"Shell\"},\"licenseInfo\":{\"spdxId\":\"CC0-1.0\"},\"releases\":{\"nodes\":[]},\"refs\":{\"nodes\":[{\"name\":\"20220310\",\"target\":{\"committedDate\":\"2022-03-10T23:22:22Z\"}}]}}}}"
 }

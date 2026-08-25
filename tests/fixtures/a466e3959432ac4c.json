@@ -1,0 +1,6 @@
+{
+ "url": "https://webservice.bridgedb.org/contents",
+ "params": null,
+ "status": 200,
+ "text": "Yeast\tSaccharomyces cerevisiae\nFrog\tXenopus tropicalis\nMaize\tZea mays\nBacillus subtilis\tBacillus subtilis\nSea Squirt\tCiona intestinalis\nDaphnia pulex\tDaphnia pulex\nArabidopsis thaliana\tArabidopsis thaliana\nRice\tOryza japonica\nChicken\tGallus gallus\nBlack mold\tAspergillus niger\nDog\tCanis familiaris\nBarley\tHordeum vulgare\nPotato\tSolanum tuberosum\nPig\tSus scrofa\nMosquito\tAnopheles gambiae\nHuman\tHomo sapiens\nSoybean\tGlycine max\nFruit fly\tDrosophila melanogaster\nDaphnia magna\tDaphnia magna\nIndian Rice\tOryza indica\nChimpanzee\tPan troglodytes\nCow\tBos taurus\nSheep\tOvis aries\nMouse\tMus musculus\nPlatypus\tOrnithorhynchus anatinus\nTomato\tSolanum lycopersicum\nRat\tRattus norvegicus\nZebra fish\tDanio rerio\nWestern Balsam Poplar\tPopulus trichocarpa\nHorse\tEquus caballus\nWine Grape\tVitis vinifera\nWorm\tCaenorhabditis elegans\nRhesus Monkey\tMacaca mulatta\n"
+}

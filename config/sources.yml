@@ -34,6 +34,7 @@ collectors:
   coverage:      {enabled: true,  cadence_days: 7}
   dockerhub:     {enabled: true,  cadence_days: 7}
   ghcr:          {enabled: true,  cadence_days: 7}
+  services:      {enabled: true,  cadence_days: 7}
   rsd:           {enabled: true,  cadence_days: 7}
   wikipathways:  {enabled: false, cadence_days: 7}   # community content, not TGX output
   pure_cerif:    {enabled: false, cadence_days: 30}   # week 2-3; see plan

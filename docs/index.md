@@ -25,6 +25,17 @@ sources.
 
 --8<-- "fig_rsd_mentions.md"
 
+## Services we run { #services }
+
+BridgeDb and WikiPathways are web services and web sites as much as they are packages.
+What is counted here is what the department builds for them: the mapping databases,
+and the RDF layer behind the endpoints. The pathway and AOP content those endpoints
+carry is curated by international communities and is not counted as our output.
+
+--8<-- "fig_service_scale.md"
+
+--8<-- "fig_dataset_downloads.md"
+
 ## Containers { #containers }
 
 --8<-- "fig_docker_pulls.md"

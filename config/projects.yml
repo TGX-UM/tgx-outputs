@@ -19,6 +19,15 @@
 #   rsd       Research Software Directory slug. Gives papers mentioning the tool.
 #             Find it in the URL: research-software-directory.org/software/<slug>
 #             Not registered there? Register it -- that is worth more than adding it here
+#   services  live web services and sites the department runs for this project.
+#             Each needs `name`, `url` and `what`. Shown under the project
+#   probes    measurable things about those services. Each key is a probe type:
+#               sparql             a SPARQL endpoint; counts triples served
+#               bridgedb_contents  the BridgeDb /contents route; counts species served
+#               bridgedb_manifest  data.bridgedb.org/gene.json; counts the mapping
+#                                  databases published and their Zenodo downloads
+#             Adding a new probe type does need code. Adding a URL to an existing one
+#             does not
 #   links     shown next to the project. Any label you like
 #
 # If you are unsure whether an identifier is right, run `tgx doctor --projects`. It
@@ -38,9 +47,20 @@ projects:
       - repo1.maven.org/org.bridgedb:org.bridgedb.bio
     docker: [bigcatum/bridgedb]
     rsd: [bridgedb-java, bridgedb-webservice, bridgedbr]
+    services:
+      - name: BridgeDb webservice
+        url: https://webservice.bridgedb.org
+        what: Live identifier mapping over HTTP, for anything that cannot ship a database.
+      - name: Mapping databases
+        url: https://data.bridgedb.org
+        what: >-
+          Per-species mapping files, rebuilt from the primary databases and deposited
+          with a DOI. These are department output, not a third party's data.
+    probes:
+      bridgedb_contents: https://webservice.bridgedb.org/contents
+      bridgedb_manifest: https://data.bridgedb.org/gene.json
     links:
       site: https://www.bridgedb.org
-      webservice: https://webservice.bridgedb.org
 
   - id: wikipathways
     name: WikiPathways
@@ -57,9 +77,19 @@ projects:
       - pypi.org/pywikipathways
       - npmjs.org/@wikipathways/pvjs
     rsd: [rwikipathways]
+    services:
+      - name: WikiPathways SPARQL endpoint
+        url: https://sparql.wikipathways.org
+        what: >-
+          The RDF layer the department builds from the pathway content and serves as
+          queryable linked data. The pathways themselves are curated by the community.
+      - name: wikipathways.org
+        url: https://www.wikipathways.org
+        what: The pathway database itself, which the department co-founded and helps run.
+    probes:
+      sparql: https://sparql.wikipathways.org/sparql
     links:
       site: https://www.wikipathways.org
-      sparql: https://sparql.wikipathways.org/sparql
 
   - id: pathvisio
     name: PathVisio
@@ -106,6 +136,10 @@ projects:
       Reproducible RNA-seq differential expression analysis, packaged as a Shiny app
       for regulatory toxicogenomics.
     repos: [TGX-UM/R-ODAF-Shiny]
+    services:
+      - name: R-ODAF
+        url: https://r-odaf.nl
+        what: The analysis app, hosted so it can be used without installing anything.
     links:
       site: https://r-odaf.nl
 
@@ -116,6 +150,10 @@ projects:
       services the consortium runs.
     repos: [VHP4Safety/virtual-human-platform]
     rsd: [virtual-human-platform]
+    services:
+      - name: VHP4Safety platform
+        url: https://platform.vhp4safety.nl
+        what: One entry point to the chemical safety services the consortium runs.
     links:
       site: https://platform.vhp4safety.nl
 
@@ -131,9 +169,17 @@ projects:
     ghcr:
       - marvinm2/aopwiki-dashboard
       - marvinm2/aop-wiki-snorql-ui
+    services:
+      - name: AOP-Wiki SPARQL endpoint
+        url: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
+        what: The AOP-Wiki as queryable RDF, one named graph per release.
+      - name: AOP-Wiki RDF dashboard
+        url: https://aopwiki-dashboard.vhp4safety.nl
+        what: Charts of the RDF, every one showing the SPARQL query behind it.
+    probes:
+      sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
     links:
       sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
-      dashboard: https://aopwiki-dashboard.vhp4safety.nl
 
   - id: molaop
     name: molAOP Builder and Analyser
@@ -142,6 +188,10 @@ projects:
       the resulting molecular AOPs.
     repos: [marvinm2/molAOP-builder, marvinm2/molAOP-analyser]
     ghcr: [marvinm2/molaop-builder, marvinm2/molaop-analyser]
-    links:
-      builder: https://molaop-builder.vhp4safety.nl
-      analyser: https://molaop-analyser.vhp4safety.nl
+    services:
+      - name: molAOP Builder
+        url: https://molaop-builder.vhp4safety.nl
+        what: Curate key event to pathway mappings, with a confidence assessment.
+      - name: molAOP Analyser
+        url: https://molaop-analyser.vhp4safety.nl
+        what: Analyse the resulting molecular AOPs.

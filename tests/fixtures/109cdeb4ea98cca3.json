@@ -1,0 +1,8 @@
+{
+ "url": "https://aopwiki.rdf.bigcat-bioinformatics.org/sparql",
+ "params": {
+  "query": "SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
+ },
+ "status": 200,
+ "text": "\"n\"\n340063\n"
+}
