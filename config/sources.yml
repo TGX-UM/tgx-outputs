@@ -73,12 +73,38 @@ packages_seed:
     name: rWikiPathways
   - registry: bioconductor.org
     name: BridgeDbR
-  - registry: bioconductor.org
-    name: RCy3
   - registry: pypi.org
     name: pywikipathways
   - registry: pypi.org
     name: pybiodatafuse
+  - registry: pypi.org
+    name: pybacting
+  - registry: pypi.org
+    name: nanopub
+  - registry: pypi.org
+    name: fairworkflows
+
+# Docker Hub is the only registry we publish to that reports a pull count.
+# GHCR reports none, so images there are counted by their tags instead.
+dockerhub:
+  namespaces:
+    - bigcatum
+
+# GitHub Container Registry. No pull count exists anywhere in GHCR, so these are
+# counted by what was published and when, not by use. Private images are skipped:
+# listing images that exist but cannot be read would leak private infrastructure.
+ghcr:
+  images:
+    - marvinm2/aopwiki-dashboard
+    - marvinm2/molaop-builder
+    - marvinm2/molaop-analyser
+    - marvinm2/wikipathways-submit
+    - marvinm2/aop-wiki-snorql-ui
+    - marvinm2/ingredient-smiles-converter
+    - vhp4safety/qsprpred-docker
+    - vhp4safety/qaop-app
+    - vhp4safety/aopsuite
+    - vhp4safety/mct8-docking
 
 # Research Software Directory (NL eScience Center). Verified 2026-08-25:
 # the Maastricht tenant holds 28 entries incl. BridgeDb Java, ArrayAnalysis, CDK,
@@ -86,6 +112,31 @@ packages_seed:
 rsd:
   base: "https://research-software-directory.org/api/v1"
   organisation_id: "34e58775-bba6-48ee-9e0e-d1821cd33108"
+  # The tenant is Maastricht University-wide, not TGX: it also holds Vantage6,
+  # Case Law App, caselawnet, CrowdED, FHIR to CAPACITY, Verticox+, jQUDT and Ldot,
+  # which belong to other groups. Sweeping the org would have roughly doubled the
+  # headline mentions figure with other people's work. Allowlist by slug instead.
+  allow:
+    # pathway and toxicology stack
+    - bridgedb-java
+    - bridgedb-webservice
+    - bridgedbr
+    - arrayanalysis
+    - pathvisio
+    - libgpml
+    - rwikipathways
+    - pinpath
+    - toxtempassistant
+    - virtual-human-platform
+    # cheminformatics and semantic web
+    - cdk
+    - scholia
+    - bacting
+    - pybacting
+    - cmlxom
+    - blueobelisk-euclid
+    - nanopub
+    - fairworkflows
 
 # Knowledge infrastructure TGX builds and operates. The CONTENT of these resources is
 # authored by international communities; what TGX contributes is the infrastructure.
@@ -126,6 +177,8 @@ collectors:
   github:        {enabled: true,  cadence_days: 7}
   zenodo:        {enabled: true,  cadence_days: 7}
   coverage:      {enabled: true,  cadence_days: 7}
+  dockerhub:     {enabled: true,  cadence_days: 7}
+  ghcr:          {enabled: true,  cadence_days: 7}
   rsd:           {enabled: true,  cadence_days: 7}
-  wikipathways:  {enabled: true,  cadence_days: 7}
+  wikipathways:  {enabled: false, cadence_days: 7}   # community content, not TGX output
   pure_cerif:    {enabled: false, cadence_days: 30}   # week 2-3; see plan

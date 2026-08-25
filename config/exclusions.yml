@@ -10,7 +10,9 @@ repos: []
 #  - value: "someorg/vendored-upstream"
 #    reason: "Third-party clone, not department work."
 
-packages: []
+packages:
+  - value: "npmjs.org/eweitz-pvjs"
+    reason: "A personal fork of pvjs republished under another name; not a department release."
 
 orcids: []
 #  Removal requests go here as well as in roster.yml, so a re-harvest from Pure

@@ -68,3 +68,7 @@ def excluded_repos() -> set[str]:
 
 def excluded_dois() -> set[str]:
     return {e["value"].lower() for e in (exclusions().get("dois") or [])}
+
+
+def excluded_packages() -> set[str]:
+    return {e["value"] for e in (exclusions().get("packages") or [])}

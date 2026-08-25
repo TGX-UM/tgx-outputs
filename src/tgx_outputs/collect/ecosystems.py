@@ -14,7 +14,7 @@ record -- which has no place in a cron job.
 
 from __future__ import annotations
 
-from ..config import excluded_repos, sources
+from ..config import excluded_packages, excluded_repos, sources
 from ..model import Call, Record
 from .base import Collector, register
 
@@ -63,7 +63,10 @@ class Ecosystems(Collector):
                 env.degrade(f"{reg}/{name}: {exc}")
 
         # 3. the numbers
+        dropped = excluded_packages()
         for (reg, name), pkg in sorted(found.items()):
+            if f"{reg}/{name}" in dropped:
+                continue
             downloads = pkg.get("downloads")
             if downloads:
                 # A LEVEL, never a flow: registries report a lifetime counter, and the

@@ -1,263 +1,183 @@
-# config/metric_semantics.yml — WHAT EVERY NUMBER COUNTS.
+# config/metric_semantics.yml -- what every number counts.
 #
-# This file is a HARD RENDER GATE: src/tgx_outputs/site/build.py refuses to render
-# any metric that has no entry here, and guards.py refuses to store one. The
-# methodology page is GENERATED from this file, so a definition cannot drift from
-# what is displayed.
+# A hard render gate: nothing appears on the site without an entry here, and the
+# methodology page is generated from this file, so a definition cannot drift from the
+# figure it describes.
 #
-# Fields:
-#   label        human-readable name used in charts and tables
-#   counts       one sentence: exactly what one unit of this metric is
-#   source       the system the number comes from
-#   cumulative   true  = an all-time counter with no period (a LEVEL)
-#                false = a count within a period (a FLOW)
-#                A cumulative metric may NEVER carry a period label. This is the
-#                specdatri Galaxy bug — lifetime counters filed under the current
-#                month, producing byte-identical consecutive rows and a meaningless
-#                headline total — enforced as a rule rather than a convention.
-#   granularity  year | month | none
-#   caveat       what the number does NOT mean. Rendered in the figure caption.
-#   allow_zero   optional; true if a legitimate value of 0 is possible
+#   cumulative: true  = a running total with no period. It may never carry a period
+#                       label; a level does not belong to a month.
+#   caveat            = what the number does not mean. Shown under every figure.
 
 metrics:
-
-  # ── publications ────────────────────────────────────────────────────────────
   works_by_year_type:
-    label: "Research outputs by year and type"
-    counts: "One OpenAlex work whose author list contains a roster ORCID, split by OpenAlex type."
+    label: Outputs by year
+    counts: One OpenAlex work with a roster ORCID among its authors.
     source: openalex
     cumulative: false
     granularity: year
-    caveat: >-
-      Split by type deliberately. A single "publications" number would be roughly
-      threefold inflated: a large share of our OpenAlex records are Zenodo deposits
-      (datasets and software), not journal articles.
-
+    caveat: Counts every output type together. The type breakdown below is the honest view.
   works_by_type:
-    label: "Research outputs by type"
-    counts: "One OpenAlex work with a roster ORCID among its authors, grouped by OpenAlex type."
+    label: Outputs by type
+    counts: OpenAlex works grouped by type.
     source: openalex
     cumulative: true
     granularity: none
-    caveat: >-
-      The split that stops the headline being wrong. For a single TGX ORCID the facet
-      reads dataset 44, article 40, software 19, preprint 11 -- most non-article records
-      are Zenodo deposits. Datasets and software are real outputs and are counted as
-      such, but they are not journal articles and are never merged into one figure.
-
+    caveat: 'Most non-article records are Zenodo deposits. Reporting one combined figure would
+      roughly triple the article count. The ''other'' bucket is excluded from the chart: it
+      is mostly blog posts and untyped repository records.'
   journal_articles_by_year:
-    label: "Peer-reviewed journal articles"
-    counts: "OpenAlex works of type `article` whose primary location is a journal."
+    label: Journal articles
+    counts: OpenAlex works of type article whose primary location is a journal.
     source: openalex
     cumulative: false
     granularity: year
-    caveat: >-
-      The conservative count. Excludes repository-hosted records, so it will be lower
-      than any figure that treats every OpenAlex record as a publication.
-
+    caveat: The conservative count. Lower than any figure that treats every OpenAlex record
+      as a publication.
   oa_route:
-    label: "Open access route"
-    counts: "One OpenAlex work, grouped by open_access.oa_status."
+    label: Open access route
+    counts: OpenAlex works grouped by open_access.oa_status.
     source: openalex
     cumulative: false
     granularity: none
-    caveat: >-
-      Measures policy compliance and availability, not quality. Green means a copy is
-      in a repository; it says nothing about the version of record.
-
+    caveat: Says whether a copy is readable, not how good it is. Green means a repository
+      copy exists, which may not be the version of record.
   oa_route_by_year:
-    label: "Open access route over time"
-    counts: "OpenAlex works per publication year, grouped by open_access.oa_status."
+    label: Open access over time
+    counts: Works per publication year, grouped by open access status.
     source: openalex
     cumulative: false
     granularity: year
-    caveat: "The trend is the point; a single year's share is noisy at this corpus size."
-
+    caveat: The trend is the point. A single year is noisy at this size.
   citation_age:
-    label: "Citations received per year"
-    counts: "Citations to the corpus received in a given calendar year, from work.counts_by_year."
+    label: Citations received per year
+    counts: Citations to the corpus received in a calendar year, from counts_by_year.
     source: openalex
     cumulative: false
     granularity: year
-    caveat: >-
-      Shown instead of a single citation total. Infrastructure software has a long
-      tail — BridgeDb and WikiPathways are still cited a decade after release — which
-      a snapshot total hides.
-
+    caveat: Shown instead of a lifetime total. BridgeDb and WikiPathways are still cited a
+      decade on, which a single number hides.
   collab_countries:
-    label: "Collaborating countries"
-    counts: "Distinct co-author countries across the corpus, from authorships.countries."
+    label: Co-author countries
+    counts: Distinct co-author countries across the corpus.
     source: openalex
     cumulative: true
     granularity: none
-    caveat: "A measure of reach, explicitly not of quality."
-
+    caveat: Reach, not quality.
   collab_institutions:
-    label: "Collaborating institutions"
-    counts: "Co-author institutions, rolled up through authorships.institutions.lineage."
+    label: Co-author institutions
+    counts: Co-author institutions, rolled up to their parent organisation.
     source: openalex
     cumulative: true
     granularity: none
-    caveat: >-
-      Uses lineage so that sub-units roll up to their parent organisation.
-      Maastricht itself dominates and is excluded from the chart.
-
+    caveat: Maastricht dominates and is left out of the chart.
   coverage_disagreement:
-    label: "How many outputs, according to whom"
-    counts: "The count each bibliographic source reports for the same ORCID set."
+    label: Outputs, by source
+    counts: What each bibliographic database reports for the same ORCID set.
     source: multiple
     cumulative: true
     granularity: none
-    caveat: >-
-      These sources disagree, substantially and permanently. Publishing the spread is
-      more honest than picking the largest number. Differences come from coverage
-      (PubMed is biomedical-only), from record type (OpenAlex indexes datasets and
-      software), and from author disambiguation.
-
-  # ── package distribution ────────────────────────────────────────────────────
+    caveat: These disagree permanently. PubMed is biomedical only, Crossref sees anything
+      with a DOI, OpenAlex also indexes data and software.
   bioc_downloads_monthly:
-    label: "Bioconductor downloads per month"
-    counts: "Download events recorded by Bioconductor for a package in a calendar month."
+    label: Bioconductor downloads per month
+    counts: Downloads recorded by Bioconductor for a package in a month.
     source: bioconductor
     cumulative: false
     granularity: month
-    caveat: >-
-      Includes automated traffic — CI runs, mirrors, container builds. Read the
-      distinct-IP series next to it, not this one, if you want a sense of people.
-      The in-progress month is always incomplete and is never plotted as a point.
-
+    caveat: Includes CI runs, mirrors and container builds. Read the distinct-IP series instead.
+      The current month is incomplete and is not plotted.
   bioc_distinct_ips_monthly:
-    label: "Bioconductor distinct IPs per month"
-    counts: "Distinct IP addresses that downloaded a package in a calendar month."
+    label: Bioconductor distinct IPs per month
+    counts: Distinct IP addresses downloading a package in a month.
     source: bioconductor
     cumulative: false
     granularity: month
-    caveat: >-
-      A closer proxy for people than the raw download count, but still not a user
-      count: shared institutional egress collapses many people into one IP, and a
-      cloud CI fleet inflates it.
-
+    caveat: 'Closer to people than raw downloads, but still not a user count: shared institutional
+      networks collapse into one address.'
   bioc_rank:
-    label: "Bioconductor download rank"
-    counts: "The package's position in Bioconductor's own published download score table."
+    label: Bioconductor download rank
+    counts: Position in Bioconductor's published download score table.
     source: bioconductor
     cumulative: true
     granularity: none
-    caveat: >-
-      Included because it comes with a denominator. "Rank 620 of 3,101 packages" is
-      interpretable in a way that a bare download total is not.
-
+    caveat: Worth showing because it comes with a denominator.
   package_downloads_total:
-    label: "Registry downloads, all time"
-    counts: "The registry's own lifetime download counter for a package."
+    label: Registry downloads, all time
+    counts: The registry's own lifetime download counter.
     source: ecosystems
     cumulative: true
     granularity: none
-    caveat: >-
-      A LEVEL, not a flow — never plotted per period. Registries count differently
-      from one another, so these numbers are not comparable across registries and are
-      never summed into a single cross-registry total.
-
+    caveat: A running total, never plotted per period. Registries count differently, so these
+      are never added together.
   registry_breadth:
-    label: "Registries a tool is published to"
-    counts: "Distinct package registries carrying an artefact built from a department repository."
+    label: Registries published to
+    counts: Distinct registries carrying an artefact built from a department repository.
     source: ecosystems
     cumulative: true
     granularity: none
-    caveat: >-
-      Breadth of distribution, not volume. Discovered automatically by reverse lookup
-      from the repository URL, so it reflects what registries link back to us.
-
-  # ── software shipped ────────────────────────────────────────────────────────
+    caveat: Breadth, not volume. Found by reverse lookup from the repository URL.
   releases_by_year:
-    label: "Software releases per year"
-    counts: >-
-      One tagged release of a department repository, counted from GitHub Releases and
-      from git tags, deduplicated per repository and tag.
+    label: Releases per year
+    counts: A tagged release of a department repository, from GitHub Releases and git tags.
     source: github
     cumulative: false
     granularity: year
-    caveat: >-
-      Tags are counted as well as Releases because several flagships never cut a
-      GitHub Release: BridgeDb ships as the tag release_3.0.31, and BridgeDbR ships
-      through Bioconductor. A Releases-only count under-reports exactly the projects
-      that matter most.
-
+    caveat: Tags count too. BridgeDb ships as a tag and BridgeDbR ships through Bioconductor,
+      so a Releases-only count misses the flagships.
   repos_active:
-    label: "Repositories with activity in the last 12 months"
-    counts: "Public, non-fork, non-archived repositories with a push in the last 365 days."
+    label: Repositories active in the last year
+    counts: Public, non-fork, non-archived repositories pushed to in the last 365 days.
     source: github
     cumulative: true
     granularity: none
-    caveat: >-
-      Counted per attribution band and never summed across bands without a qualifier.
-      A repository in the wikipathways org is co-maintained, not department output.
-
-  # ── depositions ─────────────────────────────────────────────────────────────
+    caveat: Split by band and never added up. A repository in the wikipathways or bridgedb
+      org is co-maintained.
   zenodo_by_year_type:
-    label: "Zenodo depositions by year and type"
-    counts: >-
-      One Zenodo concept record (all versions collapsed onto conceptrecid) with a
-      roster ORCID among its creators.
+    label: Zenodo depositions
+    counts: A Zenodo concept record with a roster ORCID among its creators.
     source: zenodo
     cumulative: false
     granularity: year
-    caveat: >-
-      Versions are collapsed: a dataset deposited monthly for two years is one output,
-      not twenty-four. Counting versions would inflate the figure severalfold.
-
-  # ── literature mentions ─────────────────────────────────────────────────────
+    caveat: Versions are collapsed. A dataset released monthly for two years is one output,
+      not twenty-four.
   rsd_mentions:
-    label: "Papers mentioning the software"
-    counts: >-
-      Scholarly works recorded by the Research Software Directory as mentioning a
-      given tool.
+    label: Papers mentioning the software
+    counts: Works the Research Software Directory records as mentioning a tool.
     source: rsd
     cumulative: true
     granularity: none
-    caveat: >-
-      Computed and maintained by the NL eScience Center, not by us. It is a
-      mention count, not a formal citation count, and it under-reports tools that are
-      used without being named.
-
-  # ── knowledge infrastructure ────────────────────────────────────────────────
-  wp_pathway_count:
-    label: "Curated pathways in WikiPathways"
-    counts: "Distinct wp:Pathway resources in the live WikiPathways SPARQL endpoint."
-    source: wikipathways
-    cumulative: true
-    granularity: none
-    caveat: >-
-      NOT department output. Pathway content is curated by the international
-      WikiPathways community. What TGX contributes is the infrastructure: the RDF
-      layer, the SPARQL endpoint, GPML tooling and the R and Python clients.
-
-  wp_species_count:
-    label: "Species covered by WikiPathways"
-    counts: "Distinct organisms with at least one curated pathway."
-    source: wikipathways
-    cumulative: true
-    granularity: none
-    caveat: "See the pathway count caveat: community content, department infrastructure."
-
-  # ── roster provenance ───────────────────────────────────────────────────────
+    caveat: Computed by the NL eScience Center, not by us. Mentions, not formal citations,
+      and it misses tools used without being named.
   pure_roster_orcid:
-    label: "Roster membership (ORCID)"
-    counts: "One ORCID whose Pure person record is affiliated with the TGX organisational unit."
+    label: Roster membership
+    counts: An ORCID affiliated with the TGX unit in Maastricht's Pure.
     source: pure_cerif
     cumulative: true
     granularity: none
-    caveat: >-
-      Internal provenance, not rendered as a figure. Present so that a change in who is
-      counted is visible in the data history rather than happening silently.
-
+    caveat: Provenance only, not shown as a figure.
   pure_roster_size:
-    label: "People in the roster"
-    counts: "Distinct ORCIDs affiliated with the TGX unit in Maastricht University's Pure."
+    label: People in the roster
+    counts: Distinct ORCIDs on the department staff page that resolve to an ORCID record.
     source: pure_cerif
     cumulative: true
     granularity: none
-    caveat: >-
-      A denominator for the publication queries, shown as a single number only.
-      Pure reflects what people have entered, so it lags reality and misses anyone
-      without an ORCID in their profile.
+    caveat: Not everyone has an ORCID. People without one are absent and their output is not
+      counted.
+  docker_pulls_total:
+    label: Container pulls, all time
+    counts: Docker Hub's lifetime pull counter for an image.
+    source: dockerhub
+    cumulative: true
+    granularity: none
+    caveat: Reach, not installs. A CI job rebuilding hourly pulls the base image every
+      time, and one pull of a multi-arch image can register more than once. GHCR
+      publishes no equivalent, so images there are absent.
+  ghcr_tags:
+    label: Tags published to GHCR
+    counts: Tags on a public image in the GitHub Container Registry.
+    source: ghcr
+    cumulative: true
+    granularity: none
+    caveat: Publishing activity, not use. GHCR reports no pull count anywhere, so this
+      says how often an image was rebuilt, not how often anyone ran it. Private images
+      are not listed.

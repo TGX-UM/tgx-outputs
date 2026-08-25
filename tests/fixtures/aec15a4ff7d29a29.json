@@ -1,0 +1,8 @@
+{
+ "url": "https://ghcr.io/token",
+ "params": {
+  "scope": "repository:marvinm2/aop-wiki-snorql-ui:pull"
+ },
+ "status": 200,
+ "text": "{\"token\":\"djE6bWFydmlubTIvYW9wLXdpa2ktc25vcnFsLXVpOjE3ODc2NjIyMzU4MjAyODg0ODE=\"}\n"
+}

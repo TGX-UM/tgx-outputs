@@ -1,0 +1,8 @@
+{
+ "url": "https://ghcr.io/token",
+ "params": {
+  "scope": "repository:marvinm2/molaop-analyser:pull"
+ },
+ "status": 200,
+ "text": "{\"token\":\"djE6bWFydmlubTIvbW9sYW9wLWFuYWx5c2VyOjE3ODc2NjIyMzQ0NTc1MTI1MzA=\"}\n"
+}

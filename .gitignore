@@ -13,3 +13,7 @@ data/raw/
 # Generated: rebuilt by `tgx derive` and `tgx build` on every run.
 /includes/*.md
 /docs/data/*.csv
+
+# Local only: the staff name list used to resolve ORCIDs. Names and roles are
+# personal data and are deliberately kept out of the repository.
+/staff.local.tsv

@@ -1,0 +1,6 @@
+{
+ "url": "https://ghcr.io/v2/marvinm2/molaop-analyser/tags/list",
+ "params": null,
+ "status": 200,
+ "text": "{\"name\":\"marvinm2/molaop-analyser\",\"tags\":[\"latest\",\"sha-83e7a73\",\"sha-e365550\",\"sha-b5700f9\",\"sha-44f2c69\",\"sha-a1a1024\",\"sha-67b71d4\",\"sha-3212c8b\",\"sha-3a7d41b\",\"sha-60ae2ba\",\"sha-92083d3\",\"sha-1bfdb7f\",\"sha-5bbf924\",\"sha-35315e6\",\"sha-7290096\",\"sha-08f44ac\",\"sha-cb1c31b\",\"sha-c5fe17d\",\"sha-5693360\",\"sha-fc97b14\",\"sha-ce9957a\",\"sha-f3d56f3\",\"sha-7f37450\",\"sha-d262bb1\",\"sha-46dc7ca\",\"sha-ea02e37\",\"sha-9e983d6\",\"sha-d5fbc19\",\"sha-87eb156\",\"sha-c01b610\",\"sha-969fe67\",\"sha-6b96822\",\"sha-bff3c96\",\"sha-245c706\",\"sha-7d0728e\",\"sha-cac1029\",\"sha-284ef2b\",\"sha-df05860\",\"sha-db31a90\",\"sha-6193f2d\",\"sha-af505fc\",\"sha-b93c2d1\",\"sha-c053a54\",\"sha-bde0494\",\"sha-279a523\",\"sha-44462be\",\"sha-4324b41\",\"sha-926921f\",\"sha-bbd8020\",\"5.0.0\",\"5.0\",\"v5.0.0\",\"sha-0f35c03\",\"sha-0363288\",\"sha-8f93328\",\"sha-dd114de\",\"sha-7a58475\",\"6.0.0\",\"6.0\",\"v6.0.0\",\"sha-057a025\"]}\n"
+}

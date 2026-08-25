@@ -7,6 +7,7 @@ regression from an upstream outage, and CI fails for reasons nobody controls.
 
 import pytest
 
+from tgx_outputs import config as _cfg
 from tgx_outputs import config as cfg
 from tgx_outputs import guards
 from tgx_outputs.collect import COLLECTORS
@@ -15,7 +16,11 @@ from tgx_outputs.http import HttpClient
 
 # pure_cerif is excluded: its harvest is a multi-hundred-page walk whose fixtures would
 # dwarf the rest of the suite, and it is not part of the weekly refresh.
-OFFLINE = sorted(set(COLLECTORS) - {"pure_cerif"})
+# Disabled collectors have no fixtures by design: `tgx collect --record` skips them.
+# pure_cerif is excluded separately -- its harvest is hundreds of pages, and fixtures
+# for it would dwarf the rest of the suite.
+OFFLINE = sorted(n for n in COLLECTORS
+                 if n != "pure_cerif" and _cfg.collector_enabled(n))
 
 
 @pytest.fixture(scope="module")

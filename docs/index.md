@@ -1,10 +1,8 @@
 # What TGX produces
 
-The Department of Translational Genomics at Maastricht University builds pathway and
-toxicology infrastructure, publishes research, and ships software that other groups
-use. Those outputs are scattered across a dozen GitHub organisations, several package
-registries, a set of SPARQL endpoints and a few hundred Zenodo depositions. This page
-collects them automatically from public sources, once a week, and shows its working.
+The department's output sits in a dozen GitHub organisations, several package
+registries and a few hundred Zenodo depositions. This page pulls it together once a
+week from public sources and shows its working.
 
 --8<-- "freshness.md"
 
@@ -22,22 +20,17 @@ collects them automatically from public sources, once a week, and shows its work
 
 ## Reach
 
-Software the department maintains is downloaded from package registries and cited in
-other people's papers. Neither number is a user count, and both are described honestly
-in the caption below the figure.
-
 --8<-- "fig_bioc_ips.md"
 
 --8<-- "fig_rsd_mentions.md"
 
 ---
 
-!!! info "What this page is not"
+!!! info "Scope"
 
-    It measures the department's output as a whole. It contains no per-person figures,
-    no ranking of individuals, and no assessment of anyone's performance — see
-    [what we deliberately do not show](not-shown.md) for the full list and the reasons.
+    Department totals only. No per-person figures and no rankings; see
+    [what we leave out](not-shown.md).
 
-    Numbers that look wrong usually are. If one does,
-    [open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new) — every figure
-    links to the CSV behind it and the query that produced it.
+    If a number looks wrong it may well be.
+    [Open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new), every figure
+    links to the data behind it.

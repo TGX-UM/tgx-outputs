@@ -22,6 +22,11 @@ FIELDS = ["metric", "entity", "period", "value", "partial", "collected_on"]
 def write_long(snapshot: dict[str, Any], out_dir: Path) -> dict[str, Path]:
     """One CSV per metric, plus a combined `all_metrics.csv`."""
     out_dir.mkdir(parents=True, exist_ok=True)
+    # Retiring a metric must remove its CSV. Otherwise the file lingers with whatever
+    # it last held, and a reader who kept the link gets a number that stopped being
+    # collected months ago with nothing to say so.
+    for stale in out_dir.glob("*.csv"):
+        stale.unlink()
     collected = snapshot.get("collected_on", "")
     by_metric: dict[str, list[dict[str, Any]]] = {}
 

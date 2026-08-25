@@ -98,3 +98,14 @@ def test_a_figure_with_no_data_is_replaced_by_an_explanation():
     assert build.MISSING in html
     assert "tgx-chart" not in html, "an empty chart must not be drawn"
     assert "collection status" in html
+
+
+def test_retiring_a_metric_removes_its_csv(tmp_path):
+    """A stale CSV is a number that stopped being collected with nothing to say so."""
+    from tgx_outputs.derive import tables
+
+    (tmp_path / "old_metric.csv").write_text("metric,entity,period,value\n")
+    snap = _snapshot(0)
+    tables.write_long(snap, tmp_path)
+    assert not (tmp_path / "old_metric.csv").exists()
+    assert (tmp_path / "works_by_year_type.csv").exists()
