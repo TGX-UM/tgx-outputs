@@ -34,12 +34,23 @@ metrics:
     caveat: Worth showing because it comes with a denominator.
   package_downloads_total:
     label: Registry downloads, all time
-    counts: The registry's own lifetime download counter.
+    counts: The registry's own lifetime download counter, for registries that publish one.
     source: ecosystems
     cumulative: true
     granularity: none
-    caveat: A running total, never plotted per period. Registries count differently, so these
-      are never added together.
+    caveat: 'A running total, never plotted per period. Only Bioconductor and CRAN publish
+      a lifetime figure: npm and PyPI report a rolling 30-day count instead, which is a
+      different measure and is kept in its own series rather than added to this one.'
+  package_downloads_recent:
+    label: Registry downloads, last 30 days
+    counts: Downloads in the last 30 days, as reported by registries that publish no lifetime
+      counter.
+    source: ecosystems
+    cumulative: false
+    granularity: none
+    caveat: 'A rolling window, not a total, and it moves in both directions: a quiet month
+      is lower than a busy one and that is not an error. Never added to the all-time figures
+      above, which count a different thing over a different period.'
   registry_breadth:
     label: Registries published to
     counts: Distinct registries carrying an artefact built from a department repository.

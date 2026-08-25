@@ -19,6 +19,10 @@ sources.
 
 ## Downloads { #downloads }
 
+Registries do not count the same thing. Bioconductor and CRAN publish a lifetime total;
+npm and PyPI publish only a rolling 30-day figure. Both are shown, each labelled with
+its own window, and they are never added together.
+
 --8<-- "fig_bioc_ips.md"
 
 ## Citations { #citations }
