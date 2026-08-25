@@ -23,20 +23,58 @@ is a different job with a different cadence, and the cluster already has monitor
 
 ## How it works
 
+```mermaid
+flowchart LR
+    subgraph edit["config/ (the only files a person edits)"]
+        direction TB
+        proj["<b>projects.yml</b><br/>repos · packages · docker<br/>ghcr · rsd · papers · probes"]
+        ros["<b>roster.yml</b><br/>ORCIDs"]
+        sem["<b>metric_semantics.yml</b><br/>what each number counts"]
+        exc["<b>exclusions.yml</b><br/>what is left out, and why"]
+    end
+
+    subgraph coll["collectors (read public APIs, no credentials)"]
+        direction TB
+        tools["<b>per project</b><br/>github · ecosystems · bioconductor<br/>dockerhub · ghcr · rsd<br/>citations · services"]
+        pubs["<b>per ORCID</b><br/>openalex · crossref · europepmc<br/>pubmed · zenodo"]
+    end
+
+    proj --> tools
+    ros --> pubs
+    tools --> guards{{guards}}
+    pubs --> guards
+    sem -. "no definition,<br/>no figure" .-> guards
+    exc -. "and the reason<br/>gets published" .-> guards
+
+    guards -- "fails a rule" --> quar["quarantined in the run<br/>manifest, never published"]
+    guards -- passes --> snap[("data branch<br/>one whole-state<br/>snapshot per run")]
+    snap --> csv["docs/data/*.csv<br/>one file per metric"]
+    csv --> build["build"]
+    sem -. "labels and caveats" .-> build
+    build --> site["GitHub Pages"]
+
+    classDef cfg fill:#3d6fb422,stroke:#3d6fb4,color:#000
+    classDef gate fill:#c26a3a22,stroke:#c26a3a,color:#000
+    classDef out fill:#4a8a7222,stroke:#4a8a72,color:#000
+    class proj,ros,sem,exc cfg
+    class guards,quar gate
+    class snap,csv,site out
 ```
-config/projects.yml  →  collectors  →  data/snapshots/*.json  →  docs/data/*.csv  →  static site
-(the list of things      (one file      (whole state per run,     (every figure's
- being tracked)           per source)    on the `data` branch)     download link)
-```
 
-One file lists the projects. Adding one is a block of YAML and a pull request.
+One GitHub Actions job, weekly, does the whole run: collect, check, build, deploy, then
+commit the snapshot. Deploying in the same job is deliberate — a push made with
+`GITHUB_TOKEN` does not trigger another workflow, which is how the project this one is
+modelled on served a two-month-old page while every run showed green.
 
-Once a week a GitHub Actions job collects every source, checks the results against a
-set of integrity rules, writes a complete snapshot, and rebuilds and deploys the site
-in the same job. No database, no server, no stored credential.
+Three properties hold by construction, and each has a test:
 
-**Everything runs on public data with no secrets.** That is enforced by a test, not by
-convention — see `tests/test_no_secrets_required.py`.
+- **Nothing is published without a definition.** A metric absent from
+  `metric_semantics.yml` does not render, and the methodology page is generated from
+  that same file, so a definition cannot drift from the figure it describes.
+- **A failed source reads as "not collected", never as 0.** Summing the records of a
+  source that returned nothing gives zero, and a tile then states it as fact.
+- **No stored credentials.** Every source is public. `tests/test_no_secrets_required.py`
+  fails if that stops being true.
 
 ## Working on it
 
