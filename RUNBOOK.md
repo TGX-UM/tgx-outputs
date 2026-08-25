@@ -1,7 +1,7 @@
 # When something breaks
 
-A collector failing is normal — these are a dozen third-party APIs and roughly one of
-them changes something every few months. The pipeline is built so that this degrades
+A collector failing is normal — these are eight third-party APIs and roughly one of them
+changes something every few months. The pipeline is built so that this degrades
 one section of one page rather than taking the site down, and so that a broken source
 is *visible* rather than quietly serving last month's number.
 

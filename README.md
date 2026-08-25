@@ -11,8 +11,8 @@ The software, data resources and services the Department of Translational Genomi
 Maastricht University builds — collected automatically from public sources once a week
 and published as a static page.
 
-That output is spread across a dozen GitHub organisations, several package registries,
-a handful of SPARQL endpoints and a set of deposited datasets. Nobody could previously
+That output is spread across nine GitHub organisations, four package registries, a
+handful of SPARQL endpoints and a set of deposited datasets. Nobody could previously
 answer "what did TGX ship this year" without a week of digging, and annual reports,
 grant renewals and consortium reviews all need that answer.
 
