@@ -18,13 +18,8 @@
 #             Find it in the URL: research-software-directory.org/software/<slug>
 #             Not registered there? Register it -- that is worth more than adding it here
 #   services  live web services and sites the department runs for this project.
-#             Each needs `name`, `url` and `what`. Shown under the project
-#   probes    measurable things about those services. Each key is a probe type:
-#               bridgedb_contents  the BridgeDb /contents route; counts species served
-#               bridgedb_manifest  data.bridgedb.org/gene.json; counts the mapping
-#                                  databases published and their Zenodo downloads
-#             Adding a new probe type does need code. Adding a URL to an existing one
-#             does not
+#             Each needs `name`, `url` and `what`. Listed on the project's tile.
+#             Nothing about them is measured -- see the methodology page
 #   papers    DOIs of the papers that describe this tool, the ones people cite when
 #             they use it. Citation counts come from OpenAlex. List every update
 #             paper: WikiPathways has six, and only counting the newest would
@@ -67,9 +62,6 @@ projects:
         what: >-
           Per-species mapping files, rebuilt from the primary databases and deposited
           with a DOI. These are department output, not a third party's data.
-    probes:
-      bridgedb_contents: https://webservice.bridgedb.org/contents
-      bridgedb_manifest: https://data.bridgedb.org/gene.json
     links:
       site: https://www.bridgedb.org
       Docker Hub: https://hub.docker.com/r/bigcatum/bridgedb

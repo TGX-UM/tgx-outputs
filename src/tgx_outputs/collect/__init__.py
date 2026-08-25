@@ -5,7 +5,6 @@ from . import (  # noqa: F401  (import for side-effect: registration)
     ecosystems,
     github_graphql,
     rsd,
-    services,
     wikipathways,
 )
 from .base import COLLECTORS, Collector, register, run_all  # noqa: F401

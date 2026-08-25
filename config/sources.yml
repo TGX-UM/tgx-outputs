@@ -26,6 +26,5 @@ collectors:
   github:        {enabled: true,  cadence_days: 7}
   citations:     {enabled: true,  cadence_days: 7}
   dockerhub:     {enabled: true,  cadence_days: 7}
-  services:      {enabled: true,  cadence_days: 7}
   rsd:           {enabled: true,  cadence_days: 7}
   wikipathways:  {enabled: false, cadence_days: 7}   # community content, not TGX output

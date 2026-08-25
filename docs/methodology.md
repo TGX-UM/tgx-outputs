@@ -47,7 +47,6 @@ with a link back rather than redistributed.
 | Source | Used for | Terms |
 |---|---|---|
 | [OpenAlex](https://openalex.org) | citations of the papers describing each tool | CC0 |
-| [Zenodo](https://zenodo.org) | dataset download statistics, read per record by DOI | metadata CC0 |
 | [Bioconductor](https://bioconductor.org/packages/stats/) | package downloads, distinct IPs, rank | courtesy statistics files with **no stated licence**; aggregates only, with attribution |
 | [ecosyste.ms](https://ecosyste.ms) | package discovery, cross-registry downloads | CC-BY-SA 4.0 |
 | [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms of service |

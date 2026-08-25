@@ -137,16 +137,6 @@ def docker_pulls() -> dict[str, Any]:
     )
 
 
-def dataset_downloads() -> dict[str, Any]:
-    return _spec(
-        {"type": "bar", "tooltip": True},
-        {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Unique downloads"}},
-        "data/dataset_downloads.csv",
-        height=140,
-    )
-
-
 def _downloads(csv: str, title: str) -> dict[str, Any]:
     """Packages as bars, one panel per registry.
 
@@ -215,5 +205,4 @@ CHARTS = {
     "rsd_mentions": (rsd_mentions, "rsd_mentions"),
     "citations": (citations, "paper_citations"),
     "docker_pulls": (docker_pulls, "docker_pulls_total"),
-    "dataset_downloads": (dataset_downloads, "dataset_downloads"),
 }

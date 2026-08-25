@@ -100,38 +100,6 @@ metrics:
     granularity: none
     caveat: Old is not the same as abandoned. ArrayAnalysis has not moved since 2013 and is
       still cited.
-  species_served:
-    label: Species served
-    counts: Species the live BridgeDb webservice can map identifiers for.
-    source: services
-    cumulative: true
-    granularity: none
-    caveat: Coverage of the running service, which can lag the mapping databases
-      published for download.
-  mapping_databases:
-    label: Mapping databases published
-    counts: Per-species BridgeDb mapping files listed in the public manifest.
-    source: services
-    cumulative: true
-    granularity: none
-    caveat: Built by the department from the primary databases, so these are department
-      output rather than a third party's data.
-  dataset_downloads:
-    label: Dataset downloads
-    counts: Unique downloads of the department's deposited datasets, summed per project.
-    source: services
-    cumulative: true
-    granularity: none
-    caveat: Read per record by DOI. The same figures taken from Zenodo's search listing
-      are version-dependent and move between runs, so they are not used.
-  services_run:
-    label: Services running
-    counts: Public web services and sites listed against a project.
-    source: services
-    cumulative: true
-    granularity: none
-    caveat: Counts what the department operates. Whether any of it answered today is a
-      different job at a different cadence and is not measured here.
   paper_citations:
     label: Citations of the tool's papers
     counts: Citations to every paper describing a tool, summed across its update papers.

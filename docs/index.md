@@ -3,10 +3,10 @@ hide:
   - toc
 ---
 
-# TGX tools
+# What we build
 
-The software and data resources this department builds. Refreshed weekly from public
-sources.
+The software and data resources of the Department of Translational Genomics, collected
+once a week from public sources.
 
 --8<-- "freshness.md"
 
@@ -50,18 +50,6 @@ rWikiPathways it reports 6, against thousands of citations. It is here because i
 catches use that never becomes a citation, and for no other reason.
 
 --8<-- "fig_rsd_mentions.md"
-
-## Services we run { #services }
-
-BridgeDb and WikiPathways are web services and web sites as much as they are packages,
-and a page showing only releases and downloads undersells them. What we count is what
-the department builds for them: the per-species mapping databases, and the species the
-live webservice can map between. The SPARQL endpoints are listed above with everything
-else the department runs, but nothing about what they hold is measured. The pathways
-and AOPs inside them are curated by international communities, and counting them here
-would read as a score for this department.
-
---8<-- "fig_dataset_downloads.md"
 
 ## Containers { #containers }
 

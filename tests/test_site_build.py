@@ -142,7 +142,7 @@ def test_retiring_a_collector_removes_it_from_todays_snapshot(tmp_path, monkeypa
 def test_every_overview_card_carries_an_icon():
     """A mistyped glyph key renders nothing at all, which is invisible in review."""
     html = build._cards(_snapshot_with([]))
-    assert html.count('class="tgx-card"') == 9
+    assert html.count('class="tgx-card"') == 7
     assert html.count('class="tgx-icon"') == html.count('class="tgx-card"')
 
 

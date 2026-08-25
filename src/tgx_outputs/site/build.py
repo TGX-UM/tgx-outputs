@@ -178,9 +178,6 @@ def _cards(snapshot: dict[str, Any]) -> str:
          "docker"),
         ("Citations", total("paper_citations"), "#citations", "of these tools' papers",
          "book"),
-        ("Datasets", total("dataset_downloads"), "#services", "downloads, all time",
-         "database"),
-        ("Services", total("services_run"), "#services", "running", "server"),
     ]
 
     out = ['<div class="tgx-cards">']
