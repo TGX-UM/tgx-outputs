@@ -11,7 +11,8 @@ This trims the large ones in place, keeping the rows that matter, and leaves the
 ones untouched. Fixture filenames are hashes of the request, so trimming the body does
 not change which request a fixture answers.
 
-Run via `make fixtures` after re-recording.
+Run via `make fixtures` after re-recording. It lives beside the fixtures it maintains
+rather than in a scripts/ directory of its own, which held nothing else.
 """
 
 from __future__ import annotations
@@ -20,7 +21,7 @@ import json
 import sys
 from pathlib import Path
 
-FIXTURES = Path(__file__).resolve().parents[1] / "tests" / "fixtures"
+FIXTURES = Path(__file__).resolve().parent / "fixtures"
 KEEP_PACKAGES = {"rWikiPathways", "BridgeDbR", "RCy3"}
 MAX_TSV_ROWS = 400
 MAX_JSON_BYTES = 120_000

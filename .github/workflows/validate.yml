@@ -31,7 +31,7 @@ jobs:
         run: tgx doctor
 
       - name: Lint
-        run: ruff check src tests scripts
+        run: ruff check src tests
 
       # No network. Every collector runs against recorded fixtures, so a failure here
       # is always our bug and never an upstream outage.

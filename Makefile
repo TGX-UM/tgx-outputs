@@ -16,7 +16,7 @@ check:
 	@for f in sources exclusions metric_semantics; do \
 		check-jsonschema --schemafile schemas/$$f.schema.json config/$$f.yml; done
 	tgx doctor
-	ruff check src tests scripts
+	ruff check src tests
 	pytest -q
 
 # The important target. If this passes, the build has no hidden network dependency and
@@ -48,7 +48,7 @@ record:
 # Recorded responses are what upstream actually returned -- for Bioconductor that is a
 # 12 MB table. Trim before committing.
 fixtures:
-	python scripts/trim_fixtures.py
+	python tests/trim_fixtures.py
 
 clean:
 	rm -rf site includes/*.md docs/data/*.csv

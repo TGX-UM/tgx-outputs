@@ -40,33 +40,42 @@ clock. Amber past twice a source's cadence, red past five times.
 
 ## Sources
 
+What is republished here are derived aggregates, never a verbatim copy of anyone's
+dataset. Where a source publishes no licence for its statistics, the figure is shown
+with a link back rather than redistributed.
+
 | Source | Used for | Terms |
 |---|---|---|
-| [OpenAlex](https://openalex.org) | citations of each tool's papers | CC0 |
-| [Zenodo](https://zenodo.org) | dataset download counts, read per DOI | metadata CC0 |
-| [Bioconductor](https://bioconductor.org/packages/stats/) | downloads, distinct IPs, rank | courtesy files, no stated licence |
-| [ecosyste.ms](https://ecosyste.ms) | package discovery and downloads | CC-BY-SA 4.0 |
-| [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms |
-| [Research Software Directory](https://research-software-directory.org) | literature mentions | Apache-2.0 platform, CC-BY content |
+| [OpenAlex](https://openalex.org) | citations of the papers describing each tool | CC0 |
+| [Zenodo](https://zenodo.org) | dataset download statistics, read per record by DOI | metadata CC0 |
+| [Bioconductor](https://bioconductor.org/packages/stats/) | package downloads, distinct IPs, rank | courtesy statistics files with **no stated licence**; aggregates only, with attribution |
+| [ecosyste.ms](https://ecosyste.ms) | package discovery, cross-registry downloads | CC-BY-SA 4.0 |
+| [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms of service |
+| [Research Software Directory](https://research-software-directory.org) | literature mentions of software | platform Apache-2.0, content CC-BY |
 | [Docker Hub](https://hub.docker.com) | image pulls | Docker terms of service |
 | [GitHub Container Registry](https://ghcr.io) | tags published | GitHub terms of service |
+| [WikiPathways SPARQL](https://sparql.wikipathways.org) | pathway and species counts | CC0 |
 
-Only derived aggregates are republished, never a copy of a third-party dataset.
+If you maintain one of these services and would rather this project used your data
+differently, please [open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new).
 
 ## Charts and icons
 
-Vega-Lite is vendored and pinned rather than loaded from a CDN, so the page renders the
-same in five years and archives intact.
+Charts are drawn with [Vega-Lite](https://vega.github.io/vega-lite/) (BSD-3-Clause),
+vendored into `docs/assets/js/` and pinned rather than loaded from a CDN, so the page
+renders the same in five years and archives intact. The site itself is built with
+[MkDocs Material](https://squidfunk.github.io/mkdocs-material/) (MIT).
 
-The type and the icons work the same way. Open Sans is the substitute UM's own web
-guidance names for its licensed house typeface, and it is served from this repository.
+The type and the icons work the same way. [Open Sans](https://fonts.google.com/specimen/Open+Sans)
+(Apache-2.0) is the substitute UM's own web guidance names for Thesis Sans, its licensed
+house typeface; the four subset faces are served from this repository, licence included.
 The tile icons are inline SVG taken from [Simple Icons](https://simpleicons.org)
 (CC0-1.0) and [Octicons](https://primer.style/octicons) (MIT); the brand marks belong to
 their owners, and they are there to say which registry a number came from. Nothing on
 this page is requested from anyone else.
 
-Colours follow the UM house style, and the chart series take the department's own
-`#00A2DB` and `#E84E10`.
+The TGX logo and icon are the department's own marks. Colours follow the UM house style,
+and the chart series take the department's own `#00A2DB` and `#E84E10`.
 
 | File | Version | SHA-384 |
 |---|---|---|

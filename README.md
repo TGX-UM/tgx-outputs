@@ -128,5 +128,7 @@ consumes that rather than rebuilding it.
 
 ## Licence
 
-Code MIT. Figures are derived aggregates of public data — see
-[`ATTRIBUTION.md`](ATTRIBUTION.md), which lists every source and its terms.
+Code MIT. Figures are derived aggregates of public data; every source and its terms are
+listed on the site's
+[methodology page](https://tgx-um.github.io/tgx-outputs/methodology/#sources), which is
+generated from the same config the collectors read.
