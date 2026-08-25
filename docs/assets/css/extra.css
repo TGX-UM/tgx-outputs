@@ -72,7 +72,7 @@
   --md-typeset-a-color: var(--tgx-link);
 
   --md-text-font: "Open Sans";
-  --tgx-header-height: 3.6rem;
+  --tgx-header-height: 4.4rem;
 
   /* What an accent is mixed toward before it is used as text. The six chart colours
      are chosen to work as fills; as 13px bold type on a tile they reach only 2.5:1
@@ -129,13 +129,54 @@
    2.4rem bar leaves it the height of a favicon. Everything that is positioned against
    the header reads the same variable, so the three stay in step. */
 .md-header__inner { min-height: var(--tgx-header-height); }
-.md-header__button.md-logo { padding: .3rem .6rem; }
-.md-header__button.md-logo img { height: 2.3rem; width: auto; }
+.md-header__button.md-logo { padding: .35rem .7rem; }
+.md-header__button.md-logo img { height: 3.1rem; width: auto; }
 .md-header__title { font-size: .95rem; }
 html { scroll-padding-top: var(--tgx-header-height); }
 @media screen and (min-width: 76.25em) {
   .md-sidebar { top: var(--tgx-header-height); }
 }
+
+/* The tab bar ------------------------------------------------------------
+   Material draws these as plain underlined-on-hover text, which at this width reads
+   as a line of prose rather than as the way to the other four pages. Given a ground
+   and a border each, they read as what they are. The bar is sticky, so the way out
+   of a page 8,000px tall is always on screen.
+
+   The colours are the header's, not the page's: this sits against UM blue in both
+   themes, so the palette here is fixed rather than following the scheme. */
+.md-tabs {
+  background-color: var(--tgx-navy);
+  box-shadow: 0 1px 0 #ffffff1f;
+}
+.md-tabs__list { padding: .35rem 0; }
+.md-tabs__item { height: auto; padding: 0 .2rem; }
+.md-tabs__link {
+  display: block;
+  margin: 0;
+  padding: .3rem .7rem;
+  border: 1px solid #ffffff2e;
+  border-radius: .35rem;
+  font-size: .7rem;
+  opacity: .82;
+  transition: background-color .12s ease, border-color .12s ease, opacity .12s ease;
+}
+.md-tabs__link:hover,
+.md-tabs__link:focus-visible {
+  opacity: 1;
+  background-color: #ffffff1a;
+  border-color: #ffffff5c;
+}
+/* The page you are on, stated rather than implied by a slightly brighter grey. */
+.md-tabs__item--active .md-tabs__link {
+  opacity: 1;
+  background-color: var(--tgx-blue);
+  border-color: var(--tgx-blue);
+  color: var(--tgx-navy);
+  font-weight: 600;
+}
+/* Material fades the bar out on scroll; sticky means it has to stay put. */
+.md-tabs[hidden] { display: block; }
 
 /* The footer is UM blue with the house-style link colour on it. */
 .md-footer { background-color: var(--tgx-navy); }
@@ -275,6 +316,18 @@ html { scroll-padding-top: var(--tgx-header-height); }
    WikiPathways' black one vanish on the slate ground. Rather than filtering the brand
    colours into something their owners did not choose, the logo sits on a white plate
    in both themes, which is how each of them is meant to be seen. */
+/* A square-ish mark says nothing a stranger can read at 2.1rem, so it is treated as
+   a monogram would be: same box, same place, with the project's name beside it. */
+.md-typeset .tgx-project-icon {
+  flex: 0 0 auto;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: .4rem;
+  object-fit: contain;
+  background: #fff;
+  padding: .12rem;
+}
+
 /* Prefixed with .md-typeset only to outrank the theme's own `.md-typeset img
    { height: auto }`, which otherwise wins on specificity and collapses every one of
    these to a few pixels. */

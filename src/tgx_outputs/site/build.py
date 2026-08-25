@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import re
+import struct
 from typing import Any
 
 from .. import config as cfg
@@ -195,6 +196,43 @@ def _cards(snapshot: dict[str, Any]) -> str:
     return "\n".join(out) + "\n"
 
 
+LOGO_DIR = cfg.DOCS_DIR / "assets" / "images" / "logos"
+
+# Above this, a mark is treated as a wordmark that already says the project's name and
+# is allowed to stand alone in the heading; below it, as an icon that needs the name
+# beside it. Measured rather than configured, so replacing a file changes the layout
+# with it. The gap between the two groups is wide -- the wordmarks here run from 3.2:1
+# to 6.8:1 and the icons from 1.0:1 to 2.0:1 -- so the exact threshold is not delicate.
+WORDMARK_ASPECT = 2.5
+
+
+def _logo_aspect(filename: str) -> float:
+    """Width over height of a logo file, or 1.0 if it cannot be read.
+
+    Parsed here rather than with an image library: the whole build depends on nothing
+    but the standard library plus what the collectors need, and a PNG header and an SVG
+    viewBox are a few lines each. An unreadable file falls back to the icon treatment,
+    which shows the project's name too and so is the safer of the two to be wrong about.
+    """
+    path = LOGO_DIR / filename
+    try:
+        raw = path.read_bytes()
+    except OSError:
+        return 1.0
+    if raw[:8] == b"\x89PNG\r\n\x1a\n":
+        # IHDR is always the first chunk: width and height are big-endian at byte 16.
+        width, height = struct.unpack(">II", raw[16:24])
+        return width / height if height else 1.0
+    if filename.endswith(".svg"):
+        head = raw[:4000].decode("utf-8", "replace")
+        box = re.search(r'viewBox\s*=\s*["\']\s*[-\d.]+[ ,]+[-\d.]+[ ,]+'
+                        r'([\d.]+)[ ,]+([\d.]+)', head)
+        if box:
+            width, height = float(box.group(1)), float(box.group(2))
+            return width / height if height else 1.0
+    return 1.0
+
+
 def _mark(proj: dict[str, Any]) -> str:
     """The letters on a tile when the project has no logo file.
 
@@ -290,20 +328,26 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
         if latest.get(pid):
             stats.append(_stat(latest[pid], "last release"))
 
-        # The logo goes inside the heading rather than beside it. Every mark that
-        # exists for these tools is a wordmark that already says the name, so showing
-        # both prints it twice; putting the image in the h3 with the name as its alt
-        # text keeps the heading for anyone navigating by them, and for the five
-        # projects with no mark of their own the same heading holds the monogram.
-        if proj.get("logo"):
+        # Three ways to head a tile, and which one depends on the mark the project
+        # publishes. A wordmark says the name already, so it stands alone in the
+        # heading with the name as its alt text -- printing both says it twice. A
+        # square icon says nothing a stranger can read at this size, so it sits
+        # beside the name exactly as a monogram would. A project with no mark gets
+        # the monogram. All three keep an h3, so the page still has one heading per
+        # project for anyone navigating by them.
+        logo = proj.get("logo")
+        name = f'<h3 class="tgx-project-name">{proj["name"]}</h3>'
+        if logo and _logo_aspect(logo) >= WORDMARK_ASPECT:
             brand = (f'<h3 class="tgx-project-name tgx-project-branded">'
                      f'<img class="tgx-project-logo" '
-                     f'src="assets/images/logos/{proj["logo"]}" alt="{proj["name"]}">'
+                     f'src="assets/images/logos/{logo}" alt="{proj["name"]}">'
                      f'</h3>')
+        elif logo:
+            brand = (f'<img class="tgx-project-icon" '
+                     f'src="assets/images/logos/{logo}" alt="">{name}')
         else:
             brand = (f'<span class="tgx-project-mark" aria-hidden="true">'
-                     f'{_mark(proj)}</span>'
-                     f'<h3 class="tgx-project-name">{proj["name"]}</h3>')
+                     f'{_mark(proj)}</span>{name}')
 
         # `links:` first and in the order projects.yml writes them, then the services.
         # Which link leads is an editorial choice about the project -- for BridgeDb and

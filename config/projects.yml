@@ -44,6 +44,7 @@
 projects:
 
   - id: bridgedb
+    logo: bridgedb.png
     mark: BD
     name: BridgeDb
     what: >-
@@ -159,6 +160,7 @@ projects:
     rsd: [bacting, pybacting]
 
   - id: arrayanalysis
+    logo: arrayanalysis.png
     mark: AA
     name: ArrayAnalysis
     what: >-
@@ -167,6 +169,7 @@ projects:
     repos: [BiGCAT-UM/ArrayAnalysis]
     papers:
       - 10.1093/nar/gkt293                  # ArrayAnalysis.org, NAR 2013
+      - 10.64898/2026.07.13.738193          # ArrayAnalysis, bioRxiv 2026
     rsd: [arrayanalysis]
     links:
       site: https://www.arrayanalysis.org
@@ -191,7 +194,7 @@ projects:
       source: https://github.com/TGX-UM/R-ODAF-Shiny
 
   - id: vhp
-    logo: vhp.svg
+    logo: vhp.png
     mark: VHP
     name: Virtual Human Platform
     what: >-
@@ -234,6 +237,7 @@ projects:
       SNORQL query interface: https://aopwiki.rdf.bigcat-bioinformatics.org/
 
   - id: molaop
+    logo: molaop.png
     mark: MA
     name: molAOP Builder and Analyser
     what: >-
@@ -241,6 +245,8 @@ projects:
       the resulting molecular AOPs.
     repos: [marvinm2/molAOP-builder, marvinm2/molAOP-analyser]
     ghcr: [marvinm2/molaop-builder, marvinm2/molaop-analyser]
+    papers:
+      - 10.1101/2023.03.02.530766           # Molecular AOPs, bioRxiv 2023
     services:
       - name: molAOP Builder
         url: https://molaop-builder.vhp4safety.nl

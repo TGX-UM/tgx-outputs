@@ -27,6 +27,9 @@ theme:
     # sidebar it produced cost the content a fifth of the window on every screen --
     # which the figures and the tile grid feel more than prose would.
     - navigation.tabs
+    # Kept on screen: the front page runs to several thousand pixels, and the way to
+    # the other four should not be a scroll back to the top.
+    - navigation.tabs.sticky
     - navigation.top
     - content.code.copy
     - toc.follow
@@ -72,7 +75,7 @@ extra:
       name: Department of Translational Genomics
 
 nav:
-  - Tools: index.md
+  - What we build: index.md
   - How the numbers are made: methodology.md
   - Every call this page makes: calls.md
   - Collection status: status.md
