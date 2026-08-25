@@ -46,11 +46,11 @@ catches use that never becomes a citation, and for no other reason.
 
 BridgeDb and WikiPathways are web services and web sites as much as they are packages,
 and a page showing only releases and downloads undersells them. What we count is what
-the department builds for them: the mapping databases, and the RDF layer behind the
-endpoints. The pathway and AOP content those endpoints serve belongs to the
-international communities who curate it, and none of it is counted here.
-
---8<-- "fig_service_scale.md"
+the department builds for them: the per-species mapping databases, and the species the
+live webservice can map between. The SPARQL endpoints are listed above with everything
+else the department runs, but nothing about what they hold is measured. The pathways
+and AOPs inside them are curated by international communities, and counting them here
+would read as a score for this department.
 
 --8<-- "fig_dataset_downloads.md"
 

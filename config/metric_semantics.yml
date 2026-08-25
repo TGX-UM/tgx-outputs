@@ -108,15 +108,6 @@ metrics:
     granularity: none
     caveat: Old is not the same as abandoned. ArrayAnalysis has not moved since 2013 and is
       still cited.
-  service_triples:
-    label: Triples served
-    counts: RDF statements in a SPARQL endpoint the department runs.
-    source: services
-    cumulative: true
-    granularity: none
-    caveat: This is how big the service is. The department builds and serves the RDF; the
-      pathway and AOP content inside it is curated by international communities, and that
-      authorship stays theirs.
   species_served:
     label: Species served
     counts: Species the live BridgeDb webservice can map identifiers for.

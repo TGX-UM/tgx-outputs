@@ -8,9 +8,11 @@ not the community content they carry:
 
 * BridgeDb's mapping databases are built by the department from the primary sources and
   deposited with a DOI. Their downloads are department output by any reading.
-* The RDF layer behind a SPARQL endpoint is built and served by the department. The
-  pathway and AOP content inside it is authored by international communities, so triples
-  served is reported as the size of the service, never as authorship.
+
+The SPARQL endpoints are listed as services the department runs, but nothing about
+their contents is measured. A triple count was published here until 2026-08-25 and was
+withdrawn: the number is the size of a corpus international communities curate, and no
+caption made it read as anything other than a score for this department.
 
 Zenodo statistics are read per record by DOI. That matters: the same numbers taken from
 Zenodo's *search listing* are reported against whichever version the search returns and
@@ -27,25 +29,15 @@ from ..config import projects
 from ..model import Call, Record
 from .base import Collector, register
 
-TRIPLES = "SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
 ZENODO = "https://zenodo.org/api/records/{rid}"
 
 
 @register
 class Services(Collector):
     name = "services"
-    version = "1"
+    version = "2"
 
     # -- probe types ---------------------------------------------------------
-    def _sparql(self, env, project: str, url: str) -> None:
-        rows = self.http.sparql(url, TRIPLES)
-        env.calls.append(Call(url=url, status=200, ok=True, note="triple count"))
-        # HTTP 200 with no rows means a renamed vocabulary or an endpoint mid-reload.
-        if not rows or not rows[0].get("n"):
-            env.degrade(f"{project}: SPARQL endpoint returned no rows")
-            return
-        env.records.append(Record("service_triples", project, float(rows[0]["n"])))
-
     def _bridgedb_contents(self, env, project: str, url: str) -> None:
         resp = self.http.get(url)
         env.calls.append(Call(url=url, status=resp.status_code, ok=True, note="species list"))
@@ -86,7 +78,6 @@ class Services(Collector):
     def collect(self):
         env = self.envelope()
         handlers = {
-            "sparql": self._sparql,
             "bridgedb_contents": self._bridgedb_contents,
             "bridgedb_manifest": self._bridgedb_manifest,
         }

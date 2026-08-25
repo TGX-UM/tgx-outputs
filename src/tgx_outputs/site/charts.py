@@ -108,18 +108,6 @@ def ghcr_tags() -> dict[str, Any]:
     )
 
 
-def service_scale() -> dict[str, Any]:
-    return _spec(
-        {"type": "bar", "tooltip": True},
-        {"y": {"field": "entity", "type": "nominal", "sort": "-x", "title": None},
-         "x": {"field": "value", "type": "quantitative", "title": "Triples served",
-               "scale": {"type": "sqrt"}},
-         "color": {"field": "entity", "type": "nominal", "legend": None}},
-        "data/service_triples.csv",
-        height=160,
-    )
-
-
 def dataset_downloads() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
@@ -149,6 +137,5 @@ CHARTS = {
     "citations": (citations, "paper_citations"),
     "docker_pulls": (docker_pulls, "docker_pulls_total"),
     "ghcr_tags": (ghcr_tags, "ghcr_tags"),
-    "service_scale": (service_scale, "service_triples"),
     "dataset_downloads": (dataset_downloads, "dataset_downloads"),
 }
