@@ -19,6 +19,44 @@ from typing import Any
 # indistinguishable from the axis furniture.
 PALETTE = ["#00a2db", "#e84e10", "#4a8a72", "#8a5fa8", "#a8484f", "#6b7c93"]
 
+# How each registry is written on the page, and the colour it keeps everywhere it
+# appears. Fixing the colour per registry rather than letting Vega assign one by
+# sort order means Bioconductor is the same blue in the lifetime chart as in the
+# rolling one, and stays that blue when a new registry is added above it.
+REGISTRY_NAMES = {
+    "bioconductor.org": "Bioconductor",
+    "pypi.org": "PyPI",
+    "npmjs.org": "npm",
+    "cran.r-project.org": "CRAN",
+    "repo1.maven.org": "Maven",
+    "conda-forge.org": "conda-forge",
+}
+REGISTRY_COLOURS = dict(zip(REGISTRY_NAMES.values(), PALETTE, strict=True))
+
+
+def _registry_label() -> str:
+    """A Vega expression turning `pypi.org/pybacting` into `PyPI`.
+
+    Written from REGISTRY_NAMES rather than repeated by hand, so a registry added
+    to that table is labelled everywhere at once. An unknown host falls through to
+    itself, which is ugly on the page and therefore gets noticed.
+    """
+    expr = "datum.registry_id"
+    for host, label in reversed(list(REGISTRY_NAMES.items())):
+        expr = f"datum.registry_id === '{host}' ? '{label}' : {expr}"
+    return expr
+
+
+# Split `<host>/<name>` into the two things the chart needs. Done in the spec rather
+# than in a new CSV column: the published long format is `metric,entity,period,value,
+# partial,collected_on`, and people have that file.
+SPLIT_ENTITY = [
+    {"calculate": "split(datum.entity, '/')[0]", "as": "registry_id"},
+    {"calculate": "substring(datum.entity, indexof(datum.entity, '/') + 1)",
+     "as": "package"},
+]
+
+
 BASE: dict[str, Any] = {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "background": "transparent",
@@ -119,6 +157,58 @@ def dataset_downloads() -> dict[str, Any]:
     )
 
 
+def _downloads(csv: str, title: str) -> dict[str, Any]:
+    """Packages as bars, one panel per registry.
+
+    Faceted rather than merged into one ranking, because a registry is not a
+    category of package but the thing that did the counting. Panels keep PyPI's
+    number next to PyPI's name and make the day a CRAN package appears a new panel
+    rather than a bar that has to be read carefully to be told apart.
+
+    ``step`` sizing rather than a fixed height: the panel grows a row per package,
+    so adding one never squeezes the others into unreadable slivers.
+    """
+    spec = {
+        **BASE,
+        "data": {"url": csv, "format": {"type": "csv"}},
+        "transform": SPLIT_ENTITY + [
+            {"calculate": _registry_label(), "as": "registry"}],
+        "facet": {"row": {"field": "registry", "type": "nominal", "title": None,
+                          "sort": list(REGISTRY_NAMES.values()),
+                          "header": {"labelAngle": 0, "labelAlign": "left",
+                                     "labelFontWeight": 600, "labelPadding": 2}}},
+        "spec": {
+            "mark": {"type": "bar", "tooltip": True},
+            "height": {"step": 22},
+            "encoding": {
+                "y": {"field": "package", "type": "nominal", "sort": "-x",
+                      "title": None},
+                "x": {"field": "value", "type": "quantitative", "title": title},
+                "color": {"field": "registry", "type": "nominal", "legend": None,
+                          "scale": {"domain": list(REGISTRY_COLOURS),
+                                    "range": list(REGISTRY_COLOURS.values())}},
+            },
+        },
+        # Each panel ranks its own packages. A shared y scale would print every
+        # package name in every panel with most of the rows empty.
+        "resolve": {"scale": {"y": "independent"}, "axis": {"y": "independent"}},
+    }
+    # `fit` and `container` are single-view features; Vega-Lite warns and ignores
+    # them on a faceted spec, and the warning is easy to miss. charts.js measures the
+    # column and sets the panel width instead.
+    for single_view_only in ("autosize", "width", "height"):
+        spec.pop(single_view_only, None)
+    return spec
+
+
+def downloads_lifetime() -> dict[str, Any]:
+    return _downloads("data/package_downloads_total.csv", "Downloads, all time")
+
+
+def downloads_recent() -> dict[str, Any]:
+    return _downloads("data/package_downloads_recent.csv", "Downloads, last 30 days")
+
+
 def citations() -> dict[str, Any]:
     return _spec(
         {"type": "bar", "tooltip": True},
@@ -131,6 +221,8 @@ def citations() -> dict[str, Any]:
 
 
 CHARTS = {
+    "downloads_lifetime": (downloads_lifetime, "package_downloads_total"),
+    "downloads_recent": (downloads_recent, "package_downloads_recent"),
     "bioc_ips": (bioc_ips, "bioc_distinct_ips_monthly"),
     "releases_by_year": (releases_by_year, "releases_by_year"),
     "rsd_mentions": (rsd_mentions, "rsd_mentions"),

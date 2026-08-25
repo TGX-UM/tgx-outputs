@@ -12,7 +12,15 @@
   // here and passing a number avoids the whole failure mode.
   function sized(spec, el) {
     var w = el.clientWidth || (el.parentElement && el.parentElement.clientWidth) || 0;
-    if (w > 0) { spec.width = Math.max(260, w - 8); }
+    if (w <= 0) { return spec; }
+    // A faceted spec carries no width of its own: the number belongs to the panel
+    // inside it, and setting it at the top level is ignored with only a console
+    // warning. Leave room for the row-header labels down the left.
+    if (spec.facet && spec.spec) {
+      spec.spec.width = Math.max(220, w - 96);
+    } else {
+      spec.width = Math.max(260, w - 8);
+    }
     return spec;
   }
 
@@ -60,6 +68,12 @@
         el.appendChild(target);
       }
       vegaEmbed(target, sized(absolutise(themed(spec)), el), { actions: false, renderer: "svg" })
+        .then(function () {
+          // The min-height reserves the column while the chart is still loading, so
+          // the page does not jump. Once something is drawn it is dead space, and a
+          // faceted chart of two rows leaves a hand's width of it above the caption.
+          el.style.minHeight = "0";
+        })
         .catch(function () {
           target.innerHTML =
             '<p class="tgx-chart-error">Chart failed to load. ' +

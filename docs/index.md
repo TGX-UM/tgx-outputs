@@ -21,7 +21,15 @@ sources.
 
 Registries do not count the same thing. Bioconductor and CRAN publish a lifetime total;
 npm and PyPI publish only a rolling 30-day figure. Both are shown, each labelled with
-its own window, and they are never added together.
+its own window, and they are never added together. Each registry keeps its own panel
+for the same reason: the registry is what did the counting, not a kind of package.
+
+--8<-- "fig_downloads_lifetime.md"
+
+--8<-- "fig_downloads_recent.md"
+
+Bioconductor is the one registry that publishes a monthly series rather than a single
+number, so it is the only place a trend can be drawn at all.
 
 --8<-- "fig_bioc_ips.md"
 

@@ -20,7 +20,7 @@ from typing import Any
 from .. import config as cfg
 from .. import store
 from ..derive import freshness, tables
-from .charts import CHARTS
+from .charts import CHARTS, REGISTRY_NAMES
 from .flow import endpoint_patterns, source_flow
 from .icons import svg as icon
 
@@ -211,16 +211,6 @@ def _cards(snapshot: dict[str, Any]) -> str:
             f'<span class="tgx-card-sub">{sub}</span></a>')
     out.append("</div>")
     return "\n".join(out) + "\n"
-
-
-REGISTRY_NAMES = {
-    "bioconductor.org": "Bioconductor",
-    "pypi.org": "PyPI",
-    "npmjs.org": "npm",
-    "cran.r-project.org": "CRAN",
-    "repo1.maven.org": "Maven",
-    "conda-forge.org": "conda-forge",
-}
 
 
 def _downloads_cell(entries: list[tuple[str, float, str]] | None) -> str:
