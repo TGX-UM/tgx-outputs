@@ -71,6 +71,7 @@ extra:
 nav:
   - Tools: index.md
   - How the numbers are made: methodology.md
+  - Every call this page makes: calls.md
   - Collection status: status.md
   - Download the data: downloads.md
 

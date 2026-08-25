@@ -10,6 +10,10 @@ Every update paper is counted, not only the newest. WikiPathways has six NAR pap
 spanning 2012 to 2024 and people cite whichever was current when they did the work, so
 counting one would understate it several-fold.
 
+One request per DOI, each logged individually, because the published call list is the
+whole point of the explainability page: a reader should be able to see every question
+this dashboard asked and go and ask it themselves.
+
 Two honesty constraints, both stated in the metric caveats rather than left implicit.
 A citation of the software paper is not proof the software was used, and some of these
 tools are built by consortia far larger than this department. CDK's citations belong to
@@ -53,12 +57,16 @@ class Citations(Collector):
             params = {"select": "doi,title,publication_year,cited_by_count"}
             if key:
                 params["api_key"] = key
+            url = WORK.format(doi=urllib.parse.quote(doi, safe="/.:"))
             try:
-                work = self.http.get_json(
-                    WORK.format(doi=urllib.parse.quote(doi, safe="/.:")), params=params)
+                work = self.http.get_json(url, params=params)
             except Exception as exc:  # noqa: BLE001 - one DOI must not sink the run
+                # Logged as the failed call it was, so the published call list stays a
+                # complete record of what this collector asked for.
+                env.calls.append(Call(url=url, status=None, ok=False, note=str(exc)[:80]))
                 missing.append(f"{doi} ({exc})")
                 continue
+            env.calls.append(Call(url=url, status=200, ok=True, note=project))
 
             cited = work.get("cited_by_count")
             if cited is None:
@@ -81,6 +89,4 @@ class Citations(Collector):
             # A DOI that does not resolve is a config error, and silently returning a
             # smaller number is exactly the failure this dashboard is built to avoid.
             env.degrade(f"{len(missing)} DOI(s) did not resolve: {', '.join(missing[:3])}")
-        env.calls.append(Call(url="https://api.openalex.org/works/doi:...", status=200,
-                              ok=True, note=f"{len(papers)} DOIs"))
         return env

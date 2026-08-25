@@ -155,3 +155,56 @@ def test_icons_are_self_contained_markup():
         # No external reference of any kind: the page must render with no network.
         assert "http" not in markup and "url(" not in markup
     assert icons.svg("no-such-icon") == ""
+
+
+def test_endpoint_patterns_collapse_repeated_shapes():
+    """Nineteen calls to one endpoint are one row marked x19, not nineteen rows."""
+    from tgx_outputs.site.flow import endpoint_patterns
+
+    same = ["https://api.github.com/graphql (a/b)"] * 19
+    assert endpoint_patterns(same) == [("api.github.com/graphql", 19)]
+
+    varied = [
+        "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/bridgedb",
+        "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pybacting",
+    ]
+    pattern, count = endpoint_patterns(varied)[0]
+    assert count == 2
+    assert pattern == "packages.ecosyste.ms/api/v1/registries/…/packages/…"
+    assert "bridgedb" not in pattern, "a varying segment must not leak one call's value"
+
+
+def test_the_calls_page_lists_every_request_that_was_made(monkeypatch):
+    """The explainability promise: every URL asked for is on the page, in full."""
+    manifest = {"sources": {"github": {
+        "status": "ok", "fetched_at": "2026-08-25T00:00:00+00:00", "record_count": 2,
+        "calls": [
+            {"url": "https://api.github.com/graphql (bridgedb/BridgeDb)",
+             "status": 200, "ok": True, "note": "pushed 2026-08-02"},
+            {"url": "https://api.github.com/graphql (cdk/cdk)",
+             "status": 200, "ok": True, "note": "pushed 2026-08-18"},
+        ],
+        "errors": [], "quarantined": []}}}
+    monkeypatch.setattr(build, "_latest_manifest", lambda: manifest)
+
+    snap = _snapshot(0)
+    snap["sources"] = {"github": {"status": "ok", "fetched_at": "2026-08-25T00:00:00+00:00",
+                                  "record_count": 2, "records": [
+                                      {"metric": "releases_by_year", "entity": "cdk",
+                                       "value": 1.0, "period": "2026"}]}}
+    html = build._calls(snap, cfg.semantics())
+
+    for call in manifest["sources"]["github"]["calls"]:
+        assert call["url"] in html, "a call was made and not published"
+    assert "releases_by_year" in html, "the metrics a source produced must be shown"
+    assert "tgx-flow" in html
+
+
+def test_a_disabled_source_is_shown_as_disabled_rather_than_omitted(monkeypatch):
+    """A source that is off should be visible. Silence looks the same as an oversight."""
+    monkeypatch.setattr(build, "_latest_manifest", lambda: {"sources": {"wikipathways": {
+        "status": "skipped", "fetched_at": "2026-08-25T00:00:00+00:00",
+        "record_count": 0, "calls": [], "errors": [], "quarantined": []}}})
+    html = build._calls(_snapshot(0), cfg.semantics())
+    assert "wikipathways" in html
+    assert "no calls" in html or "made no calls" in html

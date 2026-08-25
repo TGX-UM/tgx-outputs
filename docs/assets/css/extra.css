@@ -252,6 +252,27 @@ html { scroll-padding-top: var(--tgx-header-height); }
    "29,390 Bioconductor, all time" wrapping after "Bioconductor" reads as two numbers. */
 .tgx-dl { display: block; white-space: nowrap; }
 
+/* Call-flow diagrams ------------------------------------------------------
+   Inline SVG with no colours of its own, so one set of rules covers both themes and
+   the build never has to know which one a reader is in. */
+.tgx-flow { max-width: 100%; height: auto; margin: .8rem 0 .4rem; overflow: visible; }
+.tgx-flow-call,
+.tgx-flow-metric,
+.tgx-flow-node {
+  fill: var(--md-code-bg-color);
+  stroke: var(--md-default-fg-color--lightest);
+  stroke-width: 1;
+}
+.tgx-flow-node { stroke: var(--tgx-accent); }
+.tgx-flow-label {
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 10.5px;
+  fill: var(--md-default-fg-color);
+}
+.tgx-flow-sub { font-size: 9px; fill: var(--md-default-fg-color--light); }
+.tgx-flow-line { fill: none; stroke: var(--md-default-fg-color--lighter); stroke-width: 1; }
+.tgx-flow-head { fill: var(--md-default-fg-color--lighter); }
+
 /* Tables scroll rather than pushing the page sideways ---------------------- */
 .md-typeset table:not([class]) { display: table; width: 100%; }
 .md-typeset__table { overflow-x: auto; }

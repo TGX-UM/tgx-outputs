@@ -21,6 +21,7 @@ from .. import config as cfg
 from .. import store
 from ..derive import freshness, tables
 from .charts import CHARTS
+from .flow import endpoint_patterns, source_flow
 from .icons import svg as icon
 
 INCLUDES = cfg.ROOT / "includes"   # outside docs/ so MkDocs sees them as snippets, not pages
@@ -320,6 +321,72 @@ def _project_table(snapshot: dict[str, Any]) -> str:
     return "\n".join(rows) + "\n" + note
 
 
+def _latest_manifest() -> dict[str, Any]:
+    files = sorted(store.manifest_dir().glob("*.json"))
+    return json.loads(files[-1].read_text()) if files else {"sources": {}}
+
+
+def _calls(snapshot: dict[str, Any], semantics: dict[str, Any]) -> str:
+    """Every request the last run made, per source, with what it produced.
+
+    Generated from the run manifest rather than from a hand-written list, so it cannot
+    describe a call the pipeline no longer makes. A source that asked for nothing says
+    so instead of being left out.
+    """
+    manifest = _latest_manifest()
+    out: list[str] = []
+
+    for name in sorted(manifest.get("sources", {})):
+        src = manifest["sources"][name]
+        calls = src.get("calls") or []
+        snap_src = snapshot.get("sources", {}).get(name, {})
+
+        metrics: dict[str, int] = {}
+        for rec in snap_src.get("records", []):
+            metrics[rec["metric"]] = metrics.get(rec["metric"], 0) + 1
+
+        out.append(f"### `{name}` {{ #{name} }}\n")
+        status = src.get("status", "unknown")
+        when = (src.get("fetched_at") or "")[:10]
+        if status == "skipped":
+            out.append(
+                "Disabled in `config/sources.yml`, so it made no calls and produced "
+                "nothing. It is listed here because a source that is off should be "
+                "visible, not absent.\n")
+            out.append(source_flow(name, [], [], 0) + "\n")
+            continue
+
+        out.append(
+            f"{len(calls)} request{'s' if len(calls) != 1 else ''} on {when}, "
+            f"status `{status}`, {src.get('record_count', 0):,} records kept.\n")
+        out.append(source_flow(
+            name, endpoint_patterns([c["url"] for c in calls]),
+            sorted(metrics.items()), src.get("record_count", 0)) + "\n")
+
+        if calls:
+            out.append('??? note "Every request, in the order it was made"\n')
+            out.append("    | # | URL | What came back |")
+            out.append("    |---|---|---|")
+            for i, call in enumerate(calls, 1):
+                url = call["url"].replace("|", "%7C")
+                note = call.get("note") or ""
+                mark = "" if call.get("ok") else " ⛔"
+                out.append(f"    | {i} | `{url}` | {note}{mark} |")
+            out.append("")
+
+        for err in src.get("errors", [])[:3]:
+            out.append(f"!!! warning \"Reported a problem\"\n\n    {err.splitlines()[0]}\n")
+        quarantined = src.get("quarantined") or []
+        if quarantined:
+            rules = {q["rule"] for q in quarantined}
+            out.append(
+                f"{len(quarantined)} record(s) were quarantined by "
+                f"{', '.join(f'`{r}`' for r in sorted(rules))} and are in the run "
+                f"manifest rather than on the page.\n")
+
+    return "\n".join(out) + "\n"
+
+
 def build() -> int:
     snapshot = store.load_latest()
     semantics = cfg.semantics()
@@ -335,6 +402,7 @@ def build() -> int:
         "projects.md": _project_table(snapshot),
         "whats_new.md": _whats_new(changes, semantics),
         "methodology.md": _methodology(semantics, snapshot),
+        "calls.md": _calls(snapshot, semantics),
     }
     for name in CHARTS:
         fragments[f"fig_{name}.md"] = figure(name, snapshot, fresh)
