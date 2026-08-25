@@ -9,75 +9,6 @@
 #   caveat            = what the number does not mean. Shown under every figure.
 
 metrics:
-  works_by_year_type:
-    label: Outputs by year
-    counts: One OpenAlex work with a roster ORCID among its authors.
-    source: openalex
-    cumulative: false
-    granularity: year
-    caveat: Counts every output type together. The type breakdown below is the honest view.
-  works_by_type:
-    label: Outputs by type
-    counts: OpenAlex works grouped by type.
-    source: openalex
-    cumulative: true
-    granularity: none
-    caveat: 'Most non-article records are Zenodo deposits. Reporting one combined figure would
-      roughly triple the article count. The ''other'' bucket is excluded from the chart: it
-      is mostly blog posts and untyped repository records.'
-  journal_articles_by_year:
-    label: Journal articles
-    counts: OpenAlex works of type article whose primary location is a journal.
-    source: openalex
-    cumulative: false
-    granularity: year
-    caveat: The conservative count. Lower than any figure that treats every OpenAlex record
-      as a publication.
-  oa_route:
-    label: Open access route
-    counts: OpenAlex works grouped by open_access.oa_status.
-    source: openalex
-    cumulative: false
-    granularity: none
-    caveat: Says whether a copy is readable, not how good it is. Green means a repository
-      copy exists, which may not be the version of record.
-  oa_route_by_year:
-    label: Open access over time
-    counts: Works per publication year, grouped by open access status.
-    source: openalex
-    cumulative: false
-    granularity: year
-    caveat: The trend is the point. A single year is noisy at this size.
-  citation_age:
-    label: Citations received per year
-    counts: Citations to the corpus received in a calendar year, from counts_by_year.
-    source: openalex
-    cumulative: false
-    granularity: year
-    caveat: Shown instead of a lifetime total. BridgeDb and WikiPathways are still cited a
-      decade on, which a single number hides.
-  collab_countries:
-    label: Co-author countries
-    counts: Distinct co-author countries across the corpus.
-    source: openalex
-    cumulative: true
-    granularity: none
-    caveat: Reach, not quality.
-  collab_institutions:
-    label: Co-author institutions
-    counts: Co-author institutions, rolled up to their parent organisation.
-    source: openalex
-    cumulative: true
-    granularity: none
-    caveat: Maastricht dominates and is left out of the chart.
-  coverage_disagreement:
-    label: Outputs, by source
-    counts: What each bibliographic database reports for the same ORCID set.
-    source: multiple
-    cumulative: true
-    granularity: none
-    caveat: These disagree permanently. PubMed is biomedical only, Crossref sees anything
-      with a DOI, OpenAlex also indexes data and software.
   bioc_downloads_monthly:
     label: Bioconductor downloads per month
     counts: Downloads recorded by Bioconductor for a package in a month.
@@ -131,14 +62,6 @@ metrics:
     cumulative: true
     granularity: none
     caveat: Activity, not health. A finished tool needs no commits.
-  zenodo_by_year_type:
-    label: Zenodo depositions
-    counts: A Zenodo concept record with a roster ORCID among its creators.
-    source: zenodo
-    cumulative: false
-    granularity: year
-    caveat: Versions are collapsed. A dataset released monthly for two years is one output,
-      not twenty-four.
   rsd_mentions:
     label: Papers mentioning the software
     counts: Works the Research Software Directory records as mentioning a tool.
@@ -147,21 +70,6 @@ metrics:
     granularity: none
     caveat: Computed by the NL eScience Center, not by us. Mentions, not formal citations,
       and it misses tools used without being named.
-  pure_roster_orcid:
-    label: Roster membership
-    counts: An ORCID affiliated with the TGX unit in Maastricht's Pure.
-    source: pure_cerif
-    cumulative: true
-    granularity: none
-    caveat: Provenance only, not shown as a figure.
-  pure_roster_size:
-    label: People in the roster
-    counts: Distinct ORCIDs on the department staff page that resolve to an ORCID record.
-    source: pure_cerif
-    cumulative: true
-    granularity: none
-    caveat: Not everyone has an ORCID. People without one are absent and their output is not
-      counted.
   docker_pulls_total:
     label: Container pulls, all time
     counts: Docker Hub's lifetime pull counter for an image.

@@ -1,8 +1,7 @@
 # config/sources.yml — the machine-target list for the TGX output dashboard.
 #
-# NOTHING IN THIS FILE IS PERSONAL DATA beyond ORCID identifiers, which are public
-# research identifiers used here only as a query key. No name, role, or employment
-# date is stored, and no individual is rendered on the published page.
+# NOTHING IN THIS FILE IS PERSONAL DATA. Every target is a repository, a package, an
+# image or an endpoint; no person is queried, stored or rendered.
 #
 # Every entry may carry `note:`; notes are rendered on the methodology page.
 
@@ -10,10 +9,6 @@ meta:
   department: Translational Genomics (TGX)
   institution: Maastricht University
   institution_ror: "https://ror.org/02jz4aj89"
-  # Verified 2026-08-25 by paging the openaire_cris_orgunits set of UM's Pure CERIF feed.
-  # name "Translational Genomics", acronym 306, parent "Res. Inst. for Oncology and Reproduction".
-  pure_orgunit_id: "aa0b41cd-a526-424c-8515-f8f789aa92b1"
-  pure_oai_base: "https://cris.maastrichtuniversity.nl/ws/oai"
   contact: "marvin.martens@maastrichtuniversity.nl"
 
 # Research Software Directory (NL eScience Center). The tenant is Maastricht
@@ -26,16 +21,12 @@ rsd:
 # Disabling a broken source is a ONE-LINE PR. `cadence` is used by the freshness
 # strip to decide when a source is amber (2x) and red (5x).
 collectors:
-  openalex:      {enabled: true,  cadence_days: 7}
   bioconductor:  {enabled: true,  cadence_days: 7}
   ecosystems:    {enabled: true,  cadence_days: 7}
   github:        {enabled: true,  cadence_days: 7}
-  zenodo:        {enabled: true,  cadence_days: 7}
   citations:     {enabled: true,  cadence_days: 7}
-  coverage:      {enabled: true,  cadence_days: 7}
   dockerhub:     {enabled: true,  cadence_days: 7}
   ghcr:          {enabled: true,  cadence_days: 7}
   services:      {enabled: true,  cadence_days: 7}
   rsd:           {enabled: true,  cadence_days: 7}
   wikipathways:  {enabled: false, cadence_days: 7}   # community content, not TGX output
-  pure_cerif:    {enabled: false, cadence_days: 30}   # week 2-3; see plan

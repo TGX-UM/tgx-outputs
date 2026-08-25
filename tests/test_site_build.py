@@ -1,6 +1,7 @@
 """The render gate and the freshness rules."""
 
 import datetime as dt
+import json
 
 import pytest
 
@@ -12,12 +13,12 @@ from tgx_outputs.site import build
 def _snapshot(age_days: float, status: str = "ok", records=None):
     when = dt.datetime.now(dt.UTC) - dt.timedelta(days=age_days)
     if records is None:
-        records = [{"metric": "works_by_year_type", "entity": "all",
+        records = [{"metric": "releases_by_year", "entity": "bridgedb",
                     "value": 12.0, "period": "2026"}]
     return {
         "collected_on": when.date().isoformat(),
-        "sources": {"openalex": {"status": status, "fetched_at": when.isoformat(),
-                                 "record_count": len(records), "records": records}},
+        "sources": {"github": {"status": status, "fetched_at": when.isoformat(),
+                               "record_count": len(records), "records": records}},
     }
 
 
@@ -25,10 +26,10 @@ def test_a_chart_without_a_definition_refuses_to_render(monkeypatch):
     """The render gate: no number appears unless the page can say what it counts."""
     monkeypatch.setattr(cfg, "semantics", dict)
     monkeypatch.setattr(build.cfg, "semantics", dict)
-    monkeypatch.setattr(build, "CHARTS", {"works_by_year": (dict, "works_by_year_type")})
+    monkeypatch.setattr(build, "CHARTS", {"releases_by_year": (dict, "releases_by_year")})
     fresh = freshness.assess(_snapshot(0))
     with pytest.raises(build.MissingDefinition):
-        build.figure("works_by_year", _snapshot(0), fresh)
+        build.figure("releases_by_year", _snapshot(0), fresh)
 
 
 def test_unknown_chart_name_is_an_error_not_a_blank():
@@ -38,11 +39,11 @@ def test_unknown_chart_name_is_an_error_not_a_blank():
 
 def test_figure_caption_carries_source_date_and_csv_link():
     snap = _snapshot(0)
-    html = build.figure("works_by_year", snap, freshness.assess(snap))
-    assert "Source: `openalex`" in html
+    html = build.figure("releases_by_year", snap, freshness.assess(snap))
+    assert "Source: `github`" in html
     assert "collected " in html
-    assert "download CSV](data/works_by_year_type.csv)" in html
-    assert cfg.semantics()["works_by_year_type"]["caveat"].strip()[:40] in html
+    assert "download CSV](data/releases_by_year.csv)" in html
+    assert cfg.semantics()["releases_by_year"]["caveat"].strip()[:40] in html
 
 
 def test_freshness_is_computed_from_the_data_not_the_clock():
@@ -58,7 +59,7 @@ def test_a_degraded_source_is_never_reported_as_fresh():
 
 def test_stale_sources_are_named_in_the_summary():
     summary = freshness.assess(_snapshot(60))["summary"]
-    assert "needs attention" in summary and "openalex" in summary
+    assert "needs attention" in summary and "github" in summary
 
 
 def _snapshot_with(records, status="ok"):
@@ -95,7 +96,7 @@ def test_a_collected_zero_is_still_shown_as_zero():
 
 def test_a_figure_with_no_data_is_replaced_by_an_explanation():
     empty = _snapshot_with([], status="failed")
-    html = build.figure("works_by_year", empty, freshness.assess(empty))
+    html = build.figure("releases_by_year", empty, freshness.assess(empty))
     assert build.MISSING in html
     assert "tgx-chart" not in html, "an empty chart must not be drawn"
     assert "collection status" in html
@@ -109,4 +110,48 @@ def test_retiring_a_metric_removes_its_csv(tmp_path):
     snap = _snapshot(0)
     tables.write_long(snap, tmp_path)
     assert not (tmp_path / "old_metric.csv").exists()
-    assert (tmp_path / "works_by_year_type.csv").exists()
+    assert (tmp_path / "releases_by_year.csv").exists()
+
+
+def test_retiring_a_collector_removes_it_from_todays_snapshot(tmp_path, monkeypatch):
+    """The counterpart to retiring a metric: the source itself has to go too.
+
+    A partial run merges into today's snapshot, so a deleted collector would otherwise
+    keep its last records -- and its row in the freshness strip -- until midnight.
+    """
+    from tgx_outputs import store
+    from tgx_outputs.model import Envelope
+
+    monkeypatch.setattr(store, "DATA_DIR", tmp_path)
+    stamp = store._today()
+    (tmp_path / "snapshots").mkdir()
+    (tmp_path / "snapshots" / f"{stamp}.json").write_text(json.dumps({
+        "collected_on": stamp,
+        "sources": {"retired_source": {"status": "ok", "fetched_at": stamp,
+                                       "record_count": 1, "records": [{}]}},
+    }))
+
+    env = Envelope(source="github")
+    store.write_run({"github": env}, {}, {"github": []})
+
+    snap = json.loads((tmp_path / "snapshots" / f"{stamp}.json").read_text())
+    assert "retired_source" not in snap["sources"]
+    assert "github" in snap["sources"]
+
+
+def test_every_overview_card_carries_an_icon():
+    """A mistyped glyph key renders nothing at all, which is invisible in review."""
+    html = build._cards(_snapshot_with([]))
+    assert html.count('class="tgx-card"') == 10
+    assert html.count('class="tgx-icon"') == html.count('class="tgx-card"')
+
+
+def test_icons_are_self_contained_markup():
+    from tgx_outputs.site import icons
+
+    for name in icons._ICONS:
+        markup = icons.svg(name)
+        assert markup.startswith("<svg") and markup.endswith("</svg>")
+        # No external reference of any kind: the page must render with no network.
+        assert "http" not in markup and "url(" not in markup
+    assert icons.svg("no-such-icon") == ""

@@ -60,14 +60,6 @@ def exclusions() -> dict[str, Any]:
     return _load("exclusions.yml")
 
 
-@functools.lru_cache(maxsize=1)
-def roster() -> list[str]:
-    """The ORCID query set, minus anyone who asked to be excluded."""
-    declared = _load("roster.yml").get("orcids") or []
-    dropped = {e["value"] for e in (exclusions().get("orcids") or [])}
-    return [o for o in declared if o not in dropped]
-
-
 def collector_enabled(name: str) -> bool:
     return bool(sources().get("collectors", {}).get(name, {}).get("enabled", False))
 

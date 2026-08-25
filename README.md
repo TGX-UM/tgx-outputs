@@ -2,21 +2,27 @@
 
 **[tgx-um.github.io/tgx-outputs](https://tgx-um.github.io/tgx-outputs/)**
 
-What the Department of Translational Genomics at Maastricht University publishes,
-ships and maintains — collected automatically from public sources once a week and
-published as a static page.
+The software, data resources and services the Department of Translational Genomics at
+Maastricht University builds — collected automatically from public sources once a week
+and published as a static page.
 
-The department's output is spread across a dozen GitHub organisations, several package
-registries, a handful of SPARQL endpoints and a few hundred Zenodo depositions. Nobody
-could previously answer "what did TGX ship this year" without a week of digging, and
-annual reports, grant renewals and consortium reviews all need that answer.
+That output is spread across a dozen GitHub organisations, several package registries,
+a handful of SPARQL endpoints and a set of deposited datasets. Nobody could previously
+answer "what did TGX ship this year" without a week of digging, and annual reports,
+grant renewals and consortium reviews all need that answer.
 
 ## What this is not
 
+It is **not** a bibliometric dashboard. The department's publication record lives in
+Pure and is reported from there; duplicating it here would only produce a second set of
+books that disagrees with the first. What this tracks is software: repositories,
+releases, packages, containers, running services, and the citations of the papers that
+describe each tool.
+
 It is **not** a measure of individuals. There are no per-person pages, counts or
-rankings, and there never will be — ORCIDs are used as a query key and nothing else.
-See [what we deliberately do not show](docs/not-shown.md) for the full list and the
-reasoning behind each omission.
+rankings, and there never will be — no person is queried and no ORCID is stored. Nor
+are there stars, forks, h-indices or journal rankings: every figure names what it
+counts and what it does not mean, and the methodology page carries both.
 
 It is also not service monitoring. Whether the department's endpoints are up right now
 is a different job with a different cadence, and the cluster already has monitoring for it.
@@ -28,7 +34,6 @@ flowchart LR
     subgraph edit["config/ (the only files a person edits)"]
         direction TB
         proj["<b>projects.yml</b><br/>repos · packages · docker<br/>ghcr · rsd · papers · probes"]
-        ros["<b>roster.yml</b><br/>ORCIDs"]
         sem["<b>metric_semantics.yml</b><br/>what each number counts"]
         exc["<b>exclusions.yml</b><br/>what is left out, and why"]
     end
@@ -36,13 +41,10 @@ flowchart LR
     subgraph coll["collectors (read public APIs, no credentials)"]
         direction TB
         tools["<b>per project</b><br/>github · ecosystems · bioconductor<br/>dockerhub · ghcr · rsd<br/>citations · services"]
-        pubs["<b>per ORCID</b><br/>openalex · crossref · europepmc<br/>pubmed · zenodo"]
     end
 
     proj --> tools
-    ros --> pubs
     tools --> guards{{guards}}
-    pubs --> guards
     sem -. "no definition,<br/>no figure" .-> guards
     exc -. "and the reason<br/>gets published" .-> guards
 
@@ -56,7 +58,7 @@ flowchart LR
     classDef cfg fill:#3d6fb422,stroke:#3d6fb4,color:#000
     classDef gate fill:#c26a3a22,stroke:#c26a3a,color:#000
     classDef out fill:#4a8a7222,stroke:#4a8a72,color:#000
-    class proj,ros,sem,exc cfg
+    class proj,sem,exc cfg
     class guards,quar gate
     class snap,csv,site out
 ```
@@ -96,12 +98,12 @@ schema in CI, so a malformed change fails the pull request rather than the next 
 | To do this | Edit |
 |---|---|
 | Track another project | `config/projects.yml`, then `tgx doctor --projects` |
-| Add or remove an ORCID | `config/roster.yml` (publications page only) |
 | Leave something out | `config/exclusions.yml`; a reason is required and is published |
 | Add a number to the page | `config/metric_semantics.yml` first, or it will not render |
 
-To be excluded from the underlying queries, open an issue or email the address in
-`config/sources.yml`. No reason is needed and none will be asked for.
+To have a project, repository, package or DOI excluded from the queries, open an issue
+or email the address in `config/sources.yml`. No reason is needed and none will be
+asked for.
 
 ## Numbers that look wrong
 

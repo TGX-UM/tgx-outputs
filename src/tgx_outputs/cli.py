@@ -157,11 +157,6 @@ def cmd_doctor(args: argparse.Namespace) -> int:
                 f"metric {name}: cumulative metrics must be granularity:none "
                 f"(a level cannot belong to a period)")
 
-    orcids = cfg.roster()
-    for o in orcids:
-        if len(o) != 19 or o.count("-") != 3:
-            problems.append(f"roster: {o!r} is not a well-formed ORCID")
-
     known = set(COLLECTORS)
     for name in cfg.sources().get("collectors", {}):
         if name not in known:
@@ -174,7 +169,6 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     print(f"  config sha        {cfg.config_sha()}")
     print(f"  projects          {len(cfg.projects())}: "
           f"{', '.join(cfg.project_ids())}")
-    print(f"  roster            {len(orcids)} ORCIDs")
     print(f"  metrics defined   {len(semantics)}")
     print(f"  tracked           {len(cfg.project_field('repos'))} repos, "
           f"{len(cfg.project_field('packages'))} packages, "

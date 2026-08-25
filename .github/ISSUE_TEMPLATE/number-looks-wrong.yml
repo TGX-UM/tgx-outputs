@@ -5,15 +5,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before filing, it may be worth checking
-        [what we deliberately do not show](https://tgx-um.github.io/tgx-outputs/not-shown/)
-        and the [methodology page](https://tgx-um.github.io/tgx-outputs/methodology/),
-        which gives the exact query behind every figure.
+        Before filing, it may be worth checking the
+        [methodology page](https://tgx-um.github.io/tgx-outputs/methodology/), which
+        gives the exact query behind every figure and what it does not mean.
   - type: input
     id: figure
     attributes:
       label: Which figure or number?
-      placeholder: "Overview → Published, and open"
+      placeholder: "Overview → Citations"
     validations: {required: true}
   - type: textarea
     id: expected

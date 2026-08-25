@@ -96,6 +96,17 @@ def write_run(
     snapshot["config_sha"] = config_sha()
     manifest["config_sha"] = config_sha()
 
+    # The other side of that merge: a collector deleted from the code must not survive
+    # in today's file. Without this, retiring a source leaves its last records in the
+    # snapshot -- and so on the page and in the freshness strip -- until the date rolls
+    # over, and a push to main re-runs the refresh on the same date.
+    from .collect.base import COLLECTORS
+
+    for stale in set(snapshot["sources"]) - set(COLLECTORS):
+        del snapshot["sources"][stale]
+    for stale in set(manifest["sources"]) - set(COLLECTORS):
+        del manifest["sources"][stale]
+
     for name, env in envelopes.items():
         recs = promoted.get(name, [])
         snapshot["sources"][name] = {

@@ -16,10 +16,7 @@ from tgx_outputs.http import HttpClient
 
 SECRETS = ["GITHUB_TOKEN", "GH_TOKEN", "OPENALEX_API_KEY", "ZENODO_TOKEN"]
 # Disabled collectors have no fixtures by design: `tgx collect --record` skips them.
-# pure_cerif is excluded separately -- its harvest is hundreds of pages, and fixtures
-# for it would dwarf the rest of the suite.
-OFFLINE = sorted(n for n in COLLECTORS
-                 if n != "pure_cerif" and _cfg.collector_enabled(n))
+OFFLINE = sorted(n for n in COLLECTORS if _cfg.collector_enabled(n))
 
 
 @pytest.fixture

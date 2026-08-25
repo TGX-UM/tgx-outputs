@@ -1,7 +1,7 @@
 site_name: TGX Outputs
 site_description: >-
-  What the Department of Translational Genomics at Maastricht University publishes,
-  ships and maintains — collected automatically from public sources.
+  The software, data resources and services the Department of Translational Genomics at
+  Maastricht University builds — collected automatically from public sources.
 site_url: https://tgx-um.github.io/tgx-outputs/
 repo_url: https://github.com/TGX-UM/tgx-outputs
 repo_name: TGX-UM/tgx-outputs
@@ -24,8 +24,8 @@ theme:
       toggle: {icon: material/weather-night, name: Switch to dark mode}
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle: {icon: material/weather-sunny, name: Switch to light mode}
 
 markdown_extensions:
@@ -57,13 +57,11 @@ extra:
 
 nav:
   - Tools: index.md
-  - Publications: publications.md
   - How the numbers are made: methodology.md
-  - What we deliberately do not show: not-shown.md
   - Collection status: status.md
   - Download the data: downloads.md
 
 copyright: >-
   Code MIT. Figures are derived aggregates of public data; see the attribution table
-  on the methodology page. This dashboard measures the department's output. It is not,
-  and must not be used as, an assessment of individuals.
+  on the methodology page. This dashboard measures software, not people. It is not, and
+  must not be used as, an assessment of individuals.

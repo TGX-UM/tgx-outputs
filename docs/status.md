@@ -15,10 +15,10 @@ A gap that is not declared reads as a zero, so:
 - PyPI download history cannot be backfilled. The public API keeps about 180 days.
 - The Research Software Directory only knows registered tools. Software that was never
   registered shows no mentions, which is an argument for registering it.
-- OpenAlex author matching occasionally merges a namesake. Its author records are
-  unreliable here, so the corpus is always built from the works endpoint.
-- Not everyone has an ORCID. 27 of 41 staff resolve to one; the rest are absent and
-  their output is not counted.
+- Only the projects listed in `config/projects.yml` are counted. A tool nobody has
+  added is absent, and absence here means nobody added it, not that it does not exist.
+- Citations are counted for the papers a project declares. A tool with no paper shows
+  no citations, which is a property of the tool, not of its use.
 
 ## When something breaks
 

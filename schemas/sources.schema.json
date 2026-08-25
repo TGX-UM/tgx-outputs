@@ -2,43 +2,17 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "config/sources.yml",
   "type": "object",
-  "required": ["meta", "github_orgs", "collectors"],
+  "required": ["meta", "collectors"],
   "properties": {
     "meta": {
       "type": "object",
-      "required": ["department", "institution", "pure_orgunit_id", "pure_oai_base"],
+      "required": ["department", "institution"],
+      "additionalProperties": false,
       "properties": {
         "department": {"type": "string"},
         "institution": {"type": "string"},
         "institution_ror": {"type": "string", "format": "uri"},
-        "pure_orgunit_id": {"type": "string", "minLength": 8},
-        "pure_oai_base": {"type": "string", "format": "uri"},
         "contact": {"type": "string"}
-      }
-    },
-    "attribution_bands": {"type": "object", "additionalProperties": {"type": "string"}},
-    "github_orgs": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "object",
-        "required": ["login", "band"],
-        "additionalProperties": false,
-        "properties": {
-          "login": {"$ref": "common.defs.json#/$defs/slug"},
-          "band": {"enum": ["tgx", "heritage", "community", "consortium"]},
-          "note": {"type": "string"}
-        }
-      }
-    },
-    "flagship_repos": {"type": "array", "items": {"type": "string", "pattern": "^[^/]+/[^/]+$"}},
-    "packages_seed": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["registry", "name"],
-        "additionalProperties": false,
-        "properties": {"registry": {"type": "string"}, "name": {"type": "string"}}
       }
     },
     "rsd": {"type": "object", "required": ["base", "organisation_id"]},

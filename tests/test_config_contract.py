@@ -34,20 +34,20 @@ def test_every_collector_is_configured_and_vice_versa():
         f"implemented but unconfigured: {sorted(set(COLLECTORS) - configured)}")
 
 
-def test_roster_entries_are_well_formed_orcids():
-    for orcid in cfg.roster():
-        assert len(orcid) == 19 and orcid.count("-") == 3, orcid
-
-
 def test_exclusions_always_carry_a_reason():
     for kind, entries in cfg.exclusions().items():
         for entry in entries or []:
             assert entry.get("reason"), f"{kind}: {entry} has no reason"
 
 
-def test_roster_holds_no_personal_data_beyond_orcids():
-    """The privacy promise, as a test rather than a paragraph in a README."""
-    raw = (cfg.CONFIG_DIR / "roster.yml").read_text()
-    data = __import__("yaml").safe_load(raw)
-    assert set(data) <= {"source", "generated_at", "orcids"}, (
-        "roster.yml must contain only ORCIDs -- no names, roles or employment dates")
+def test_no_config_file_names_a_person():
+    """The privacy promise, as a test rather than a paragraph in a README.
+
+    Every target is a repository, package, image, endpoint or DOI. Nothing here is
+    queried by person, so an ORCID appearing in config would be a change of scope
+    rather than a typo.
+    """
+    for path in sorted(cfg.CONFIG_DIR.glob("*.yml")):
+        text = path.read_text()
+        assert "orcid" not in text.lower(), (
+            f"{path.name} mentions ORCID; this dashboard queries software, not people")

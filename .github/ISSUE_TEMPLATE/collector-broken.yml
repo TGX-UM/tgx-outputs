@@ -6,7 +6,7 @@ body:
     id: source
     attributes:
       label: Which source?
-      placeholder: "openalex"
+      placeholder: "bioconductor"
     validations: {required: true}
   - type: textarea
     id: error

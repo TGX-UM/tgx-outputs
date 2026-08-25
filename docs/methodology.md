@@ -4,15 +4,16 @@ Everything comes from public APIs, collected weekly by a job in
 [this repository](https://github.com/TGX-UM/tgx-outputs). No manual data entry, no
 database, and no credential beyond the token GitHub issues to its own workflow.
 
-## Who counts as TGX
+## What counts as TGX
 
-The ORCID list is resolved from the department
-[staff page](https://www.maastrichtuniversity.nl/research/translational-genomics/staff).
-A surname is matched against ORCID with a Maastricht affiliation and accepted only when
-the first initial agrees; anything ambiguous is left out, because a wrong ORCID quietly
-credits someone else's papers to the department.
+The tracked list is [`config/projects.yml`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.yml):
+software and data resources the department builds or co-maintains, each named
+explicitly with the repositories, packages, images, endpoints and papers that belong to
+it. Nothing is discovered by matching a person, an affiliation string or an ORCID, so
+nothing arrives in a figure because a name looked right.
 
-Only ORCIDs are stored. Names and roles are read during resolution and discarded.
+No person is queried and none is stored. The department's publication record is a
+separate thing, held in Pure, and this page does not reproduce it.
 
 ## Rules the pipeline enforces
 
@@ -41,23 +42,27 @@ clock. Amber past twice a source's cadence, red past five times.
 
 | Source | Used for | Terms |
 |---|---|---|
-| [OpenAlex](https://openalex.org) | publications, open access, citations, co-authorship | CC0 |
-| [Crossref](https://www.crossref.org) | coverage comparison | CC0 |
-| [Europe PMC](https://europepmc.org) | coverage comparison | EBI terms of use |
-| [PubMed](https://www.ncbi.nlm.nih.gov/books/NBK25501/) | coverage comparison | NCBI usage policy |
-| [Zenodo](https://zenodo.org) | depositions | metadata CC0 |
+| [OpenAlex](https://openalex.org) | citations of each tool's papers | CC0 |
+| [Zenodo](https://zenodo.org) | dataset download counts, read per DOI | metadata CC0 |
 | [Bioconductor](https://bioconductor.org/packages/stats/) | downloads, distinct IPs, rank | courtesy files, no stated licence |
 | [ecosyste.ms](https://ecosyste.ms) | package discovery and downloads | CC-BY-SA 4.0 |
 | [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms |
 | [Research Software Directory](https://research-software-directory.org) | literature mentions | Apache-2.0 platform, CC-BY content |
-| [ORCID](https://pub.orcid.org) | roster resolution | CC0 |
+| [Docker Hub](https://hub.docker.com) | image pulls | Docker terms of service |
+| [GitHub Container Registry](https://ghcr.io) | tags published | GitHub terms of service |
 
 Only derived aggregates are republished, never a copy of a third-party dataset.
 
-## Charts
+## Charts and icons
 
 Vega-Lite, vendored and pinned rather than loaded from a CDN, so the page renders the
-same in five years and archives intact.
+same in five years and archives intact. The tile icons are inline SVG on the same
+principle, from [Simple Icons](https://simpleicons.org) (CC0-1.0) and
+[Octicons](https://primer.style/octicons) (MIT); the brand marks belong to their owners
+and point at the registry each number comes from. The tile icons are inline SVG on the same
+principle, from [Simple Icons](https://simpleicons.org) (CC0-1.0) and
+[Octicons](https://primer.style/octicons) (MIT); the brand marks belong to their owners
+and point at the registry each number comes from.
 
 | File | Version | SHA-384 |
 |---|---|---|

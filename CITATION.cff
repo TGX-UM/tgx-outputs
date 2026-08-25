@@ -1,12 +1,13 @@
 cff-version: 1.2.0
-title: "TGX Outputs: an automated output dashboard for the Department of Translational Genomics"
+title: "TGX Outputs: an automated research-software dashboard for the Department of Translational Genomics"
 message: "If you reuse this, please cite it."
 type: software
 abstract: >-
-  Collects the research output of a university department from public APIs -- OpenAlex,
-  Zenodo, Bioconductor, ecosyste.ms, GitHub, the Research Software Directory and SPARQL
-  endpoints -- applies a set of data-integrity rules, and publishes the result as a
-  static site with every figure traceable to the query and dataset behind it.
+  Collects what a university department's research software does in the world, from
+  public APIs -- GitHub, ecosyste.ms, Bioconductor, Docker Hub, GHCR, Zenodo, OpenAlex,
+  the Research Software Directory and SPARQL endpoints -- applies a set of
+  data-integrity rules, and publishes the result as a static site with every figure
+  traceable to the query and dataset behind it.
 authors:
   - given-names: Marvin
     family-names: Martens
@@ -16,8 +17,7 @@ repository-code: "https://github.com/TGX-UM/tgx-outputs"
 url: "https://tgx-um.github.io/tgx-outputs/"
 license: MIT
 keywords:
-  - research output
-  - bibliometrics
   - research software
+  - software metrics
   - open science
   - FAIR
