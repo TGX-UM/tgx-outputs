@@ -11,6 +11,7 @@ site_dir: site
 
 theme:
   name: material
+  custom_dir: overrides
   # The department's own mark, in the white version, because the header is UM's dark
   # blue in both light and dark mode. Both files are in the repository -- nothing here
   # is fetched at render time.
