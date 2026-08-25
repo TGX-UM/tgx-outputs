@@ -213,3 +213,58 @@ def test_a_disabled_source_is_left_off_the_calls_page(monkeypatch):
     html = build._calls(_snapshot(0), cfg.semantics())
     assert "wikipathways" not in html
     assert "tgx-flow" not in html, "nothing to draw when nothing was requested"
+
+
+def test_every_project_gets_a_tile_even_with_nothing_collected():
+    """A project with no measurable output still belongs on the page.
+
+    It is in projects.yml because the department builds it. Dropping it from the
+    grid when a collector returns nothing would quietly shorten the inventory, and
+    the shortened list is the thing people would quote.
+    """
+    from tgx_outputs import config as _cfg
+
+    html = build._project_tiles(_snapshot_with([]))
+    assert html.count('class="tgx-project"') == len(_cfg.projects())
+    for proj in _cfg.projects():
+        assert proj["name"] in html
+
+
+def test_a_tile_omits_a_figure_rather_than_printing_zero():
+    """The missing-vs-zero rule, on the tiles this time.
+
+    A tile builds itself from the records that exist, so an absent measurement has
+    to leave no statistic behind -- never a confident 0 next to a real label.
+    """
+    html = build._project_tiles(_snapshot_with([]))
+    assert "citations ·" not in html
+    assert "tgx-stat-value" not in html
+    assert "nothing measurable" in html
+
+
+def test_a_tile_labels_each_download_with_its_own_window():
+    """Two registries, two windows, and the tile must never merge them."""
+    snap = _snapshot_with([
+        {"metric": "package_downloads_total", "entity": "bioconductor.org/BridgeDbR",
+         "value": 29390.0, "extra": {"project": "bridgedb", "registry": "bioconductor.org"}},
+        {"metric": "package_downloads_recent", "entity": "npmjs.org/bridgedb",
+         "value": 234.0, "extra": {"project": "bridgedb", "registry": "npmjs.org"}},
+    ])
+    html = build._project_tiles(snap)
+    assert "Bioconductor downloads · all time" in html
+    assert "npm downloads · last 30 days" in html
+    assert "29,624" not in html, "two windows were added together"
+
+
+def test_a_tile_mark_prefers_the_configured_one():
+    """Initials derived from a name are wrong often enough to need an override.
+
+    molAOP Builder and Analyser derives to "MAOPBA"; R-ODAF derives from a name with
+    no useful capitals at all.
+    """
+    assert build._mark({"id": "molaop", "name": "molAOP Builder and Analyser",
+                        "mark": "MA"}) == "MA"
+    # Falls back rather than failing, so a project added without the field still
+    # renders something -- just not always what a person would have picked.
+    assert build._mark({"id": "r-odaf", "name": "R-ODAF"}) == "ROD"
+    assert build._mark({"id": "bacting", "name": "Bacting"}) == "BA"

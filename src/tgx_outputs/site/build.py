@@ -15,12 +15,13 @@ describe how current the page is.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from .. import config as cfg
 from .. import store
 from ..derive import freshness, tables
-from .charts import CHARTS, REGISTRY_NAMES
+from .charts import CHARTS, PALETTE, REGISTRY_NAMES
 from .flow import endpoint_patterns, source_flow
 from .icons import svg as icon
 
@@ -213,37 +214,49 @@ def _cards(snapshot: dict[str, Any]) -> str:
     return "\n".join(out) + "\n"
 
 
-def _downloads_cell(entries: list[tuple[str, float, str]] | None) -> str:
-    """One line per registry, each carrying the window it was measured over."""
-    if not entries:
-        return ""
-    # Lifetime figures first: they are the larger and more quotable number.
-    entries = sorted(entries, key=lambda e: (e[2] != "all time", -e[1]))
-    return "".join(
-        f'<span class="tgx-dl">{_fmt(value)} <small>{registry}, {window}</small></span>'
-        for registry, value, window in entries)
+def _mark(proj: dict[str, Any]) -> str:
+    """The letters on a tile when the project has no logo file.
+
+    Taken from `mark:` in projects.yml where a project sets one, because initials
+    derived from a name are wrong often enough to be worth overriding: molAOP is not
+    "MB" and R-ODAF is not "RS". The derivation is the fallback, so a project added
+    without the field still gets a tile rather than a blank square.
+    """
+    if proj.get("mark"):
+        return str(proj["mark"])[:3]
+    words = [w for w in re.split(r"[^0-9A-Za-z]+", proj["name"]) if w]
+    caps = "".join(c for w in words for c in w if c.isupper())
+    if len(caps) >= 2:
+        return caps[:3]
+    return (words[0][:2] if words else proj["id"][:2]).upper()
 
 
-def _cite_cell(cites: dict[str, float], papers: dict[str, Any], pid: str) -> str:
-    if pid not in cites:
-        return ""
-    n = papers.get(pid) or 0
-    suffix = f"<br><small>{n} paper{'s' if n != 1 else ''}</small>" if n else ""
-    return f"{_fmt(cites[pid])}{suffix}"
+def _stat(value: str, label: str) -> str:
+    return (f'<div class="tgx-stat"><span class="tgx-stat-value">{value}</span>'
+            f'<span class="tgx-stat-label">{label}</span></div>')
 
 
-def _project_table(snapshot: dict[str, Any]) -> str:
-    """One row per tracked project. The whole point of the page."""
+def _project_tiles(snapshot: dict[str, Any]) -> str:
+    """One tile per tracked project. The whole point of the page.
+
+    This was a six-column table until 2026-08-25. A table makes ten projects look
+    like ten rows of one thing and invites the reading it was built to prevent --
+    scanning down a column and ranking the department's tools against each other,
+    when the columns hold different registries' measures over different windows.
+    A tile shows each project with its own numbers, and there is no column to run
+    your eye down.
+
+    Nothing new is collected here. Every figure on a tile was already in the table.
+    """
     recs = [r for src in snapshot.get("sources", {}).values()
             for r in src.get("records", [])]
 
     def by(metric: str) -> list[dict[str, Any]]:
         return [r for r in recs if r["metric"] == metric]
 
-    rel_year = by("releases_by_year")
     latest = {r["entity"]: (r.get("extra") or {}).get("date", "") for r in by("latest_release")}
     # Per registry, never summed. Bioconductor's figure is a lifetime total and npm's
-    # is a rolling 30 days; one column holding their sum is a number with no meaning.
+    # is a rolling 30 days; one number holding their sum means nothing.
     downloads: dict[str, list[tuple[str, float, str]]] = {}
     for metric, window in (("package_downloads_total", "all time"),
                            ("package_downloads_recent", "last 30 days")):
@@ -269,36 +282,63 @@ def _project_table(snapshot: dict[str, Any]) -> str:
 
     cutoff = str(int(snapshot.get("collected_on", "2026")[:4]) - 1)
     recent: dict[str, float] = {}
-    for r in rel_year:
+    for r in by("releases_by_year"):
         if r.get("period", "") >= cutoff:
             recent[r["entity"]] = recent.get(r["entity"], 0) + r["value"]
 
-    rows = ["| Project | Releases since " + cutoff + " | Last release | Downloads | "
-            "Container | Citations |", "|---|---|---|---|---|---|"]
-    for proj in cfg.projects():
+    out = ['<div class="tgx-projects">']
+    for i, proj in enumerate(cfg.projects()):
         pid = proj["id"]
-        container = ""
+        accent = PALETTE[i % len(PALETTE)]
+
+        stats = []
+        if pid in cites:
+            n = papers.get(pid) or 0
+            stats.append(_stat(_fmt(cites[pid]),
+                               f"citations · {n} paper{'s' if n != 1 else ''}"))
+        for registry, value, window in sorted(
+                downloads.get(pid, []), key=lambda e: (e[2] != "all time", -e[1])):
+            stats.append(_stat(_fmt(value), f"{registry} downloads · {window}"))
         if pulls.get(pid):
-            container = f"{_fmt(pulls[pid])} pulls"
+            stats.append(_stat(_fmt(pulls[pid]), "Docker Hub pulls · all time"))
         elif tags.get(pid):
-            container = f"{_fmt(tags[pid])} tags"
-        svc = proj.get("services") or []
-        svc_html = ""
-        if svc:
-            links = " · ".join(f"[{s['name']}]({s['url']})" for s in svc)
-            svc_html = f"<br><small>Runs: {links}</small>"
-        rows.append(
-            f"| **{proj['name']}**<br><small>{proj['what'].strip()}</small>{svc_html} "
-            f"| {_fmt(recent[pid]) if pid in recent else ''} "
-            f"| {latest.get(pid, '') or ''} "
-            f"| {_downloads_cell(downloads.get(pid))} "
-            f"| {container} "
-            f"| {_cite_cell(cites, papers, pid)} |")
+            # GHCR publishes no pull count anywhere, so tags are what there is.
+            stats.append(_stat(_fmt(tags[pid]), "GHCR tags published"))
+        if pid in recent:
+            stats.append(_stat(_fmt(recent[pid]), f"releases since {cutoff}"))
+        if latest.get(pid):
+            stats.append(_stat(latest[pid], "last release"))
+
+        mark = proj.get("logo")
+        chip = (f'<img class="tgx-project-logo" src="assets/images/logos/{mark}" alt="">'
+                if mark else
+                f'<span class="tgx-project-mark" aria-hidden="true">{_mark(proj)}</span>')
+
+        links = []
+        for svc in proj.get("services") or []:
+            links.append(f'<a href="{svc["url"]}">{svc["name"]}</a>')
+        for label, url in (proj.get("links") or {}).items():
+            if not any(url == s.get("url") for s in proj.get("services") or []):
+                links.append(f'<a href="{url}">{label}</a>')
+
+        out.append(
+            f'<article class="tgx-project" style="--tgx-project-accent: {accent}">'
+            f'<div class="tgx-project-head">{chip}'
+            f'<div><h3 class="tgx-project-name">{proj["name"]}</h3>'
+            f'<p class="tgx-project-what">{proj["what"].strip()}</p></div></div>'
+            + (f'<div class="tgx-project-stats">{"".join(stats)}</div>'
+               if stats else
+               '<div class="tgx-project-stats tgx-project-quiet">'
+               '<div class="tgx-stat"><span class="tgx-stat-label">'
+               'nothing measurable is published for this one yet</span></div></div>')
+            + (f'<div class="tgx-project-foot">{" · ".join(links)}</div>' if links else "")
+            + '</article>')
+    out.append("</div>")
 
     # Four separate points, so four sentences a reader can stop after. Run together as
     # one paragraph it reads as boilerplate and gets skipped, which defeats the purpose.
-    note = ("\n*An empty cell means the project has no identifier of that kind. It does "
-            "not mean zero.*\n\n"
+    note = ("\n*A figure a tile does not show is one the project has no identifier for. "
+            "It does not mean zero.*\n\n"
             "*Citations come from OpenAlex and cover every paper describing a tool, "
             "update papers included. Citing a paper is not proof the software was used, "
             "and a tool built by a community much larger than this department carries "
@@ -308,7 +348,7 @@ def _project_table(snapshot: dict[str, Any]) -> str:
             "rolling 30 days.*\n\n"
             "*Containers are Docker Hub pulls where they exist and GHCR tags published "
             "where they do not, because GHCR reports no pulls at all.*\n")
-    return "\n".join(rows) + "\n" + note
+    return "\n".join(out) + "\n" + note
 
 
 def _latest_manifest() -> dict[str, Any]:
@@ -388,7 +428,7 @@ def build() -> int:
     fragments = {
         "freshness.md": _freshness_strip(fresh),
         "cards.md": _cards(snapshot),
-        "projects.md": _project_table(snapshot),
+        "projects.md": _project_tiles(snapshot),
         "whats_new.md": _whats_new(changes, semantics),
         "methodology.md": _methodology(semantics, snapshot),
         "calls.md": _calls(snapshot, semantics),

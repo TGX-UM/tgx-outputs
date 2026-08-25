@@ -73,6 +73,13 @@
 
   --md-text-font: "Open Sans";
   --tgx-header-height: 3.6rem;
+
+  /* What an accent is mixed toward before it is used as text. The six chart colours
+     are chosen to work as fills; as 13px bold type on a tile they reach only 2.5:1
+     to 3.7:1, well under the 4.5:1 body-text threshold. Mixing 70% of the accent
+     with the opposite of the ground clears 4.5:1 for all six in both themes and
+     still leaves each one recognisably its own colour. */
+  --tgx-ink-mix: #000;
 }
 
 /* Body copy at the house-style size and colour: 18px, #333, 1.6 line height. */
@@ -108,6 +115,7 @@
    than a quotation: the header keeps UM blue, and link colours lighten until they
    clear the dark ground -- #1E5A96 manages 2.4:1 there and would be unreadable. */
 [data-md-color-scheme="slate"] {
+  --tgx-ink-mix: #fff;
   --tgx-link: #4fc3f0;
   --tgx-link-hover: #ff8a5c;
   --tgx-accent: var(--tgx-link);
@@ -179,6 +187,103 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .tgx-card:hover .tgx-icon { color: var(--tgx-accent); opacity: 1; }
 .tgx-card-value { font-size: 1.45rem; font-weight: 600; line-height: 1.15; }
 .tgx-card-sub { font-size: .7rem; color: var(--md-default-fg-color--light); }
+
+/* Project tiles -----------------------------------------------------------
+   Ten projects as a table read as ten rows of one thing, and invited exactly the
+   comparison the page argues against: a column of downloads holds Bioconductor's
+   lifetime total next to npm's rolling month. A tile keeps each project's numbers
+   with the project.
+
+   The colour is deliberately rationed the way the house style asks: the ground and
+   the type stay neutral, and the accent appears only in the monogram and the rule
+   above it. Ten filled tiles would be a paint chart.
+   -------------------------------------------------------------------------- */
+.tgx-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0 1.6rem;
+}
+.tgx-project {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-top: 3px solid var(--tgx-project-accent);
+  border-radius: .5rem;
+  padding: .95rem 1rem 1rem;
+  background: var(--md-code-bg-color);
+}
+.tgx-project-head { display: flex; align-items: flex-start; gap: .7rem; }
+.tgx-project-mark,
+.tgx-project-logo {
+  flex: 0 0 auto;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: .45rem;
+}
+/* The monogram, for the projects with no mark of their own -- which is most of
+   them. Drawn from the accent rather than filled with it, so a grid of ten does not
+   turn into a row of coloured squares. */
+.tgx-project-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: color-mix(in srgb, var(--tgx-project-accent) 70%, var(--tgx-ink-mix));
+  /* The tint and the ring are decoration behind the letters, not the letters, so
+     they keep the accent at full strength. */
+  background: color-mix(in srgb, var(--tgx-project-accent) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tgx-project-accent) 35%, transparent);
+}
+.tgx-project-logo { object-fit: contain; }
+.md-typeset .tgx-project-name {
+  margin: .1rem 0 .15rem;
+  font-size: .95rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.md-typeset .tgx-project-what {
+  margin: 0;
+  font-size: .74rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+/* Two columns of numbers, not one line each: a tile with six statistics in a stack
+   is taller than the description it belongs to. */
+.tgx-project-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr));
+  gap: .5rem .8rem;
+  padding-top: .2rem;
+}
+.tgx-stat { display: flex; flex-direction: column; min-width: 0; }
+.tgx-stat-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+/* The label carries the window and the registry, and both matter: "1,870" alone is
+   the number this page exists to stop anyone quoting. */
+.tgx-stat-label {
+  font-size: .66rem;
+  line-height: 1.35;
+  color: var(--md-default-fg-color--light);
+}
+.tgx-project-quiet .tgx-stat-label { font-style: italic; }
+.tgx-project-foot {
+  margin-top: auto;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  padding-top: .55rem;
+  font-size: .7rem;
+  line-height: 1.6;
+  color: var(--md-default-fg-color--light);
+}
+.md-typeset .tgx-project-foot a { text-decoration: none; }
+.md-typeset .tgx-project-foot a:hover { text-decoration: underline; }
 
 /* Tiles ------------------------------------------------------------------- */
 .tgx-tiles {

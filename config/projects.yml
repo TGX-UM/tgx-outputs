@@ -31,6 +31,11 @@
 #             they use it. Citation counts come from OpenAlex. List every update
 #             paper: WikiPathways has six, and only counting the newest would
 #             understate it several-fold
+#   mark      two or three letters for the tile on the front page, when the initials
+#             of `name` are not what you would write yourself. Optional
+#   logo      a file in docs/assets/images/logos/, drawn on the tile instead of the
+#             letters. Vendored like the fonts -- never a URL, and only where the
+#             licence allows it. Optional
 #   links     shown next to the project. Any label you like
 #
 # If you are unsure whether an identifier is right, run `tgx doctor --projects`. It
@@ -39,6 +44,7 @@
 projects:
 
   - id: bridgedb
+    mark: BD
     name: BridgeDb
     what: >-
       Maps identifiers between biological databases, so that one gene or metabolite
@@ -69,6 +75,7 @@ projects:
       site: https://www.bridgedb.org
 
   - id: wikipathways
+    mark: WP
     name: WikiPathways
     what: >-
       An open, community-curated pathway database. The department maintains its
@@ -104,6 +111,7 @@ projects:
       site: https://www.wikipathways.org
 
   - id: pathvisio
+    mark: PV
     name: PathVisio
     what: Desktop editor for biological pathways, and the origin of the GPML format.
     repos: [PathVisio/pathvisio]
@@ -115,6 +123,7 @@ projects:
       site: https://pathvisio.org
 
   - id: cdk
+    mark: CDK
     name: Chemistry Development Kit
     what: >-
       Java library for cheminformatics: structure handling, fingerprints, descriptors.
@@ -131,6 +140,7 @@ projects:
       site: https://cdk.github.io
 
   - id: bacting
+    mark: BA
     name: Bacting
     what: Scriptable cheminformatics and bioinformatics, usable from Java and Python.
     repos: [egonw/bacting, egonw/pybacting]
@@ -142,6 +152,7 @@ projects:
     rsd: [bacting, pybacting]
 
   - id: arrayanalysis
+    mark: AA
     name: ArrayAnalysis
     what: >-
       Transcriptomics analysis workflows and quality control for microarray and
@@ -154,6 +165,7 @@ projects:
       site: https://www.arrayanalysis.org
 
   - id: r-odaf
+    mark: RO
     name: R-ODAF
     what: >-
       Reproducible RNA-seq differential expression analysis, packaged as a Shiny app
@@ -170,6 +182,7 @@ projects:
       site: https://r-odaf.nl
 
   - id: vhp
+    mark: VHP
     name: Virtual Human Platform
     what: >-
       The VHP4Safety portal: a single entry point to the chemical safety assessment
@@ -186,6 +199,7 @@ projects:
       site: https://platform.vhp4safety.nl
 
   - id: aopwiki-rdf
+    mark: AW
     name: AOP-Wiki RDF
     what: >-
       Converts the AOP-Wiki to RDF, versions every release as its own named graph, and
@@ -211,6 +225,7 @@ projects:
       sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
 
   - id: molaop
+    mark: MA
     name: molAOP Builder and Analyser
     what: >-
       Maps Adverse Outcome Pathway key events onto molecular pathways, and analyses
