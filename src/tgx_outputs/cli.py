@@ -82,8 +82,68 @@ def cmd_build(args: argparse.Namespace) -> int:
     return build()
 
 
+def cmd_doctor_projects() -> int:
+    """Check every identifier in projects.yml against the live APIs."""
+    import os
+
+    from .http import HttpClient
+
+    bad = 0
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    with HttpClient() as http:
+        for proj in cfg.projects():
+            print(f"\n  {proj['name']}  ({proj['id']})")
+            for repo in proj.get("repos") or []:
+                ok = False
+                if token:
+                    try:
+                        body = http.post_json(
+                            "https://api.github.com/graphql",
+                            {"query": "query($o:String!,$n:String!){repository(owner:$o,name:$n){id}}",
+                             "variables": {"o": repo.split("/")[0], "n": repo.split("/")[1]}},
+                            headers={"Authorization": f"bearer {token}"})
+                        ok = bool((body.get("data") or {}).get("repository"))
+                    except Exception:  # noqa: BLE001
+                        ok = False
+                print(f"    repo     {'ok ' if ok else 'BAD'}  {repo}")
+                bad += 0 if ok else 1
+            for ref in proj.get("packages") or []:
+                reg, name = ref.split("/", 1)
+                try:
+                    http.get_json(
+                        f"https://packages.ecosyste.ms/api/v1/registries/{reg}/packages/{name}")
+                    ok = True
+                except Exception:  # noqa: BLE001
+                    ok = False
+                print(f"    package  {'ok ' if ok else 'BAD'}  {ref}")
+                bad += 0 if ok else 1
+            for image in proj.get("docker") or []:
+                try:
+                    http.get_json(f"https://hub.docker.com/v2/repositories/{image}/")
+                    ok = True
+                except Exception:  # noqa: BLE001
+                    ok = False
+                print(f"    docker   {'ok ' if ok else 'BAD'}  {image}")
+                bad += 0 if ok else 1
+            for image in proj.get("ghcr") or []:
+                try:
+                    tok = http.get_json("https://ghcr.io/token",
+                                        params={"scope": f"repository:{image}:pull"})["token"]
+                    data = http.get_json(f"https://ghcr.io/v2/{image}/tags/list",
+                                         headers={"Authorization": f"Bearer {tok}"})
+                    ok = bool(data.get("tags"))
+                except Exception:  # noqa: BLE001
+                    ok = False
+                print(f"    ghcr     {'ok ' if ok else 'private/BAD'}  {image}")
+    print(f"\n  {bad} identifier(s) did not resolve" if bad else "\n  every identifier resolves")
+    return 1 if bad else 0
+
+
 def cmd_doctor(args: argparse.Namespace) -> int:
     """Validate config and report what a run would cost, without calling anything."""
+    if getattr(args, "projects", False):
+        return cmd_doctor_projects()
+
     problems: list[str] = []
     semantics = cfg.semantics()
 
@@ -112,6 +172,8 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 
     enabled = [n for n in known if cfg.collector_enabled(n)]
     print(f"  config sha        {cfg.config_sha()}")
+    print(f"  projects          {len(cfg.projects())}: "
+          f"{', '.join(cfg.project_ids())}")
     print(f"  roster            {len(orcids)} ORCIDs")
     print(f"  metrics defined   {len(semantics)}")
     print(f"  orgs              {len(cfg.sources().get('github_orgs', []))}")
@@ -145,6 +207,8 @@ def main(argv: list[str] | None = None) -> int:
     b.set_defaults(func=cmd_build)
 
     doc = sub.add_parser("doctor", help="validate config; makes no network calls")
+    doc.add_argument("--projects", action="store_true",
+                     help="check every identifier in projects.yml against the live APIs")
     doc.set_defaults(func=cmd_doctor)
 
     args = parser.parse_args(argv)

@@ -1,0 +1,12 @@
+{
+ "url": "https://api.github.com/graphql",
+ "body": {
+  "query": "\nquery($owner:String!, $name:String!) {\n  repository(owner:$owner, name:$name) {\n    nameWithOwner pushedAt isArchived stargazerCount\n    primaryLanguage { name }\n    licenseInfo { spdxId }\n    releases(first:100, orderBy:{field:CREATED_AT, direction:DESC}) {\n      nodes { tagName publishedAt isDraft }\n    }\n    refs(refPrefix:\"refs/tags/\", first:100,\n         orderBy:{field:TAG_COMMIT_DATE, direction:DESC}) {\n      nodes { name target { ... on Commit { committedDate }\n                            ... on Tag { target { ... on Commit { committedDate } } } } }\n    }\n  }\n}\n",
+  "variables": {
+   "owner": "marvinm2",
+   "name": "AOP-Wiki-RDF-dashboard"
+  }
+ },
+ "status": 200,
+ "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"marvinm2/AOP-Wiki-RDF-dashboard\",\"pushedAt\":\"2026-08-16T18:42:48Z\",\"isArchived\":false,\"stargazerCount\":1,\"primaryLanguage\":{\"name\":\"Python\"},\"licenseInfo\":{\"spdxId\":\"MIT\"},\"releases\":{\"nodes\":[{\"tagName\":\"v1.4\",\"publishedAt\":\"2026-07-27T06:49:52Z\",\"isDraft\":false},{\"tagName\":\"v1.3\",\"publishedAt\":\"2026-07-15T20:34:25Z\",\"isDraft\":false}]},\"refs\":{\"nodes\":[{\"name\":\"v1.4\",\"target\":{\"committedDate\":\"2026-07-25T18:57:24Z\"}},{\"name\":\"v1.3\",\"target\":{\"committedDate\":\"2026-07-15T14:29:50Z\"}},{\"name\":\"v1.2\",\"target\":{\"target\":{\"committedDate\":\"2026-05-24T22:25:39Z\"}}},{\"name\":\"v1.0\",\"target\":{\"target\":{\"committedDate\":\"2026-03-18T13:28:50Z\"}}}]}}}}"
+}

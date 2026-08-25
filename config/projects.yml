@@ -1,0 +1,147 @@
+# config/projects.yml -- the things this dashboard tracks.
+#
+# ADDING A PROJECT
+# ----------------
+# Copy a block below, change the values, open a pull request. No code changes and no
+# Python needed. Every field except `id`, `name` and `what` is optional: leave out what
+# the project does not have, and nothing about it will be shown.
+#
+#   id        short slug, lowercase, used in URLs and file names
+#   name      how it is written on the page
+#   what      one sentence a stranger would understand. Shown under the name
+#   repos     owner/name on GitHub. Gives releases, tags and last activity
+#   packages  registry/name. Gives downloads and the latest version.
+#             Registries: bioconductor.org, pypi.org, npmjs.org, cran.r-project.org,
+#             repo1.maven.org (use group:artifact), conda-forge.org
+#   docker    Docker Hub namespace/image. Gives pull counts
+#   ghcr      GitHub Container Registry owner/image. Gives tags published, not pulls,
+#             because GHCR reports no pull count anywhere. Private images are skipped
+#   rsd       Research Software Directory slug. Gives papers mentioning the tool.
+#             Find it in the URL: research-software-directory.org/software/<slug>
+#             Not registered there? Register it -- that is worth more than adding it here
+#   links     shown next to the project. Any label you like
+#
+# If you are unsure whether an identifier is right, run `tgx doctor --projects`. It
+# checks every one of them against the live APIs and tells you which do not resolve.
+
+projects:
+
+  - id: bridgedb
+    name: BridgeDb
+    what: >-
+      Maps identifiers between biological databases, so that one gene or metabolite
+      can be recognised across resources that each name it differently.
+    repos: [bridgedb/BridgeDb, bridgedb/bridgedbjs, bridgedb/docker]
+    packages:
+      - bioconductor.org/BridgeDbR
+      - npmjs.org/bridgedb
+      - repo1.maven.org/org.bridgedb:org.bridgedb.bio
+    docker: [bigcatum/bridgedb]
+    rsd: [bridgedb-java, bridgedb-webservice, bridgedbr]
+    links:
+      site: https://www.bridgedb.org
+      webservice: https://webservice.bridgedb.org
+
+  - id: wikipathways
+    name: WikiPathways
+    what: >-
+      An open, community-curated pathway database. The department maintains its
+      semantic layer and the clients most people actually use.
+    repos:
+      - wikipathways/rWikiPathways
+      - wikipathways/pywikipathways
+      - wikipathways/pvjs
+      - wikipathways/wikipathways-database
+    packages:
+      - bioconductor.org/rWikiPathways
+      - pypi.org/pywikipathways
+      - npmjs.org/@wikipathways/pvjs
+    rsd: [rwikipathways]
+    links:
+      site: https://www.wikipathways.org
+      sparql: https://sparql.wikipathways.org/sparql
+
+  - id: pathvisio
+    name: PathVisio
+    what: Desktop editor for biological pathways, and the origin of the GPML format.
+    repos: [PathVisio/pathvisio]
+    rsd: [pathvisio, libgpml]
+    links:
+      site: https://pathvisio.org
+
+  - id: cdk
+    name: Chemistry Development Kit
+    what: >-
+      Java library for cheminformatics: structure handling, fingerprints, descriptors.
+      Widely used well beyond this department.
+    repos: [cdk/cdk]
+    packages:
+      - repo1.maven.org/org.openscience.cdk:cdk-bundle
+    rsd: [cdk]
+    links:
+      site: https://cdk.github.io
+
+  - id: bacting
+    name: Bacting
+    what: Scriptable cheminformatics and bioinformatics, usable from Java and Python.
+    repos: [egonw/bacting, egonw/pybacting]
+    packages:
+      - pypi.org/pybacting
+      - repo1.maven.org/io.github.egonw.bacting:managers-cheminfo
+    rsd: [bacting, pybacting]
+
+  - id: arrayanalysis
+    name: ArrayAnalysis
+    what: >-
+      Transcriptomics analysis workflows and quality control for microarray and
+      RNA-seq data.
+    repos: [BiGCAT-UM/ArrayAnalysis]
+    rsd: [arrayanalysis]
+    links:
+      site: https://www.arrayanalysis.org
+
+  - id: r-odaf
+    name: R-ODAF
+    what: >-
+      Reproducible RNA-seq differential expression analysis, packaged as a Shiny app
+      for regulatory toxicogenomics.
+    repos: [TGX-UM/R-ODAF-Shiny]
+    links:
+      site: https://r-odaf.nl
+
+  - id: vhp
+    name: Virtual Human Platform
+    what: >-
+      The VHP4Safety portal: a single entry point to the chemical safety assessment
+      services the consortium runs.
+    repos: [VHP4Safety/virtual-human-platform]
+    rsd: [virtual-human-platform]
+    links:
+      site: https://platform.vhp4safety.nl
+
+  - id: aopwiki-rdf
+    name: AOP-Wiki RDF
+    what: >-
+      Converts the AOP-Wiki to RDF, versions every release as its own named graph, and
+      serves it over a public SPARQL endpoint with a query interface and dashboard.
+    repos:
+      - marvinm2/AOPWikiRDF
+      - marvinm2/AOP-Wiki-Snorql-UI
+      - marvinm2/AOP-Wiki-RDF-dashboard
+    ghcr:
+      - marvinm2/aopwiki-dashboard
+      - marvinm2/aop-wiki-snorql-ui
+    links:
+      sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
+      dashboard: https://aopwiki-dashboard.vhp4safety.nl
+
+  - id: molaop
+    name: molAOP Builder and Analyser
+    what: >-
+      Maps Adverse Outcome Pathway key events onto molecular pathways, and analyses
+      the resulting molecular AOPs.
+    repos: [marvinm2/molAOP-builder, marvinm2/molAOP-analyser]
+    ghcr: [marvinm2/molaop-builder, marvinm2/molaop-analyser]
+    links:
+      builder: https://molaop-builder.vhp4safety.nl
+      analyser: https://molaop-analyser.vhp4safety.nl

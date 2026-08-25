@@ -56,10 +56,8 @@ extra:
       name: Department of Translational Genomics
 
 nav:
-  - Overview: index.md
+  - Tools: index.md
   - Publications: publications.md
-  - Software: software.md
-  - Infrastructure: infrastructure.md
   - How the numbers are made: methodology.md
   - What we deliberately do not show: not-shown.md
   - Collection status: status.md

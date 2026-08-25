@@ -118,20 +118,19 @@ metrics:
     caveat: Breadth, not volume. Found by reverse lookup from the repository URL.
   releases_by_year:
     label: Releases per year
-    counts: A tagged release of a department repository, from GitHub Releases and git tags.
+    counts: A tagged release of a project's repositories, from GitHub Releases and git tags.
     source: github
     cumulative: false
     granularity: year
     caveat: Tags count too. BridgeDb ships as a tag and BridgeDbR ships through Bioconductor,
-      so a Releases-only count misses the flagships.
+      so a Releases-only count misses them.
   repos_active:
     label: Repositories active in the last year
-    counts: Public, non-fork, non-archived repositories pushed to in the last 365 days.
+    counts: A project's repositories pushed to in the last 365 days.
     source: github
     cumulative: true
     granularity: none
-    caveat: Split by band and never added up. A repository in the wikipathways or bridgedb
-      org is co-maintained.
+    caveat: Activity, not health. A finished tool needs no commits.
   zenodo_by_year_type:
     label: Zenodo depositions
     counts: A Zenodo concept record with a roster ORCID among its creators.
@@ -169,15 +168,23 @@ metrics:
     source: dockerhub
     cumulative: true
     granularity: none
-    caveat: Reach, not installs. A CI job rebuilding hourly pulls the base image every
-      time, and one pull of a multi-arch image can register more than once. GHCR
-      publishes no equivalent, so images there are absent.
+    caveat: Reach, not installs. A CI job rebuilding hourly pulls the base image every time,
+      and one pull of a multi-arch image can register more than once. GHCR publishes no equivalent,
+      so images there are absent.
   ghcr_tags:
     label: Tags published to GHCR
     counts: Tags on a public image in the GitHub Container Registry.
     source: ghcr
     cumulative: true
     granularity: none
-    caveat: Publishing activity, not use. GHCR reports no pull count anywhere, so this
-      says how often an image was rebuilt, not how often anyone ran it. Private images
-      are not listed.
+    caveat: Publishing activity, not use. GHCR reports no pull count anywhere, so this says
+      how often an image was rebuilt, not how often anyone ran it. Private images are not
+      listed.
+  latest_release:
+    label: Last release
+    counts: The date of a project's most recent release or tag.
+    source: github
+    cumulative: true
+    granularity: none
+    caveat: Old is not the same as abandoned. ArrayAnalysis has not moved since 2013 and is
+      still cited.

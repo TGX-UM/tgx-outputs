@@ -1,0 +1,12 @@
+{
+ "url": "https://api.github.com/graphql",
+ "body": {
+  "query": "\nquery($owner:String!, $name:String!) {\n  repository(owner:$owner, name:$name) {\n    nameWithOwner pushedAt isArchived stargazerCount\n    primaryLanguage { name }\n    licenseInfo { spdxId }\n    releases(first:100, orderBy:{field:CREATED_AT, direction:DESC}) {\n      nodes { tagName publishedAt isDraft }\n    }\n    refs(refPrefix:\"refs/tags/\", first:100,\n         orderBy:{field:TAG_COMMIT_DATE, direction:DESC}) {\n      nodes { name target { ... on Commit { committedDate }\n                            ... on Tag { target { ... on Commit { committedDate } } } } }\n    }\n  }\n}\n",
+  "variables": {
+   "owner": "marvinm2",
+   "name": "molAOP-analyser"
+  }
+ },
+ "status": 200,
+ "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"marvinm2/molAOP-analyser\",\"pushedAt\":\"2026-08-21T16:08:28Z\",\"isArchived\":false,\"stargazerCount\":2,\"primaryLanguage\":{\"name\":\"Python\"},\"licenseInfo\":{\"spdxId\":\"GPL-2.0\"},\"releases\":{\"nodes\":[{\"tagName\":\"v6.0.0\",\"publishedAt\":\"2026-08-21T16:03:13Z\",\"isDraft\":false},{\"tagName\":\"v5.0.0\",\"publishedAt\":\"2026-08-13T07:19:42Z\",\"isDraft\":false}]},\"refs\":{\"nodes\":[{\"name\":\"v6.0.0\",\"target\":{\"target\":{\"committedDate\":\"2026-08-21T15:59:07Z\"}}},{\"name\":\"v5.0.0\",\"target\":{\"target\":{\"committedDate\":\"2026-08-13T07:15:50Z\"}}},{\"name\":\"v4.0\",\"target\":{\"target\":{\"committedDate\":\"2026-05-18T10:41:01Z\"}}},{\"name\":\"v3.0\",\"target\":{\"target\":{\"committedDate\":\"2026-05-11T10:35:22Z\"}}},{\"name\":\"v1.0\",\"target\":{\"target\":{\"committedDate\":\"2026-02-27T09:53:42Z\"}}}]}}}}"
+}

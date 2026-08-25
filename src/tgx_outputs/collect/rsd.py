@@ -15,7 +15,7 @@ there, not to build a second harvester.
 
 from __future__ import annotations
 
-from ..config import sources
+from ..config import project_field, sources
 from ..model import Call, Record
 from .base import Collector, register
 
@@ -42,10 +42,11 @@ class RSD(Collector):
         env.calls.append(Call(url=f"{url}?organisation_id={org}", status=200, ok=True,
                               note=f"{len(data)} software entries"))
 
-        allow = set(cfg.get("allow") or [])
-        if not allow:
-            env.degrade("no RSD allowlist configured; refusing to report the whole tenant")
+        wanted = dict((slug, project) for project, slug in project_field("rsd"))
+        if not wanted:
+            env.degrade("no project declares an RSD slug; refusing to report the whole tenant")
             return env
+        allow = set(wanted)
 
         seen = set()
         for item in data:
@@ -57,7 +58,7 @@ class RSD(Collector):
             if mentions:
                 env.records.append(Record(
                     "rsd_mentions", item["brand_name"], float(mentions),
-                    extra={"slug": item.get("slug"),
+                    extra={"slug": slug, "project": wanted[slug],
                            "contributors": item.get("contributor_cnt")}))
         missing = allow - seen
         if missing:

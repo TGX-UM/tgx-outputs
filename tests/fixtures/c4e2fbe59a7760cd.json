@@ -1,0 +1,12 @@
+{
+ "url": "https://api.github.com/graphql",
+ "body": {
+  "query": "\nquery($owner:String!, $name:String!) {\n  repository(owner:$owner, name:$name) {\n    nameWithOwner pushedAt isArchived stargazerCount\n    primaryLanguage { name }\n    licenseInfo { spdxId }\n    releases(first:100, orderBy:{field:CREATED_AT, direction:DESC}) {\n      nodes { tagName publishedAt isDraft }\n    }\n    refs(refPrefix:\"refs/tags/\", first:100,\n         orderBy:{field:TAG_COMMIT_DATE, direction:DESC}) {\n      nodes { name target { ... on Commit { committedDate }\n                            ... on Tag { target { ... on Commit { committedDate } } } } }\n    }\n  }\n}\n",
+  "variables": {
+   "owner": "TGX-UM",
+   "name": "R-ODAF-Shiny"
+  }
+ },
+ "status": 200,
+ "text": "{\"data\":{\"repository\":{\"nameWithOwner\":\"TGX-UM/R-ODAF-Shiny\",\"pushedAt\":\"2026-07-28T16:20:28Z\",\"isArchived\":false,\"stargazerCount\":0,\"primaryLanguage\":{\"name\":\"R\"},\"licenseInfo\":{\"spdxId\":\"MIT\"},\"releases\":{\"nodes\":[]},\"refs\":{\"nodes\":[{\"name\":\"v1.0.0\",\"target\":{\"target\":{\"committedDate\":\"2026-07-28T16:10:04Z\"}}}]}}}}"
+}

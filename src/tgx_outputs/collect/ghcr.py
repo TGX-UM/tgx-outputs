@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import json
 
-from ..config import sources
+from ..config import project_field
 from ..model import Call, Record
 from .base import Collector, register
 
@@ -74,13 +74,13 @@ class GHCR(Collector):
 
     def collect(self):
         env = self.envelope()
-        images = sources().get("ghcr", {}).get("images") or []
+        images = project_field("ghcr")
         if not images:
             env.degrade("no GHCR images configured")
             return env
 
         private = 0
-        for image in images:
+        for project, image in images:
             token = self._token(image)
             if not token:
                 private += 1
@@ -101,9 +101,11 @@ class GHCR(Collector):
                                   note=f"{len(tags)} tags"))
             published = self._published(image, "latest" if "latest" in tags else tags[-1],
                                         token)
+            extra = {"project": project}
+            if published:
+                extra["last_published"] = published
             env.records.append(Record(
-                "ghcr_tags", f"ghcr.io/{image}", float(len(tags)),
-                extra={"last_published": published} if published else {}))
+                "ghcr_tags", f"ghcr.io/{image}", float(len(tags)), extra=extra))
 
         if private:
             env.errors.append(f"{private} configured image(s) are private or absent; skipped")

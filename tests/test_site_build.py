@@ -78,18 +78,19 @@ def test_a_failed_source_reads_as_missing_not_as_zero():
     states "0 pathways" as fact. Missing must read as missing.
     """
     empty = _snapshot_with([], status="failed")
-    assert build._value(empty, "wp_pathway_count") is None
+    assert build._value(empty, "rsd_mentions") is None
 
-    html = build._tiles(empty)
+    html = build._cards(empty)
     assert build.MISSING in html
-    assert "0 pathways" not in html
+    # the failure mode: a dead source rendering a confident zero
+    assert ">0<" not in html
 
 
 def test_a_collected_zero_is_still_shown_as_zero():
     """The converse: a real measurement of zero must not be hidden."""
-    snap = _snapshot_with([{"metric": "wp_pathway_count", "entity": "WikiPathways",
+    snap = _snapshot_with([{"metric": "rsd_mentions", "entity": "Some Tool",
                             "value": 0.0}])
-    assert build._value(snap, "wp_pathway_count") == 0.0
+    assert build._value(snap, "rsd_mentions") == 0.0
 
 
 def test_a_figure_with_no_data_is_replaced_by_an_explanation():

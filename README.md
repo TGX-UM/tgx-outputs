@@ -24,10 +24,12 @@ is a different job with a different cadence, and the cluster already has monitor
 ## How it works
 
 ```
-config/          →   collectors   →   data/snapshots/*.json   →   docs/data/*.csv   →   static site
-(what to track)      (one file        (whole state per run,       (every figure's
-                      per source)      on the `data` branch)       download link)
+config/projects.yml  →  collectors  →  data/snapshots/*.json  →  docs/data/*.csv  →  static site
+(the list of things      (one file      (whole state per run,     (every figure's
+ being tracked)           per source)    on the `data` branch)     download link)
 ```
+
+One file lists the projects. Adding one is a block of YAML and a pull request.
 
 Once a week a GitHub Actions job collects every source, checks the results against a
 set of integrity rules, writes a complete snapshot, and rebuilds and deploys the site
@@ -55,11 +57,10 @@ schema in CI, so a malformed change fails the pull request rather than the next 
 
 | To do this | Edit |
 |---|---|
-| Track another GitHub organisation | `config/sources.yml` → `github_orgs` |
-| Track another package | `config/sources.yml` → `packages_seed` (most are discovered automatically) |
-| Add or remove an ORCID | `config/roster.yml` |
-| Leave something out | `config/exclusions.yml` — a reason is required and is published |
-| Add a number to the page | `config/metric_semantics.yml` **first** — nothing renders without a definition |
+| Track another project | `config/projects.yml`, then `tgx doctor --projects` |
+| Add or remove an ORCID | `config/roster.yml` (publications page only) |
+| Leave something out | `config/exclusions.yml`; a reason is required and is published |
+| Add a number to the page | `config/metric_semantics.yml` first, or it will not render |
 
 To be excluded from the underlying queries, open an issue or email the address in
 `config/sources.yml`. No reason is needed and none will be asked for.

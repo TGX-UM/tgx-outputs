@@ -33,6 +33,29 @@ def semantics() -> dict[str, Any]:
 
 
 @functools.lru_cache(maxsize=1)
+def projects() -> list[dict[str, Any]]:
+    """The tracked projects, in the order they appear in config/projects.yml."""
+    return _load("projects.yml").get("projects") or []
+
+
+def project_ids() -> list[str]:
+    return [p["id"] for p in projects()]
+
+
+def project_field(field: str) -> list[tuple[str, str]]:
+    """Flatten one field across projects as (project_id, value) pairs.
+
+    Collectors iterate this rather than a per-source list, which is what keeps
+    config/projects.yml the single place a person edits.
+    """
+    out: list[tuple[str, str]] = []
+    for proj in projects():
+        for value in proj.get(field) or []:
+            out.append((proj["id"], value))
+    return out
+
+
+@functools.lru_cache(maxsize=1)
 def exclusions() -> dict[str, Any]:
     return _load("exclusions.yml")
 

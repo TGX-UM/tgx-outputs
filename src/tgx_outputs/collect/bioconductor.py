@@ -16,7 +16,7 @@ import csv
 import datetime as dt
 import io
 
-from ..config import sources
+from ..config import project_field
 from ..model import Call, Record
 from .base import Collector, register
 
@@ -33,10 +33,9 @@ class Bioconductor(Collector):
     version = "1"
 
     def _wanted(self) -> set[str]:
-        return {
-            p["name"] for p in sources().get("packages_seed", [])
-            if p.get("registry") == "bioconductor.org"
-        }
+        return {ref.split("/", 1)[1]
+                for _project, ref in project_field("packages")
+                if ref.startswith("bioconductor.org/")}
 
     def collect(self):
         env = self.envelope()

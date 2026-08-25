@@ -1,3 +1,35 @@
+/* A dashboard reads better wider than Material's default prose measure. */
+.md-grid { max-width: 68rem; }
+
+/* Summary cards ----------------------------------------------------------- */
+.tgx-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: .6rem;
+  margin: 1.2rem 0 2rem;
+}
+.tgx-card {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .5rem;
+  padding: .8rem .9rem;
+  background: var(--md-code-bg-color);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .12s ease;
+}
+.tgx-card:hover { border-color: var(--md-primary-fg-color); }
+.tgx-card-label {
+  font-size: .68rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+.tgx-card-value { font-size: 1.45rem; font-weight: 600; line-height: 1.15; }
+.tgx-card-sub { font-size: .7rem; color: var(--md-default-fg-color--light); }
+
 /* Tiles ------------------------------------------------------------------- */
 .tgx-tiles {
   display: grid;
