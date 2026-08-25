@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1093/nar/gkv1024",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1093/nar/gkv1024\",\"title\":\"WikiPathways: capturing the full diversity of pathway knowledge\",\"publication_year\":2015,\"cited_by_count\":436,\"type\":\"article\"}\n"
+}

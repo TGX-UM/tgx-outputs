@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.2174/138161206777585274",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.2174/138161206777585274\",\"title\":\"Recent Developments of the Chemistry Development Kit (CDK) - An Open-Source Java Library for Chemo- and Bioinformatics\",\"publication_year\":2006,\"cited_by_count\":477,\"type\":\"article\"}\n"
+}

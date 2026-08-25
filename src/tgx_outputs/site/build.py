@@ -94,7 +94,13 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
         f'</div>\n\n'
         f'<div class="tgx-caption" markdown>\n'
         f'**{spec["label"]}.** {spec["counts"]}\n\n'
-        f'{spec["caveat"].strip()}\n\n'
+        # The caveat is the thing this project will not drop -- a number published
+        # without what it does not mean is the failure the whole page argues against.
+        # It does not have to be the largest block of text under every chart, though,
+        # so it sits one click away rather than on the page by default.
+        f'<details class="tgx-drop tgx-caveat">'
+        f'<summary><span class="tgx-caret"></span>What this does not mean</summary>'
+        f'<p>{spec["caveat"].strip()}</p></details>\n\n'
         f'<small>Source: `{source}` · collected {collected}{badge} · '
         f'[download CSV](data/{metric}.csv)</small>\n'
         f'</div>\n'
@@ -254,6 +260,82 @@ def _stat(value: str, label: str) -> str:
             f'<span class="tgx-stat-label">{label}</span></div>')
 
 
+# Where a tracked identifier lives, so the tile can link it without anyone writing the
+# URL down twice. The identifiers are already in config/identifiers.csv for collection;
+# these turn each one into the page a reader would want. A registry missing from here
+# is simply not linked, which is visible on the page rather than silently wrong.
+REGISTRY_URLS = {
+    "bioconductor.org": ("Bioconductor", "https://bioconductor.org/packages/{name}"),
+    "pypi.org": ("PyPI", "https://pypi.org/project/{name}/"),
+    "npmjs.org": ("npm", "https://www.npmjs.com/package/{name}"),
+    "cran.r-project.org": ("CRAN", "https://cran.r-project.org/package={name}"),
+    # Maven Central's own browse UI is central.sonatype.com, and it wants the group and
+    # the artifact as path segments rather than the colon-joined coordinate.
+    "repo1.maven.org": ("Maven Central",
+                        "https://central.sonatype.com/artifact/{group}/{artifact}"),
+    "conda-forge.org": ("conda-forge", "https://anaconda.org/conda-forge/{name}"),
+}
+
+
+def _registry_links(proj: dict[str, Any]) -> list[str]:
+    """Every place a project is published, built from the identifiers it declares.
+
+    Not a hand-maintained list: the same rows that tell the collectors where to look
+    tell the page where to link, so the two cannot drift apart and adding a package
+    adds its link for free.
+    """
+    out: list[str] = []
+    for ref in proj.get("packages") or []:
+        registry, name = ref.split("/", 1)
+        entry = REGISTRY_URLS.get(registry)
+        if entry is None:
+            continue
+        label, template = entry
+        group, _, artifact = name.partition(":")
+        url = template.format(name=name, group=group, artifact=artifact or name)
+        out.append(f'<a href="{url}">{label}</a> <span class="tgx-drop-meta">{name}</span>')
+    for image in proj.get("docker") or []:
+        out.append(f'<a href="https://hub.docker.com/r/{image}">Docker Hub</a> '
+                   f'<span class="tgx-drop-meta">{image}</span>')
+    for slug in proj.get("rsd") or []:
+        out.append(f'<a href="https://research-software-directory.org/software/{slug}">'
+                   f'Research Software Directory</a> '
+                   f'<span class="tgx-drop-meta">{slug}</span>')
+    for repo in proj.get("repos") or []:
+        out.append(f'<a href="https://github.com/{repo}">GitHub</a> '
+                   f'<span class="tgx-drop-meta">{repo}</span>')
+    return out
+
+
+def _drop(kind: str, entries: list) -> str:
+    """One collapsed list on a tile: its links, or the papers behind its citations.
+
+    ``<details>`` rather than a scripted disclosure, so it works with JavaScript off
+    and the browser handles the keyboard for us. The summary carries the count, which
+    is the part worth reading without opening anything.
+    """
+    if not entries:
+        return ""
+    plural = "" if len(entries) == 1 else ("ies" if kind.endswith("y") else "s")
+    kind = kind[:-1] if (plural == "ies") else kind
+    if kind != "paper":
+        items = "".join(f"<li>{html}</li>" for html in entries)
+    else:
+        items = ""
+        for paper in entries:
+            tag = ('<span class="tgx-tag">preprint</span>'
+                   if paper["type"] == "preprint" else "")
+            year = f'{paper["year"]} · ' if paper["year"] else ""
+            cites = f'{_fmt(paper["citations"])} citation'
+            cites += "" if paper["citations"] == 1 else "s"
+            items += (f'<li><a href="https://doi.org/{paper["doi"]}">{paper["title"]}</a>'
+                      f'{tag}<span class="tgx-drop-meta">{year}{cites}</span></li>')
+    return (f'<details class="tgx-drop">'
+            f'<summary><span class="tgx-caret"></span>{len(entries)} {kind}{plural}'
+            f'</summary>'
+            f'<ul class="tgx-drop-list">{items}</ul></details>')
+
+
 def _project_tiles(snapshot: dict[str, Any]) -> str:
     """One tile per tracked project. The whole point of the page.
 
@@ -289,6 +371,21 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
         pid = (r.get("extra") or {}).get("project")
         if pid:
             pulls[pid] = pulls.get(pid, 0) + r["value"]
+    # One entry per DOI rather than the summed count, so a tile can list the papers
+    # it is counting instead of only saying how many there were.
+    papers_of: dict[str, list[dict[str, Any]]] = {}
+    for r in by("paper_citations_by_doi"):
+        extra = r.get("extra") or {}
+        pid = extra.get("project")
+        if pid:
+            papers_of.setdefault(pid, []).append(
+                {"doi": r["entity"], "citations": r["value"],
+                 "title": extra.get("title") or r["entity"],
+                 "year": extra.get("year"), "type": extra.get("type")})
+    for entries in papers_of.values():
+        # Newest first: the current paper is the one to cite.
+        entries.sort(key=lambda e: (e["year"] or 0), reverse=True)
+
     cites = {r["entity"]: r["value"] for r in by("paper_citations")}
     papers = {r["entity"]: (r.get("extra") or {}).get("papers", 0)
               for r in by("paper_citations")}
@@ -340,7 +437,7 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
             brand = (f'<span class="tgx-project-mark" aria-hidden="true">'
                      f'{_mark(proj)}</span>{name}')
 
-        # `links:` first and in the order projects.yml writes them, then the services.
+        # `links:` first and in the order the tables write them, then the services.
         # Which link leads is an editorial choice about the project -- for BridgeDb and
         # WikiPathways the project's own site is what a stranger wants first, not the
         # machine endpoint -- and the YAML file is where that choice belongs, not here.
@@ -354,6 +451,15 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
             seen.add(url)
             links.append(f'<a href="{url}">{label}</a>')
 
+        # Where to go and what to cite, folded away. Eleven tiles each listing four
+        # links and up to seven papers is a wall of blue text that buries the numbers
+        # the tile exists to show; behind a toggle the same material is one click away
+        # and costs a line. Closed by default, and a <details> needs no JavaScript, so
+        # it still opens on a page with scripting turned off.
+        drops = (_drop("link", links)
+                 + _drop("registry", _registry_links(proj))
+                 + _drop("paper", papers_of.get(pid, [])))
+
         out.append(
             f'<article class="tgx-project" style="--tgx-project-accent: {accent}">'
             f'<div class="tgx-project-brand">{brand}</div>'
@@ -363,24 +469,15 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
                '<div class="tgx-project-stats tgx-project-quiet">'
                '<div class="tgx-stat"><span class="tgx-stat-label">'
                'nothing measurable is published for this one yet</span></div></div>')
-            + (f'<div class="tgx-project-foot">{" · ".join(links)}</div>' if links else "")
+            + (f'<div class="tgx-project-foot">{drops}</div>' if drops else "")
             + '</article>')
     out.append("</div>")
 
-    # Four separate points, so four sentences a reader can stop after. Run together as
-    # one paragraph it reads as boilerplate and gets skipped, which defeats the purpose.
-    note = ("\n*A figure a tile does not show is one the project has no identifier for. "
-            "It does not mean zero.*\n\n"
-            "*Citations come from OpenAlex and cover every paper describing a tool, "
-            "update papers included. Citing a paper is not proof the software was used, "
-            "and a tool built by a community much larger than this department carries "
-            "that community's citations too.*\n\n"
-            "*Downloads are listed per registry with the window each one reports and are "
-            "never added up: Bioconductor publishes a lifetime total, npm and PyPI a "
-            "rolling 30 days.*\n\n"
-            "*Container pulls are Docker Hub's own counter. An image published only "
-            "elsewhere has no pull count to show: no other registry publishes one.*\n")
-    return "\n".join(out) + "\n" + note
+    # The caveats that used to sit here as four paragraphs are on each metric's entry
+    # in the Methods catalogue, and under each figure's own toggle. Repeating them at
+    # the foot of the grid put the longest block of text on the page under the part a
+    # reader had already understood.
+    return "\n".join(out) + "\n"
 
 
 def _latest_manifest() -> dict[str, Any]:

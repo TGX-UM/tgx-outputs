@@ -397,13 +397,93 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .tgx-project-foot {
   margin-top: auto;
   border-top: 1px solid var(--md-default-fg-color--lightest);
-  padding-top: .55rem;
+  padding-top: .3rem;
   font-size: .7rem;
-  line-height: 1.6;
   color: var(--md-default-fg-color--light);
 }
-.md-typeset .tgx-project-foot a { text-decoration: none; }
-.md-typeset .tgx-project-foot a:hover { text-decoration: underline; }
+
+/* Collapsed lists ---------------------------------------------------------
+   Eleven tiles each showing ten registry links and seven papers is a wall of blue
+   text that buries the numbers the tile is for. Behind a <details> the same material
+   costs one line and one click, needs no JavaScript, and the browser gives us the
+   keyboard behaviour for free. */
+.md-typeset .tgx-drop {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+  font-size: inherit;
+}
+.md-typeset .tgx-drop > summary {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  margin: 0;
+  padding: .22rem 0;
+  border: 0;
+  border-radius: .25rem;
+  background: none;
+  font-weight: 600;
+  font-size: .68rem;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+  list-style: none;
+}
+/* Material draws its own marker on a summary, and it is positioned for an admonition
+   several times this size. Both the WebKit and the standard selector are needed. */
+.md-typeset .tgx-drop > summary::-webkit-details-marker { display: none; }
+.md-typeset .tgx-drop > summary::marker { content: ""; }
+.md-typeset .tgx-drop > summary::after,
+.md-typeset .tgx-drop > summary::before { display: none; }
+/* The caret, drawn here so it turns with the disclosure rather than sitting still. */
+.md-typeset .tgx-drop > summary .tgx-caret {
+  flex: 0 0 auto;
+  width: .5rem;
+  height: .5rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg) translate(-1px, -1px);
+  transition: transform .12s ease;
+}
+.md-typeset .tgx-drop[open] > summary .tgx-caret {
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+.md-typeset .tgx-drop > summary:hover { color: var(--tgx-accent); }
+
+.md-typeset .tgx-drop-list {
+  margin: .1rem 0 .45rem;
+  padding: 0 0 0 .8rem;
+  list-style: none;
+}
+.md-typeset .tgx-drop-list li {
+  margin: 0 0 .3rem;
+  padding: 0;
+  line-height: 1.45;
+}
+.md-typeset .tgx-drop-list a { text-decoration: none; }
+.md-typeset .tgx-drop-list a:hover { text-decoration: underline; }
+/* The identifier, the year, the citation count: context for the link beside it, and
+   never the thing to click. */
+.tgx-drop-meta {
+  display: block;
+  font-size: .64rem;
+  color: var(--md-default-fg-color--light);
+  opacity: .85;
+}
+.tgx-tag {
+  display: inline-block;
+  margin-left: .3rem;
+  padding: 0 .28rem;
+  border-radius: .2rem;
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--tgx-project-accent, var(--md-default-fg-color--light));
+  box-shadow: inset 0 0 0 1px currentColor;
+}
 
 /* Tiles ------------------------------------------------------------------- */
 .tgx-tiles {
@@ -434,6 +514,15 @@ html { scroll-padding-top: var(--tgx-header-height); }
   font-size: .76rem;
   line-height: 1.5;
   color: var(--md-default-fg-color--light);
+}
+
+/* The caveat under a figure, folded away like a tile's lists. */
+.md-typeset .tgx-caveat { margin: .1rem 0 .5rem; }
+.md-typeset .tgx-caveat > summary { font-size: .66rem; }
+.md-typeset .tgx-caveat p {
+  margin: .2rem 0 0 .8rem;
+  font-size: .74rem;
+  line-height: 1.55;
 }
 
 /* Freshness strip --------------------------------------------------------- */

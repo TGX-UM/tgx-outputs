@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1186/1471-2105-11-5",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1186/1471-2105-11-5\",\"title\":\"The BridgeDb framework: standardized access to gene, protein and metabolite identifier mapping services\",\"publication_year\":2010,\"cited_by_count\":238,\"type\":\"article\"}\n"
+}

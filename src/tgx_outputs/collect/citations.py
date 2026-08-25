@@ -54,7 +54,7 @@ class Citations(Collector):
             doi = str(doi).strip()
             if doi.lower() in dropped:
                 continue
-            params = {"select": "doi,title,publication_year,cited_by_count"}
+            params = {"select": "doi,title,publication_year,cited_by_count,type"}
             if key:
                 params["api_key"] = key
             url = WORK.format(doi=urllib.parse.quote(doi, safe="/.:"))
@@ -78,6 +78,10 @@ class Citations(Collector):
                 "paper_citations_by_doi", doi, float(cited),
                 extra={"project": project,
                        "year": work.get("publication_year"),
+                       # A preprint is labelled as one on the page. Several tools are
+                       # described by one so far, and a reader should not have to
+                       # follow the DOI to find out that is what they are getting.
+                       "type": work.get("type"),
                        "title": (work.get("title") or "")[:90]}))
 
         for project, total in sorted(totals.items()):

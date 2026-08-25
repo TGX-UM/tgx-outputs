@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1101/2023.03.02.530766",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1101/2023.03.02.530766\",\"title\":\"Molecular Adverse Outcome Pathways: towards the implementation of transcriptomics data in risk assessments\",\"publication_year\":2023,\"cited_by_count\":3,\"type\":\"preprint\"}\n"
+}

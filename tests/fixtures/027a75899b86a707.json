@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1093/nar/gkaa1024",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1093/nar/gkaa1024\",\"title\":\"WikiPathways: connecting communities\",\"publication_year\":2020,\"cited_by_count\":966,\"type\":\"article\"}\n"
+}

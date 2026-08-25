@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.21105/joss.02558",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count,type"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.21105/joss.02558\",\"title\":\"Bacting: a next generation, command line version of Bioclipse\",\"publication_year\":2021,\"cited_by_count\":13,\"type\":\"article\"}\n"
+}
