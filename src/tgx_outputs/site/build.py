@@ -345,16 +345,15 @@ def _calls(snapshot: dict[str, Any], semantics: dict[str, Any]) -> str:
         for rec in snap_src.get("records", []):
             metrics[rec["metric"]] = metrics.get(rec["metric"], 0) + 1
 
-        out.append(f"### `{name}` {{ #{name} }}\n")
         status = src.get("status", "unknown")
         when = (src.get("fetched_at") or "")[:10]
+        # A disabled collector makes no calls, so it has nothing to explain here. That
+        # it exists and is switched off is a fact about the configuration, and the
+        # collection status page is where configuration belongs.
         if status == "skipped":
-            out.append(
-                "Disabled in `config/sources.yml`, so it made no calls and produced "
-                "nothing. It is listed here because a source that is off should be "
-                "visible, not absent.\n")
-            out.append(source_flow(name, [], [], 0) + "\n")
             continue
+
+        out.append(f"### `{name}` {{ #{name} }}\n")
 
         out.append(
             f"{len(calls)} request{'s' if len(calls) != 1 else ''} on {when}, "

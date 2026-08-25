@@ -200,11 +200,16 @@ def test_the_calls_page_lists_every_request_that_was_made(monkeypatch):
     assert "tgx-flow" in html
 
 
-def test_a_disabled_source_is_shown_as_disabled_rather_than_omitted(monkeypatch):
-    """A source that is off should be visible. Silence looks the same as an oversight."""
+def test_a_disabled_source_is_left_off_the_calls_page(monkeypatch):
+    """The page explains calls, and a disabled collector makes none.
+
+    Whether a source exists and is switched off is a question about the configuration,
+    and the collection status page answers it. A section here that said only "made no
+    requests" was noise between the sources that did.
+    """
     monkeypatch.setattr(build, "_latest_manifest", lambda: {"sources": {"wikipathways": {
         "status": "skipped", "fetched_at": "2026-08-25T00:00:00+00:00",
         "record_count": 0, "calls": [], "errors": [], "quarantined": []}}})
     html = build._calls(_snapshot(0), cfg.semantics())
-    assert "wikipathways" in html
-    assert "no calls" in html or "made no calls" in html
+    assert "wikipathways" not in html
+    assert "tgx-flow" not in html, "nothing to draw when nothing was requested"
