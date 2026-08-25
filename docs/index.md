@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # TGX tools
 
 The software and data resources this department builds. Refreshed weekly from public

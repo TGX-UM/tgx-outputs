@@ -309,14 +309,18 @@ html { scroll-padding-top: var(--tgx-header-height); }
   color: var(--md-default-fg-color--light);
 }
 /* Two columns of numbers, not one line each: a tile with six statistics in a stack is
-   taller than the description it belongs to. The floor is in rem and Material scales
-   the root font to 22px on a wide screen, so 7.5rem is 165px there -- wide enough that
-   a tile in the three-column grid fell back to a single column and doubled in height. */
+   taller than the description it belongs to. Two exactly, rather than auto-fit -- left
+   to itself it took three at some tile widths and two at others, and a label like
+   "Bioconductor downloads · all time" broke across three lines in the narrow tracks
+   while the tile next to it read cleanly. */
 .tgx-project-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  grid-template-columns: 1fr;
   gap: .5rem .8rem;
   padding-top: .2rem;
+}
+@media screen and (min-width: 30em) {
+  .tgx-project-stats { grid-template-columns: repeat(2, 1fr); }
 }
 .tgx-stat { display: flex; flex-direction: column; min-width: 0; }
 .tgx-stat-value {
