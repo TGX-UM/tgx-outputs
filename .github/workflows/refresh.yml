@@ -48,8 +48,16 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      # requirements.lock pins the dependency tree and nothing else -- it is compiled
+      # from pyproject.toml's dependencies, so it does not contain this project and the
+      # `tgx` console script does not exist until the package itself is installed. The
+      # first run of this job died at `tgx: command not found` because the lock install
+      # succeeded and the `||` fallback therefore never fired. validate.yml installs
+      # with `-e ".[dev]"` and so never saw it.
       - name: Install
-        run: pip install --require-hashes -r requirements.lock || pip install -e .
+        run: |
+          pip install --require-hashes -r requirements.lock || pip install -e .
+          pip install --no-deps -e .
 
       # The previous data branch, so the guards can compare against last week and the
       # accumulating series are not restarted from scratch every run.
