@@ -23,13 +23,9 @@ theme:
   # keeps the page free of third-party requests and archivable in one piece.
   font: false
   features:
-    # Tabs rather than a left-hand tree. Five flat pages need no tree, and the
-    # sidebar it produced cost the content a fifth of the window on every screen --
-    # which the figures and the tile grid feel more than prose would.
-    - navigation.tabs
-    # Kept on screen: the front page runs to several thousand pixels, and the way to
-    # the other four should not be a scroll back to the top.
-    - navigation.tabs.sticky
+    # No navigation.tabs: three sections do not need a bar of their own, so
+    # overrides/partials/header.html puts them in the header row instead. The header
+    # is sticky on its own, which is what keeps them on screen.
     - navigation.top
     - content.code.copy
     - toc.follow
@@ -80,6 +76,6 @@ nav:
   - About: about.md
 
 copyright: >-
-  Code MIT. Figures are derived aggregates of public data; see the attribution table
-  on the methodology page. This dashboard measures software, not people. It is not, and
-  must not be used as, an assessment of individuals.
+  Code MIT. Figures are derived aggregates of public data; the Methods page credits
+  every source. This page measures software, not people. It is not, and must not be
+  used as, an assessment of individuals.

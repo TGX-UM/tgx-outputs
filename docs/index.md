@@ -39,10 +39,3 @@ Each registry counts over its own window, and the two are never added together.
 ## Containers { #containers }
 
 --8<-- "fig_docker_pulls.md"
-
----
-
-To add a project, add a row to
-[`config/projects.csv`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/projects.csv).
-[`config/README.md`](https://github.com/TGX-UM/tgx-outputs/blob/main/config/README.md)
-explains the columns, and `tgx doctor --projects` checks the identifiers resolve.

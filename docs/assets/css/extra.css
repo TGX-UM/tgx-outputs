@@ -137,51 +137,117 @@ html { scroll-padding-top: var(--tgx-header-height); }
   .md-sidebar { top: var(--tgx-header-height); }
 }
 
-/* The tab bar ------------------------------------------------------------
-   Material draws these as plain underlined-on-hover text, which at this width reads
-   as a line of prose rather than as the way to the other four pages. Given a ground
-   and a border each, they read as what they are. The bar is sticky, so the way out
-   of a page 8,000px tall is always on screen.
+/* Sections, in the header ------------------------------------------------
+   Rendered by overrides/partials/header.html into the header row itself. Material's
+   own tab bar was a second full-width strip for three links, and everything anchored
+   on the page had to clear both.
 
-   The colours are the header's, not the page's: this sits against UM blue in both
-   themes, so the palette here is fixed rather than following the scheme. */
-.md-tabs {
-  background-color: var(--tgx-navy);
-  box-shadow: 0 1px 0 #ffffff1f;
+   The colours are the header's, not the page's: this sits on UM blue in both themes,
+   so the palette here is fixed rather than following the scheme. */
+.tgx-nav {
+  display: none;
+  align-items: center;
+  gap: .3rem;
+  margin-left: .9rem;
+  flex: 0 0 auto;
 }
-.md-tabs__list { padding: .35rem 0; }
-.md-tabs__item { height: auto; padding: 0 .2rem; }
-.md-tabs__link {
-  display: block;
-  margin: 0;
+@media screen and (min-width: 60em) {
+  .tgx-nav { display: flex; }
+}
+.tgx-nav__link {
   padding: .3rem .7rem;
   border: 1px solid #ffffff2e;
   border-radius: .35rem;
+  color: var(--md-primary-bg-color);
   font-size: .7rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
   opacity: .82;
   transition: background-color .12s ease, border-color .12s ease, opacity .12s ease;
 }
-.md-tabs__link:hover,
-.md-tabs__link:focus-visible {
+.tgx-nav__link:hover,
+.tgx-nav__link:focus-visible {
   opacity: 1;
   background-color: #ffffff1a;
   border-color: #ffffff5c;
 }
 /* The page you are on, stated rather than implied by a slightly brighter grey. */
-.md-tabs__item--active .md-tabs__link {
+.tgx-nav__link--active {
   opacity: 1;
   background-color: var(--tgx-blue);
   border-color: var(--tgx-blue);
   color: var(--tgx-navy);
   font-weight: 600;
 }
-/* Material fades the bar out on scroll; sticky means it has to stay put. */
-.md-tabs[hidden] { display: block; }
+/* With the sections in the header, the page name beside the site name says the same
+   thing twice. The site name stays; Material's scroll swap has nothing to swap to. */
+@media screen and (min-width: 60em) {
+  .md-header__title .md-header__topic + .md-header__topic { display: none; }
+  .md-header__title .md-header__topic:first-child {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto;
+    z-index: 0;
+  }
+}
 
-/* The footer is UM blue with the house-style link colour on it. */
-.md-footer { background-color: var(--tgx-navy); }
-.md-footer-meta { background-color: #00132a; }
-.md-footer a { color: var(--tgx-blue); }
+/* The footer ---------------------------------------------------------------
+   UM blue, with the department's mark and the university's on it. Both are white
+   versions on the navy ground, which is what the house style asks for; the UM mark is
+   a single-colour vector recoloured to white rather than filtered, so it keeps its
+   shapes exactly. */
+.tgx-footer {
+  background-color: var(--tgx-navy);
+  color: #ffffffd9;
+  font-size: .72rem;
+}
+.tgx-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem 2rem;
+  padding: 1.5rem .8rem;
+}
+.tgx-footer__marks {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  flex-wrap: wrap;
+}
+/* Sized to look equal rather than to measure equal: the TGX lockup is wider and
+   lighter than the UM one, so matching their heights makes UM look oversized. */
+.tgx-footer__tgx { height: 2.4rem; width: auto; display: block; }
+.tgx-footer__um { height: 1.9rem; width: auto; display: block; }
+
+.tgx-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.1rem;
+}
+.tgx-footer__links a {
+  color: #ffffffd9;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tgx-footer__links a:hover,
+.tgx-footer__links a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* The disclaimer, on its own darker band. It is the last thing on the page on
+   purpose: it is the sentence that matters if anyone tries to use these numbers to
+   rank a person. */
+.tgx-footer__note {
+  background-color: #00132a;
+  font-size: .66rem;
+  line-height: 1.6;
+  color: #ffffffa6;
+}
+.tgx-footer__note .md-grid { padding: .85rem .8rem; }
 
 /* A dashboard reads better wider than Material's default prose measure. */
 .md-grid { max-width: 78rem; }
@@ -192,6 +258,42 @@ html { scroll-padding-top: var(--tgx-header-height); }
    hamburger drawer, which is the only way to reach the other pages on a phone. */
 @media screen and (min-width: 76.25em) {
   .md-sidebar--primary { display: none; }
+}
+
+/* Keyboard focus ----------------------------------------------------------
+   Material sets `outline: none` widely and re-adds a ring only for the controls it
+   ships. Everything this stylesheet makes interactive -- the header sections, a tile's
+   collapsed lists and the links inside them, the summary cards, the footer -- needs
+   its own, or the page is unusable without a mouse. A ring rather than a colour
+   change, because a colour change is invisible to anyone who cannot see the colour.
+   -------------------------------------------------------------------------- */
+.tgx-nav__link:focus-visible,
+.tgx-card:focus-visible,
+.md-typeset .tgx-drop > summary:focus-visible,
+.md-typeset .tgx-drop-list a:focus-visible,
+.tgx-footer__links a:focus-visible {
+  outline: 2px solid var(--tgx-accent);
+  outline-offset: 2px;
+  border-radius: .25rem;
+}
+/* On the header and the footer the ring sits on UM blue, where the link colour has
+   too little contrast to read as a ring. */
+.tgx-nav__link:focus-visible,
+.tgx-footer__links a:focus-visible {
+  outline-color: #fff;
+}
+
+/* Motion is decoration here -- a caret that turns, a border that warms on hover.
+   None of it carries meaning, so all of it goes when the reader has asked for less. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Summary cards ----------------------------------------------------------- */

@@ -90,8 +90,12 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
             f'</div>\n')
 
     spec_json = json.dumps(builder(), separators=(",", ":")).replace("</", "<\\/")
+    # Vega-Lite renders an SVG with no accessible name, so a screen reader announces
+    # seven unlabelled graphics. The caption below already says what the chart is;
+    # naming the container says the same thing to a reader who cannot see it.
+    label = f'{spec["label"]}. {spec["counts"]}'.replace('"', "&quot;")
     return (
-        f'<div class="tgx-chart">'
+        f'<div class="tgx-chart" role="img" aria-label="{label}">'
         f'<script type="application/json" class="tgx-spec">{spec_json}</script>'
         f'</div>\n\n'
         f'<div class="tgx-caption" markdown>\n'
