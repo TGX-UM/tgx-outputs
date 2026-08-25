@@ -1,3 +1,139 @@
+/* Typography ---------------------------------------------------------------
+   UM's house style is Thesis Sans (LucasFonts, licensed, not distributable). The
+   university's own web guidance substitutes Open Sans, "because it resembles Thesis
+   Sans and meets web standards", and that is what UM's library site runs on.
+
+   Served from this repository rather than from Google Fonts: the four faces below are
+   subset to Latin and weigh about 67 kB in total, which is a fair price for a page
+   that makes no third-party request and can be archived whole. Open Sans is
+   Apache-2.0; the licence travels with the files in assets/fonts/.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/open-sans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/open-sans-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/open-sans-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/open-sans-700.woff2") format("woff2");
+}
+
+/* UM house style -----------------------------------------------------------
+   Three colours, taken from the department's own logo, which is drawn in the UM
+   palette: #001C3D is the house-style dark blue, and the accent blue and orange are
+   the two the mark itself uses.
+
+     --tgx-navy    #001C3D   headers, the primary colour
+     --tgx-blue    #00A2DB   the logo's blue
+     --tgx-orange  #E84E10   the logo's orange
+
+   UM's own library documents that the house-style colours as published do not meet
+   WCAG contrast, and works from darkened variants for text. The same is done here:
+   #00A2DB reaches only 2.9:1 on white, so links in light mode use #0076A8 (5.1:1) and
+   in dark mode #4FC3F0 (8.5:1) against the slate ground. The logo keeps its own
+   colours; only text and interface elements are adjusted.
+   -------------------------------------------------------------------------- */
+:root {
+  --tgx-navy: #001c3d;
+  --tgx-blue: #00a2db;
+  --tgx-orange: #e84e10;
+
+  --md-primary-fg-color: var(--tgx-navy);
+  --md-primary-fg-color--light: #123a63;
+  --md-primary-fg-color--dark: #00132a;
+  --md-primary-bg-color: #fff;
+  --md-primary-bg-color--light: #ffffffb3;
+
+  /* Links and hover, straight from the house style. */
+  --tgx-link: #1e5a96;
+  --tgx-link-hover: #d2460f;
+  --tgx-accent: var(--tgx-link);
+  --md-accent-fg-color: var(--tgx-link-hover);
+  --md-accent-fg-color--transparent: #d2460f14;
+  --md-typeset-a-color: var(--tgx-link);
+
+  --md-text-font: "Open Sans";
+  --tgx-header-height: 3.6rem;
+}
+
+/* Body copy at the house-style size and colour: 18px, #333, 1.6 line height. */
+.md-typeset { font-size: .9rem; }
+[data-md-color-scheme="default"] .md-typeset { color: #333; }
+
+/* Headings: weight 600 in UM blue. In slate they keep the scheme's own foreground --
+   navy on a near-black ground is unreadable, and the house style has no dark mode. */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 { font-weight: 600; letter-spacing: 0; }
+[data-md-color-scheme="default"] .md-typeset h1,
+[data-md-color-scheme="default"] .md-typeset h2,
+[data-md-color-scheme="default"] .md-typeset h3,
+[data-md-color-scheme="default"] .md-typeset h4,
+[data-md-color-scheme="default"] .md-typeset h5,
+[data-md-color-scheme="default"] .md-typeset h6 { color: var(--tgx-navy); }
+
+/* Underlined links with a 2px offset, turning orange on hover. */
+.md-typeset a { text-decoration: underline; text-underline-offset: 2px; }
+.md-typeset a:hover,
+.md-typeset a:focus { color: var(--tgx-link-hover); }
+/* Cards are links, but they are blocks with their own affordance. */
+.md-typeset a.tgx-card { text-decoration: none; }
+
+/* Blockquotes take the accent, as on UM's own pages. */
+.md-typeset blockquote { border-left-color: var(--tgx-link-hover); }
+
+/* Slate. The house style documents no dark mode, so this is an extension of it rather
+   than a quotation: the header keeps UM blue, and link colours lighten until they
+   clear the dark ground -- #1E5A96 manages 2.4:1 there and would be unreadable. */
+[data-md-color-scheme="slate"] {
+  --tgx-link: #4fc3f0;
+  --tgx-link-hover: #ff8a5c;
+  --tgx-accent: var(--tgx-link);
+  --md-primary-fg-color: var(--tgx-navy);
+  --md-accent-fg-color: var(--tgx-link-hover);
+  --md-accent-fg-color--transparent: #ff8a5c1f;
+  --md-typeset-a-color: var(--tgx-link);
+}
+
+/* A deeper banner, because the department's mark is a landscape lockup and Material's
+   2.4rem bar leaves it the height of a favicon. Everything that is positioned against
+   the header reads the same variable, so the three stay in step. */
+.md-header__inner { min-height: var(--tgx-header-height); }
+.md-header__button.md-logo { padding: .3rem .6rem; }
+.md-header__button.md-logo img { height: 2.3rem; width: auto; }
+.md-header__title { font-size: .95rem; }
+html { scroll-padding-top: var(--tgx-header-height); }
+@media screen and (min-width: 76.25em) {
+  .md-sidebar { top: var(--tgx-header-height); }
+}
+
+/* The footer is UM blue with the house-style link colour on it. */
+.md-footer { background-color: var(--tgx-navy); }
+.md-footer-meta { background-color: #00132a; }
+.md-footer a { color: var(--tgx-blue); }
+
 /* A dashboard reads better wider than Material's default prose measure. */
 .md-grid { max-width: 68rem; }
 
@@ -20,13 +156,27 @@
   color: inherit;
   transition: border-color .12s ease;
 }
-.tgx-card:hover { border-color: var(--md-primary-fg-color); }
+.tgx-card:hover { border-color: var(--tgx-accent); }
 .tgx-card-label {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  min-width: 0;
   font-size: .68rem;
   letter-spacing: .07em;
   text-transform: uppercase;
   color: var(--md-default-fg-color--light);
 }
+/* Monochrome on purpose. Ten registry logos in ten brand colours turn the strip into
+   a colour chart and pull the eye away from the numbers, which are the point. */
+.tgx-card-label .tgx-icon {
+  flex: 0 0 auto;
+  width: .95rem;
+  height: .95rem;
+  opacity: .75;
+  transition: color .12s ease, opacity .12s ease;
+}
+.tgx-card:hover .tgx-icon { color: var(--tgx-accent); opacity: 1; }
 .tgx-card-value { font-size: 1.45rem; font-weight: 600; line-height: 1.15; }
 .tgx-card-sub { font-size: .7rem; color: var(--md-default-fg-color--light); }
 
@@ -69,9 +219,13 @@
   font-size: .8rem;
   margin: 0 0 1rem;
 }
-.tgx-fresh { border-color: #2e7d5b; background: #2e7d5b16; }
+/* Fresh is the house blue rather than a green: nothing here is a pass/fail badge, it
+   is a statement of how old the numbers are. Amber and red stay warning colours, and
+   red is the logo's orange darkened until it carries text contrast. */
+.tgx-fresh { border-color: #0076a8; background: #0076a814; }
 .tgx-amber { border-color: #b07d1e; background: #b07d1e1c; }
-.tgx-red   { border-color: #a8484f; background: #a8484f1c; }
+.tgx-red   { border-color: #c2410c; background: #c2410c1c; }
+[data-md-color-scheme="slate"] .tgx-fresh { border-color: #4fc3f0; background: #4fc3f014; }
 
 /* Figures ----------------------------------------------------------------- */
 .tgx-chart { width: 100%; min-height: 240px; margin: 1.2rem 0 .4rem; }
@@ -93,6 +247,10 @@
   margin: 0 0 2.2rem;
 }
 .tgx-caption strong { color: var(--md-default-fg-color); }
+
+/* One download figure per registry, each on its own line and never broken mid-label:
+   "29,390 Bioconductor, all time" wrapping after "Bioconductor" reads as two numbers. */
+.tgx-dl { display: block; white-space: nowrap; }
 
 /* Tables scroll rather than pushing the page sideways ---------------------- */
 .md-typeset table:not([class]) { display: table; width: 100%; }

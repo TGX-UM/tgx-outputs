@@ -16,6 +16,18 @@ figures are shown with a link back rather than redistributed.
 | [GitHub Container Registry](https://ghcr.io) | tags published | GitHub terms of service |
 | [WikiPathways SPARQL](https://sparql.wikipathways.org) | pathway and species counts | CC0 |
 
+The TGX logo and icon in `docs/assets/images/` are the department's own marks, used on
+the department's own page. The site follows the UM house style: `#001C3D` UM Blue,
+links `#1E5A96` turning `#D2460F` on hover, headings at weight 600. Dark mode is an
+extension rather than a quotation — the house style documents none — and lightens those
+two colours until they clear a dark ground.
+
+Type is [Open Sans](https://fonts.google.com/specimen/Open+Sans) (Apache-2.0), which is
+the substitute UM's own web guidance names for Thesis Sans, the licensed house typeface.
+The four subset faces in `docs/assets/fonts/` are served from this repository rather
+than from Google Fonts, so the page makes no third-party request; the licence ships
+alongside them.
+
 Charts are drawn with [Vega-Lite](https://vega.github.io/vega-lite/) (BSD-3-Clause),
 vendored into `docs/assets/js/` and pinned; versions and SHA-384 hashes are listed on
 the site's methodology page. The overview tiles use inline SVG from

@@ -11,16 +11,28 @@ site_dir: site
 
 theme:
   name: material
+  # The department's own mark, in the white version, because the header is UM's dark
+  # blue in both light and dark mode. Both files are in the repository -- nothing here
+  # is fetched at render time.
+  logo: assets/images/tgx-logo-white.png
+  favicon: assets/images/tgx-icon.png
+  # UM's house style specifies Thesis Sans, which is licensed and cannot be shipped.
+  # The university's own web guidance names Open Sans as its approved substitute, so
+  # that is what the site uses -- served from assets/fonts/, not from Google, which
+  # keeps the page free of third-party requests and archivable in one piece.
+  font: false
   features:
     - navigation.sections
     - navigation.top
     - content.code.copy
     - toc.follow
+  # `custom` hands the palette to assets/css/extra.css, where the UM house-style
+  # colours are defined once with their contrast ratios recorded.
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal
-      accent: teal
+      primary: custom
+      accent: custom
       toggle: {icon: material/weather-night, name: Switch to dark mode}
     - media: "(prefers-color-scheme: dark)"
       scheme: slate

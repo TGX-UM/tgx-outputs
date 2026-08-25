@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/images/tgx-logo-white.png">
+  <img src="docs/assets/images/tgx-logo.png" alt="Department of Translational Genomics" height="56">
+</picture>
+
 # TGX Outputs
 
 **[tgx-um.github.io/tgx-outputs](https://tgx-um.github.io/tgx-outputs/)**
