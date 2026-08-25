@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1371/journal.pbio.0060184",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1371/journal.pbio.0060184\",\"title\":\"WikiPathways: Pathway Editing for the People\",\"publication_year\":2008,\"cited_by_count\":733}\n"
+}

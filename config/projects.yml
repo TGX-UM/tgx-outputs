@@ -28,6 +28,10 @@
 #                                  databases published and their Zenodo downloads
 #             Adding a new probe type does need code. Adding a URL to an existing one
 #             does not
+#   papers    DOIs of the papers that describe this tool, the ones people cite when
+#             they use it. Citation counts come from OpenAlex. List every update
+#             paper: WikiPathways has six, and only counting the newest would
+#             understate it several-fold
 #   links     shown next to the project. Any label you like
 #
 # If you are unsure whether an identifier is right, run `tgx doctor --projects`. It
@@ -45,6 +49,9 @@ projects:
       - bioconductor.org/BridgeDbR
       - npmjs.org/bridgedb
       - repo1.maven.org/org.bridgedb:org.bridgedb.bio
+    papers:
+      - 10.1186/1471-2105-11-5              # BridgeDb framework, BMC Bioinformatics 2010
+      - 10.12688/f1000research.4521.1       # BridgeDb app for Cytoscape, 2014
     docker: [bigcatum/bridgedb]
     rsd: [bridgedb-java, bridgedb-webservice, bridgedbr]
     services:
@@ -76,6 +83,14 @@ projects:
       - bioconductor.org/rWikiPathways
       - pypi.org/pywikipathways
       - npmjs.org/@wikipathways/pvjs
+    papers:
+      - 10.1371/journal.pbio.0060184        # Pathway editing for the people, PLoS Biol 2008
+      - 10.1093/nar/gkr1074                 # NAR 2012
+      - 10.1093/nar/gkv1024                 # NAR 2016
+      - 10.1093/nar/gkx1064                 # NAR 2018
+      - 10.1093/nar/gkaa1024                # NAR 2021
+      - 10.1093/nar/gkad960                 # NAR 2024
+      - 10.1371/journal.pone.0006447        # Web services, PLoS ONE 2009
     rsd: [rwikipathways]
     services:
       - name: WikiPathways SPARQL endpoint
@@ -95,6 +110,9 @@ projects:
     name: PathVisio
     what: Desktop editor for biological pathways, and the origin of the GPML format.
     repos: [PathVisio/pathvisio]
+    papers:
+      - 10.1186/1471-2105-9-399             # PathVisio, BMC Bioinformatics 2008
+      - 10.1371/journal.pcbi.1004085        # PathVisio 3, PLoS Comput Biol 2015
     rsd: [pathvisio, libgpml]
     links:
       site: https://pathvisio.org
@@ -107,6 +125,10 @@ projects:
     repos: [cdk/cdk]
     packages:
       - repo1.maven.org/org.openscience.cdk:cdk-bundle
+    papers:
+      - 10.1021/ci025584y                   # CDK, J Chem Inf Comput Sci 2003
+      - 10.2174/138161206777585274          # CDK recent developments, 2006
+      - 10.1186/s13321-017-0220-4           # CDK v2.0, J Cheminform 2017
     rsd: [cdk]
     links:
       site: https://cdk.github.io
@@ -118,6 +140,8 @@ projects:
     packages:
       - pypi.org/pybacting
       - repo1.maven.org/io.github.egonw.bacting:managers-cheminfo
+    papers:
+      - 10.21105/joss.02558                 # Bacting, JOSS 2021
     rsd: [bacting, pybacting]
 
   - id: arrayanalysis
@@ -126,6 +150,8 @@ projects:
       Transcriptomics analysis workflows and quality control for microarray and
       RNA-seq data.
     repos: [BiGCAT-UM/ArrayAnalysis]
+    papers:
+      - 10.1093/nar/gkt293                  # ArrayAnalysis.org, NAR 2013
     rsd: [arrayanalysis]
     links:
       site: https://www.arrayanalysis.org
@@ -136,6 +162,9 @@ projects:
       Reproducible RNA-seq differential expression analysis, packaged as a Shiny app
       for regulatory toxicogenomics.
     repos: [TGX-UM/R-ODAF-Shiny]
+    papers:
+      - 10.1016/j.yrtph.2022.105143         # R-ODAF, Regul Toxicol Pharmacol 2022
+      - 10.1016/j.yrtph.2020.104621         # Towards an omics data analysis framework, 2020
     services:
       - name: R-ODAF
         url: https://r-odaf.nl
@@ -149,6 +178,8 @@ projects:
       The VHP4Safety portal: a single entry point to the chemical safety assessment
       services the consortium runs.
     repos: [VHP4Safety/virtual-human-platform]
+    papers:
+      - 10.14573/altex.2407211              # The Virtual Human Platform, ALTEX 2024
     rsd: [virtual-human-platform]
     services:
       - name: VHP4Safety platform
@@ -176,6 +207,9 @@ projects:
       - name: AOP-Wiki RDF dashboard
         url: https://aopwiki-dashboard.vhp4safety.nl
         what: Charts of the RDF, every one showing the SPARQL query behind it.
+    papers:
+      - 10.1089/aivt.2021.0010              # AOP-Wiki RDF, Appl In Vitro Toxicol 2022
+      - 10.14573/altex.2307131              # Why AOPs need to be FAIR, ALTEX 2023
     probes:
       sparql: https://aopwiki.rdf.bigcat-bioinformatics.org/sparql
     links:

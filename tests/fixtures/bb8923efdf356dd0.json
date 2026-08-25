@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.1093/nar/gkad960",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.1093/nar/gkad960\",\"title\":\"WikiPathways 2024: next generation pathway database\",\"publication_year\":2023,\"cited_by_count\":467}\n"
+}

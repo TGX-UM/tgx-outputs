@@ -31,6 +31,7 @@ collectors:
   ecosystems:    {enabled: true,  cadence_days: 7}
   github:        {enabled: true,  cadence_days: 7}
   zenodo:        {enabled: true,  cadence_days: 7}
+  citations:     {enabled: true,  cadence_days: 7}
   coverage:      {enabled: true,  cadence_days: 7}
   dockerhub:     {enabled: true,  cadence_days: 7}
   ghcr:          {enabled: true,  cadence_days: 7}

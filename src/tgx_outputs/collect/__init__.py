@@ -1,5 +1,6 @@
 from . import (  # noqa: F401  (import for side-effect: registration)
     bioconductor,
+    citations,
     coverage,
     dockerhub,
     ecosystems,

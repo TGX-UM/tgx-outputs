@@ -229,3 +229,21 @@ metrics:
     granularity: none
     caveat: What the department operates, not whether it responded today. Uptime is a
       different job at a different cadence and is not measured here.
+  paper_citations:
+    label: Citations of the tool's papers
+    counts: Citations to every paper describing a tool, summed across its update papers.
+    source: citations
+    cumulative: true
+    granularity: none
+    caveat: Citing a software paper is not proof the software was used, and these are
+      lifetime counts, so a 2003 paper reflects twenty years. Several of these tools are
+      built by communities far larger than this department, and their citations belong
+      to those communities too.
+  paper_citations_by_doi:
+    label: Citations per paper
+    counts: Citations to one paper, from OpenAlex.
+    source: citations
+    cumulative: true
+    granularity: none
+    caveat: Every update paper is counted, because people cite whichever was current
+      when they did the work.

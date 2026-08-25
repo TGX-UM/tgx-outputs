@@ -21,7 +21,20 @@ sources.
 
 --8<-- "fig_bioc_ips.md"
 
-## Papers mentioning these tools { #papers }
+## Citations { #citations }
+
+Citations of the papers that describe each tool, every update paper counted.
+WikiPathways has six, spanning 2012 to 2024, and people cite whichever was current when
+they did the work.
+
+--8<-- "fig_citations.md"
+
+### Software mentions
+
+A different and much smaller measure: software named in a paper's text, from a
+text-mining dataset the Research Software Directory carries. It is badly incomplete,
+reporting 6 for rWikiPathways against thousands of citations. Shown because it counts
+use that never turns into a citation, not because the number is right.
 
 --8<-- "fig_rsd_mentions.md"
 

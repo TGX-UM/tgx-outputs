@@ -1,0 +1,8 @@
+{
+ "url": "https://api.openalex.org/works/doi:10.14573/altex.2307131",
+ "params": {
+  "select": "doi,title,publication_year,cited_by_count"
+ },
+ "status": 200,
+ "text": "{\"doi\":\"https://doi.org/10.14573/altex.2307131\",\"title\":\"Why adverse outcome pathways need to be FAIR\",\"publication_year\":2023,\"cited_by_count\":18}\n"
+}
