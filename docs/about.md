@@ -17,6 +17,17 @@ department's publication record lives in Pure and is reported from there.
 The whole site builds offline from recorded fixtures, with no network and no
 credential, so anyone can fork it and check what it does.
 
+## Acknowledgements
+
+The shape of this page follows
+[RECETOX/specdatri_reporting](https://github.com/RECETOX/specdatri_reporting), the reporting
+tool RECETOX built to track its own research software. The grid of per-source totals over a
+per-project table is theirs, and several of the checks that keep a wrong number off this page
+exist because that project met the failure first.
+
+It is MIT licensed. This is an independent implementation rather than a fork: no code was
+taken, only the shape of the problem and some hard-won lessons about it.
+
 ## Licence
 
 The code is **MIT**. The figures are derived aggregates of public data, never a

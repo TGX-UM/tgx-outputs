@@ -77,5 +77,7 @@ nav:
 
 copyright: >-
   Code MIT. Figures are derived aggregates of public data; the Methods page credits
-  every source. This page measures software, not people. It is not, and must not be
+  every source. Modelled on
+  <a href="https://github.com/RECETOX/specdatri_reporting">RECETOX/specdatri_reporting</a>.
+  This page measures software, not people. It is not, and must not be
   used as, an assessment of individuals.

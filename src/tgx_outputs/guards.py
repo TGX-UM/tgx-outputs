@@ -64,9 +64,9 @@ def _check_schema(rec: Record, semantics: dict[str, Any]) -> None:
 def _check_period_class(rec: Record, semantics: dict[str, Any]) -> None:
     """A cumulative counter may never be filed under a period.
 
-    This is specdatri's Galaxy bug: five-year lifetime counters written into
-    month-labelled columns, producing byte-identical consecutive rows and a headline
-    total that was a sum of duplicated snapshots.
+    The failure this prevents, met by an earlier reporting dashboard: five-year lifetime
+    counters written into month-labelled columns, producing byte-identical consecutive rows
+    and a headline total that was a sum of duplicated snapshots.
     """
     if semantics[rec.metric].get("cumulative") and rec.period is not None:
         raise GuardFailure(

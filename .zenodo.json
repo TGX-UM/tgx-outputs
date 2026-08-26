@@ -10,5 +10,13 @@
     }
   ],
   "keywords": ["research output", "bibliometrics", "research software", "open science", "FAIR"],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/RECETOX/specdatri_reporting",
+      "relation": "references",
+      "resource_type": "software",
+      "scheme": "url"
+    }
+  ],
   "access_right": "open"
 }

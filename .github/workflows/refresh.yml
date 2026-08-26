@@ -116,7 +116,7 @@ jobs:
       # Deploy in THIS job. A push made with GITHUB_TOKEN does not trigger another
       # workflow, so splitting collection and deployment into two workflows produces a
       # dashboard that silently stops updating while every run still shows green --
-      # exactly what happened to the project this one is modelled on.
+      # exactly what happened to an earlier reporting dashboard.
       - name: Deploy to Pages
         id: deploy
         uses: actions/deploy-pages@v4

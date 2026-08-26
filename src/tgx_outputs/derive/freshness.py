@@ -2,9 +2,9 @@
 
 The single rule: freshness is computed from the data's own ``fetched_at``, never from
 the build clock. A page that renders ``datetime.now()`` in a "last updated" line is
-claiming freshness it has not verified -- which is exactly how the reference
-implementation for this project displayed a two-month-old dashboard under today's date
-for eight weeks without anyone noticing.
+claiming freshness it has not verified -- which is exactly how an earlier reporting
+dashboard displayed two-month-old numbers under today's date for eight weeks without
+anyone noticing.
 
 A source is amber past twice its declared cadence and red past five times.
 """

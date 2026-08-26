@@ -21,3 +21,16 @@ keywords:
   - software metrics
   - open science
   - FAIR
+
+# The design this project follows. An independent implementation, not a fork: no code was
+# taken, so this credits the influence rather than asserting derivation.
+references:
+  - type: software
+    title: specdatri_reporting
+    abstract: >-
+      Automated collection and reporting of download and usage statistics for RECETOX
+      research software.
+    authors:
+      - name: "RECETOX RI (EIRENE-CZ)"
+    repository-code: "https://github.com/RECETOX/specdatri_reporting"
+    license: MIT

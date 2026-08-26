@@ -16,6 +16,11 @@ handful of SPARQL endpoints and a set of deposited datasets. Nobody could previo
 answer "what did TGX ship this year" without a week of digging, and annual reports,
 grant renewals and consortium reviews all need that answer.
 
+Its shape — a grid of per-source totals over a per-project table — follows
+[RECETOX/specdatri_reporting](https://github.com/RECETOX/specdatri_reporting) (MIT), which
+solved the same problem for a research infrastructure first. This is an independent
+implementation rather than a fork; see [Prior art](#prior-art).
+
 ## What this is not
 
 It is **not** a bibliometric dashboard. The department's publication record lives in
@@ -70,8 +75,8 @@ flowchart LR
 
 One GitHub Actions job, weekly, does the whole run: collect, check, build, deploy, then
 commit the snapshot. Deploying in the same job is deliberate — a push made with
-`GITHUB_TOKEN` does not trigger another workflow, which is how the project this one is
-modelled on served a two-month-old page while every run showed green.
+`GITHUB_TOKEN` does not trigger another workflow, which is how an earlier reporting
+dashboard served a two-month-old page while every run showed green.
 
 Three properties hold by construction, and each has a test:
 
@@ -123,9 +128,14 @@ returned, what failed and what was quarantined.
 
 ## Prior art
 
-Modelled on [RECETOX/specdatri_reporting](https://github.com/RECETOX/specdatri_reporting),
-with its failure modes turned into tests. The
-[Research Software Directory](https://research-software-directory.org) already tracks
+Modelled on [RECETOX/specdatri_reporting](https://github.com/RECETOX/specdatri_reporting)
+(MIT), the reporting tool RECETOX built for the same problem. The per-source card grid over
+a per-project table is theirs, and several of the guards here exist because that project met
+the failure first and it was worth turning into a test. No code was copied — this was written
+from scratch — so the debt is one of design, and it is recorded in `CITATION.cff` and
+`.zenodo.json` as well as here.
+
+The [Research Software Directory](https://research-software-directory.org) already tracks
 much of this department's software and computes literature mentions for it; this project
 consumes that rather than rebuilding it.
 

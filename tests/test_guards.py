@@ -30,7 +30,7 @@ def test_undefined_metric_never_ships():
 
 
 def test_cumulative_counter_cannot_carry_a_period():
-    """specdatri's Galaxy bug: a lifetime counter filed under the current month.
+    """A lifetime counter filed under the current month, met by an earlier dashboard.
 
     It produced byte-identical consecutive rows and a headline total that was a sum of
     duplicated snapshots of the same number.
