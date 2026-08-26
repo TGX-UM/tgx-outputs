@@ -70,4 +70,5 @@ biodatafuse,paper,10.1093/bioinformatics/btag064,"pyBiodatafuse, Bioinformatics 
 biodatafuse,paper,10.37044/osf.io/mhsqp,"BioHackEU23 report, BioHackrXiv 2023"
 sec2pri,repo,sec2pri/pysec2pri,
 sec2pri,package,pypi.org/pysec2pri,
-
+rdfsolve,repo,jmillanacosta/rdfsolve,
+rdfsolve,package,pypi.org/rdfsolve,
