@@ -8,7 +8,7 @@ hide:
 The software and data resources of the Department of Translational Genomics, collected
 once a week from public sources.
 
---8<-- "freshness.md"
+--8<-- "freshness_brief.md"
 
 --8<-- "cards.md"
 

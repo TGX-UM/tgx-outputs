@@ -106,28 +106,27 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
     )
 
 
-def tile(label: str, value: str, caption: str) -> str:
-    return (
-        f'<div class="tgx-tile" markdown>\n'
-        f'<div class="tgx-tile-label">{label}</div>\n'
-        f'<div class="tgx-tile-value">{value}</div>\n'
-        f'<div class="tgx-tile-caption">{caption}</div>\n'
-        f'</div>\n'
-    )
+def _freshness_strip(fresh: dict[str, Any], *, table: bool) -> str:
+    """How current the page is, in one line, and optionally the per-source detail.
 
-
-def _freshness_strip(fresh: dict[str, Any]) -> str:
+    Both pages want the line -- it is the first thing that tells a reader whether to
+    trust what follows. Only Methods wants the table under it: the Overview carried a
+    copy that said the same thing a page away, and a fact stated twice is a fact that
+    can end up disagreeing with itself.
+    """
     css = {"fresh": "tgx-fresh", "amber": "tgx-amber", "red": "tgx-red"}[fresh["level"]]
+    strip = f'<div class="tgx-strip {css}">{fresh["summary"]}</div>\n'
+    if not table:
+        return (strip + '\n<small>Per-source detail is on the '
+                '[Methods page](methods.md#collection-status).</small>\n')
     rows = "\n".join(
         f"| `{r['source']}` | {r['status']} | {r['fetched_at'][:10]} | "
         f"{r['age_days']:.0f} d | {r['record_count']:,} |"
         for r in fresh["sources"])
     return (
-        f'<div class="tgx-strip {css}">{fresh["summary"]}</div>\n\n'
-        f'??? note "Per-source collection status"\n\n'
-        f'    | Source | Status | Last collected | Age | Records |\n'
-        f'    |---|---|---|---|---|\n'
-        + "\n".join("    " + line for line in rows.splitlines()) + "\n"
+        strip + "\n"
+        '| Source | Status | Last collected | Age | Records |\n'
+        '|---|---|---|---|---|\n' + rows + "\n"
     )
 
 
@@ -552,7 +551,8 @@ def build() -> int:
     fresh = freshness.assess(snapshot)
 
     fragments = {
-        "freshness.md": _freshness_strip(fresh),
+        "freshness.md": _freshness_strip(fresh, table=True),
+        "freshness_brief.md": _freshness_strip(fresh, table=False),
         "cards.md": _cards(snapshot),
         "projects.md": _project_tiles(snapshot),
         "methodology.md": _methodology(semantics, snapshot),

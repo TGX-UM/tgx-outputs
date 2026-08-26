@@ -74,6 +74,12 @@
   --md-text-font: "Open Sans";
   --tgx-header-height: 4.4rem;
 
+  /* Secondary text: labels, captions, the identifier under a link. Material's own
+     --md-default-fg-color--light is rgba(0,0,0,.54), which lands at about 4.0:1 on
+     these grounds and under 3.5:1 once anything adds opacity on top. Measured values
+     that clear 4.5:1 against both the page and the slightly darker tile. */
+  --tgx-muted: #565c66;
+
   /* What an accent is mixed toward before it is used as text. The six chart colours
      are chosen to work as fills; as 13px bold type on a tile they reach only 2.5:1
      to 3.7:1, well under the 4.5:1 body-text threshold. Mixing 70% of the accent
@@ -115,6 +121,7 @@
    than a quotation: the header keeps UM blue, and link colours lighten until they
    clear the dark ground -- #1E5A96 manages 2.4:1 there and would be unreadable. */
 [data-md-color-scheme="slate"] {
+  --tgx-muted: #a7b0bd;
   --tgx-ink-mix: #fff;
   --tgx-link: #4fc3f0;
   --tgx-link-hover: #ff8a5c;
@@ -334,7 +341,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
   font-size: .68rem;
   letter-spacing: .07em;
   text-transform: uppercase;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
 }
 /* Monochrome on purpose. Ten registry logos in ten brand colours turn the strip into
    a colour chart and pull the eye away from the numbers, which are the point. */
@@ -347,7 +354,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
 }
 .tgx-card:hover .tgx-icon { color: var(--tgx-accent); opacity: 1; }
 .tgx-card-value { font-size: 1.45rem; font-weight: 600; line-height: 1.15; }
-.tgx-card-sub { font-size: .7rem; color: var(--md-default-fg-color--light); }
+.tgx-card-sub { font-size: .7rem; color: var(--tgx-muted); }
 
 /* Project tiles -----------------------------------------------------------
    Ten projects as a table read as ten rows of one thing, and invited exactly the
@@ -465,7 +472,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
   flex: 0 0 auto;
   font-size: .74rem;
   line-height: 1.5;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
 }
 /* Two columns of numbers, not one line each: a tile with six statistics in a stack is
    taller than the description it belongs to. Two exactly, rather than auto-fit -- left
@@ -493,7 +500,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .tgx-stat-label {
   font-size: .66rem;
   line-height: 1.35;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
 }
 .tgx-project-quiet .tgx-stat-label { font-style: italic; }
 .tgx-project-foot {
@@ -501,7 +508,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
   border-top: 1px solid var(--md-default-fg-color--lightest);
   padding-top: .3rem;
   font-size: .7rem;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
 }
 
 /* Collapsed lists ---------------------------------------------------------
@@ -529,7 +536,7 @@ html { scroll-padding-top: var(--tgx-header-height); }
   background: none;
   font-weight: 600;
   font-size: .68rem;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
   cursor: pointer;
   list-style: none;
 }
@@ -571,9 +578,12 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .tgx-drop-meta {
   display: block;
   font-size: .64rem;
-  color: var(--md-default-fg-color--light);
-  opacity: .85;
+  color: var(--tgx-muted);
 }
+/* Same correction as the monogram: the chart palette is picked to work as fills, and
+   as 9px uppercase type it lands between 2.5:1 and 3.9:1 depending on the tile. Mixed
+   70% toward the opposite of the ground it clears 4.5:1 everywhere. The ring is
+   currentColor, so it follows. */
 .tgx-tag {
   display: inline-block;
   margin-left: .3rem;
@@ -583,39 +593,9 @@ html { scroll-padding-top: var(--tgx-header-height); }
   font-weight: 600;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--tgx-project-accent, var(--md-default-fg-color--light));
+  color: color-mix(in srgb,
+                   var(--tgx-project-accent, var(--tgx-muted)) 70%, var(--tgx-ink-mix));
   box-shadow: inset 0 0 0 1px currentColor;
-}
-
-/* Tiles ------------------------------------------------------------------- */
-.tgx-tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0 2rem;
-}
-.tgx-tile {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: .5rem;
-  padding: 1rem 1.1rem;
-  background: var(--md-code-bg-color);
-}
-.tgx-tile-label {
-  font-size: .72rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--md-default-fg-color--light);
-}
-.tgx-tile-value {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.25;
-  margin: .35rem 0 .5rem;
-}
-.tgx-tile-caption {
-  font-size: .76rem;
-  line-height: 1.5;
-  color: var(--md-default-fg-color--light);
 }
 
 /* Freshness strip --------------------------------------------------------- */
@@ -648,16 +628,20 @@ html { scroll-padding-top: var(--tgx-header-height); }
 .tgx-caption {
   font-size: .78rem;
   line-height: 1.6;
-  color: var(--md-default-fg-color--light);
+  color: var(--tgx-muted);
   border-left: 2px solid var(--md-default-fg-color--lightest);
   padding-left: .9rem;
   margin: 0 0 2.2rem;
 }
 .tgx-caption strong { color: var(--md-default-fg-color); }
-
-/* One download figure per registry, each on its own line and never broken mid-label:
-   "29,390 Bioconductor, all time" wrapping after "Bioconductor" reads as two numbers. */
-.tgx-dl { display: block; white-space: nowrap; }
+/* Material dims every <small> to 0.75 opacity, which takes the source line under
+   4.5:1. The line carries the collector, the collection date and the link to the data
+   behind the figure -- the part a sceptical reader is here for -- so it is not the
+   place to save contrast. */
+.md-typeset .tgx-caption small {
+  opacity: 1;
+  color: var(--tgx-muted);
+}
 
 /* Call-flow diagrams ------------------------------------------------------
    Inline SVG with no colours of its own, so one set of rules covers both themes and
