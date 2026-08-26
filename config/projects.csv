@@ -10,3 +10,4 @@ vhp,Virtual Human Platform,The VHP4Safety portal: a single entry point to the ch
 aopwiki-rdf,AOP-Wiki RDF,"Converts the AOP-Wiki to RDF, versions every release as its own named graph, and serves it over a public SPARQL endpoint with a query interface and dashboard.",AW,aopwiki-rdf.png
 molaop,molAOP Builder and Analyser,"Maps Adverse Outcome Pathway key events onto molecular pathways, and analyses the resulting molecular AOPs.",MA,molaop.png
 biodatafuse,pyBiodatafuse,"Queries many biomedical databases at once and merges what comes back into a single knowledge graph, so a gene or compound list can be annotated from all of them in one step.",BDF,biodatafuse.png
+rdfsolve,rdfsolve,"Mine typed RDF schemas, convert between formats, and derive cross-dataset mappings.",RS,
