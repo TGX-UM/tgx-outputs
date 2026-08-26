@@ -130,25 +130,6 @@ def _freshness_strip(fresh: dict[str, Any], *, table: bool) -> str:
     )
 
 
-def _methodology(semantics: dict[str, Any], snapshot: dict[str, Any]) -> str:
-    out = []
-    by_source: dict[str, list] = {}
-    for name, spec in sorted(semantics.items()):
-        by_source.setdefault(spec["source"], []).append((name, spec))
-    for source, entries in sorted(by_source.items()):
-        # An explicit id, because the calls section further down the same page also
-        # has a heading per source. Left to itself the slugger hands one of the two
-        # a `_1` suffix, and which one gets it depends on the order of the page.
-        out.append(f"### `{source}` {{ #metrics-{source} }}\n")
-        for name, spec in entries:
-            kind = "level (all-time)" if spec.get("cumulative") else f"per {spec['granularity']}"
-            out.append(
-                f'**{spec["label"]}** — `{name}`, {kind}\n\n'
-                f': {spec["counts"]}\n\n'
-                f': *Caveat:* {spec["caveat"].strip()}\n')
-    return "\n".join(out)
-
-
 def _cards(snapshot: dict[str, Any]) -> str:
     """Headline totals, one card per source.
 
@@ -483,55 +464,78 @@ def _latest_manifest() -> dict[str, Any]:
     return json.loads(files[-1].read_text()) if files else {"sources": {}}
 
 
-def _calls(snapshot: dict[str, Any], semantics: dict[str, Any]) -> str:
-    """Every request the last run made, per source, with what it produced.
+def _sources(semantics: dict[str, Any], snapshot: dict[str, Any]) -> str:
+    """Everything about one source, in one place.
 
-    Generated from the run manifest rather than from a hand-written list, so it cannot
-    describe a call the pipeline no longer makes. A source that asked for nothing says
-    so instead of being left out.
+    This was three sections a page apart: a catalogue saying what each source produced,
+    an attribution table saying what its terms were, and a calls section drawing what
+    it asked for. A reader wanting to judge one number had to hold three lists in their
+    head and join them by source name. Grouped, each source is a single section -- what
+    it is, what this project takes from it, the shape of what it asks, and every
+    request from the last run.
+
+    Written from the run manifest and the config tables, so it cannot describe a call
+    the pipeline no longer makes or a metric nobody defined.
     """
     manifest = _latest_manifest()
+    collectors = cfg.sources()["collectors"]
+
+    by_source: dict[str, list] = {}
+    for name, spec in sorted(semantics.items()):
+        by_source.setdefault(spec["source"], []).append((name, spec))
+
     out: list[str] = []
-
-    for name in sorted(manifest.get("sources", {})):
-        src = manifest["sources"][name]
-        calls = src.get("calls") or []
+    for name in sorted(collectors):
+        spec = collectors[name]
+        metrics = by_source.get(name, [])
+        src = manifest.get("sources", {}).get(name, {})
         snap_src = snapshot.get("sources", {}).get(name, {})
-
-        metrics: dict[str, int] = {}
-        for rec in snap_src.get("records", []):
-            metrics[rec["metric"]] = metrics.get(rec["metric"], 0) + 1
-
-        status = src.get("status", "unknown")
-        when = (src.get("fetched_at") or "")[:10]
-        # A disabled collector makes no calls, so it has nothing to explain here. That
-        # it exists and is switched off is a fact about the configuration, and the
-        # collection status page is where configuration belongs.
-        if status == "skipped":
+        # A collector that is switched off has nothing to draw and asked for nothing.
+        # That it exists and is off is a fact about the configuration, which the
+        # collection status table above already states.
+        if not spec["enabled"] and not metrics:
             continue
 
-        out.append(f"#### `{name}` {{ #calls-{name} }}\n")
+        out.append(f"### {spec['title']} {{ #{name} }}\n")
+        out.append(f"`{name}` · [{spec['url']}]({spec['url']}) · "
+                   f"terms: {spec['terms']}\n")
 
-        out.append(
-            f"{len(calls)} request{'s' if len(calls) != 1 else ''} on {when}, "
-            f"status `{status}`, {src.get('record_count', 0):,} records kept.\n")
-        out.append(source_flow(
-            name, endpoint_patterns([c["url"] for c in calls]),
-            sorted(metrics.items()), src.get("record_count", 0)) + "\n")
-
-        if calls:
-            out.append('??? note "Every request, in the order it was made"\n')
-            out.append("    | # | URL | What came back |")
-            out.append("    |---|---|---|")
-            for i, call in enumerate(calls, 1):
-                url = call["url"].replace("|", "%7C")
-                note = call.get("note") or ""
-                mark = "" if call.get("ok") else " ⛔"
-                out.append(f"    | {i} | `{url}` | {note}{mark} |")
+        if metrics:
+            out.append("| Publishes | | |")
+            out.append("|---|---|---|")
+            for metric, m in metrics:
+                kind = "level" if m["cumulative"] else f"per {m['granularity']}"
+                out.append(f"| **{m['label']}** | `{metric}`, {kind} | {m['counts']} |")
             out.append("")
 
+        calls = src.get("calls") or []
+        if not calls:
+            out.append("*Made no requests on the last run.*\n")
+            continue
+
+        counts: dict[str, int] = {}
+        for rec in snap_src.get("records", []):
+            counts[rec["metric"]] = counts.get(rec["metric"], 0) + 1
+        when = (src.get("fetched_at") or "")[:10]
+        out.append(
+            f"{len(calls)} request{'s' if len(calls) != 1 else ''} on {when}, "
+            f"status `{src.get('status', 'unknown')}`, "
+            f"{src.get('record_count', 0):,} records kept.\n")
+        out.append(source_flow(
+            name, endpoint_patterns([c["url"] for c in calls]),
+            sorted(counts.items()), src.get("record_count", 0)) + "\n")
+
+        out.append('??? note "Every request, in the order it was made"\n')
+        out.append("    | # | URL | What came back |")
+        out.append("    |---|---|---|")
+        for i, call in enumerate(calls, 1):
+            url = call["url"].replace("|", "%7C")
+            mark = "" if call.get("ok") else " ⛔"
+            out.append(f"    | {i} | `{url}` | {call.get('note') or ''}{mark} |")
+        out.append("")
+
         for err in src.get("errors", [])[:3]:
-            out.append(f"!!! warning \"Reported a problem\"\n\n    {err.splitlines()[0]}\n")
+            out.append(f'!!! warning "Reported a problem"\n\n    {err.splitlines()[0]}\n')
         quarantined = src.get("quarantined") or []
         if quarantined:
             rules = {q["rule"] for q in quarantined}
@@ -555,8 +559,7 @@ def build() -> int:
         "freshness_brief.md": _freshness_strip(fresh, table=False),
         "cards.md": _cards(snapshot),
         "projects.md": _project_tiles(snapshot),
-        "methodology.md": _methodology(semantics, snapshot),
-        "calls.md": _calls(snapshot, semantics),
+        "sources.md": _sources(semantics, snapshot),
     }
     for name in CHARTS:
         fragments[f"fig_{name}.md"] = figure(name, snapshot, fresh)

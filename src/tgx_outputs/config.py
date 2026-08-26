@@ -14,7 +14,7 @@ sheet holds those only as delimiter-separated cells that nothing can validate:
     services.csv     project, name, url, what
     links.csv        project, label, url  (order preserved: the first is shown first)
     metrics.csv      one row per published metric, and what it counts
-    collectors.csv   which sources run, and how often they are expected to
+    collectors.csv   which sources run, how they are credited, and how often
     settings.csv     the few single values that are not a list of anything
     exclusions.csv   kind, value, reason -- what is left out, and why
 
@@ -61,7 +61,8 @@ COLUMNS = {
     "links.csv": ["project", "label", "url"],
     "metrics.csv": ["metric", "label", "counts", "source", "cumulative",
                     "granularity", "caveat"],
-    "collectors.csv": ["collector", "enabled", "cadence_days", "note"],
+    "collectors.csv": ["collector", "title", "url", "terms", "enabled",
+                       "cadence_days", "note"],
     "settings.csv": ["key", "value"],
     "exclusions.csv": ["kind", "value", "reason"],
 }
@@ -166,7 +167,11 @@ def sources() -> dict[str, Any]:
         "collectors": {
             row["collector"]: {"enabled": _truthy(row["enabled"]),
                                "cadence_days": int(row["cadence_days"]),
-                               "note": row["note"]}
+                               "note": row["note"],
+                               # How the source is named and credited on the page.
+                               "title": row["title"],
+                               "url": row["url"],
+                               "terms": row["terms"]}
             for row in _read("collectors.csv")
         },
         "meta": {k: v for k, v in settings.items() if not k.startswith("rsd_")},

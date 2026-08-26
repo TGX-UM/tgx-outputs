@@ -1,8 +1,8 @@
-collector,enabled,cadence_days,note
-bioconductor,true,7,
-ecosystems,true,7,
-github,true,7,
-citations,true,7,
-dockerhub,true,7,
-rsd,true,7,
-wikipathways,false,7,"community content, not TGX output"
+collector,title,url,terms,enabled,cadence_days,note
+bioconductor,Bioconductor,https://bioconductor.org/packages/stats/,"courtesy statistics files with **no stated licence**; aggregates only, with attribution",true,7,
+ecosystems,ecosyste.ms,https://ecosyste.ms,CC-BY-SA 4.0,true,7,
+github,GitHub,https://docs.github.com/en/graphql,GitHub API terms of service,true,7,
+citations,OpenAlex,https://openalex.org,CC0,true,7,
+dockerhub,Docker Hub,https://hub.docker.com,Docker terms of service,true,7,
+rsd,Research Software Directory,https://research-software-directory.org,"platform Apache-2.0, content CC-BY",true,7,
+wikipathways,WikiPathways SPARQL,https://sparql.wikipathways.org,CC0,false,7,"community content, not TGX output"

@@ -74,8 +74,9 @@ site belongs in the first row. A link with the same URL as a service is shown on
 
 ## `metrics.csv` — what every number counts
 
-Nothing appears on the site without a row here, and the methodology page is generated
-from this file, so a definition cannot drift from the figure it describes.
+Nothing appears on the site without a row here, and each source's section on the
+Methods page is generated from this file, so a definition cannot drift from the figure
+it describes.
 
 | column | what it is |
 |---|---|
@@ -85,7 +86,7 @@ from this file, so a definition cannot drift from the figure it describes.
 | `source` | which collector produces it; must be in `collectors.csv` |
 | `cumulative` | `true` for a running total, `false` for a per-period count |
 | `granularity` | `none`, `month` or `year`. Must be `none` when cumulative — a level does not belong to a period |
-| `caveat` | what the number does **not** mean. Shown under every figure. Required |
+| `caveat` | what the number does **not** mean. Required, and published in this table, which the site offers for download. No longer printed under each figure |
 
 ## `collectors.csv` — which sources run
 
@@ -95,9 +96,16 @@ strip: a source goes amber at twice its cadence and red at five times.
 | column | what it is |
 |---|---|
 | `collector` | must match a collector in `src/tgx_outputs/collect/` |
+| `title` | how the source is named on the Methods page |
+| `url` | where that name links to |
+| `terms` | the licence or terms its data comes under, shown beside the name. Markdown is allowed |
 | `enabled` | `true` or `false` |
 | `cadence_days` | how often it is expected to refresh |
 | `note` | why, if it is switched off |
+
+Each source gets one section on the Methods page built from this row plus what it
+actually did on the last run: what it publishes, the shape of what it asked for, and
+every request in order.
 
 ## `settings.csv` — the few single values
 
@@ -110,10 +118,10 @@ Software Directory endpoint. Keys beginning `rsd_` configure that source.
 |---|---|
 | `kind` | `repos`, `packages` or `dois` |
 | `value` | the identifier being excluded |
-| `reason` | required, and published on the methodology page |
+| `reason` | required, and published on the Methods page |
 
 An undeclared omission looks exactly like a bug, which is why the reason is not
-optional and why it is published rather than kept here.
+optional.
 
 ---
 

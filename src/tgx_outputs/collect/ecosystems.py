@@ -1,6 +1,16 @@
 """Package downloads, per project.
 
-One call per package listed in config/identifiers.csv.
+One call per package listed in config/identifiers.csv, paced.
+
+This is the one collector that cannot batch. GitHub takes aliased GraphQL and OpenAlex
+takes an OR filter, so both ask once for everything; ecosyste.ms `lookup` accepts
+exactly one package -- repeated `purl` parameters keep only the last, a comma-joined
+list matches nothing, and `purl[]` returns a 500. Checked 2026-08-26.
+
+So the requests stay one per package and are spaced out instead. ecosyste.ms is a
+small volunteer service that timed out twice while this was being written, and ten
+polite requests cost this job two seconds. The pause is skipped when replaying
+fixtures, so the offline suite stays instant.
 
 Registries do not report the same thing, and the difference is not cosmetic.
 Bioconductor and CRAN publish a lifetime counter; npm and PyPI publish no such figure,
@@ -19,11 +29,16 @@ undefined measure is exactly what the semantics gate exists to stop.
 
 from __future__ import annotations
 
+import time
+
 from ..config import excluded_packages, project_field
 from ..model import Call, Record
 from .base import Collector, register
 
 REGISTRY = "https://packages.ecosyste.ms/api/v1/registries/{reg}/packages/{name}"
+
+# Long enough to be unmistakably not a burst, short enough that nobody notices.
+PACE_SECONDS = 0.2
 
 # ecosyste.ms self-declares the window in `downloads_period`. Anything not listed here
 # is left uncollected rather than guessed at.
@@ -36,7 +51,7 @@ WINDOWS = {
 @register
 class Ecosystems(Collector):
     name = "ecosystems"
-    version = "3"
+    version = "4"
 
     def collect(self):
         env = self.envelope()
@@ -48,6 +63,8 @@ class Ecosystems(Collector):
                 continue
             reg, name = ref.split("/", 1)
             url = REGISTRY.format(reg=reg, name=name)
+            if seen and self.http.mode == "live":
+                time.sleep(PACE_SECONDS)
             try:
                 pkg = self.http.get_json(url)
             except Exception as exc:  # noqa: BLE001 - one package must not sink the run

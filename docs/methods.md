@@ -34,28 +34,6 @@ trips one is quarantined into the run manifest with its reason and never publish
 Freshness comes from each source's own collection timestamp, never from the build
 clock. Amber past twice a source's cadence, red past five times.
 
-## Indicator catalogue
-
---8<-- "methodology.md"
-
-## Sources
-
-What is republished here are derived aggregates, never a verbatim copy of anyone's
-dataset. Where a source publishes no licence for its statistics, the figure is shown
-with a link back rather than redistributed.
-
-| Source | Used for | Terms |
-|---|---|---|
-| [OpenAlex](https://openalex.org) | citations of the papers describing each tool | CC0 |
-| [Bioconductor](https://bioconductor.org/packages/stats/) | package downloads, distinct IPs, rank | courtesy statistics files with **no stated licence**; aggregates only, with attribution |
-| [ecosyste.ms](https://ecosyste.ms) | package discovery, cross-registry downloads | CC-BY-SA 4.0 |
-| [GitHub](https://docs.github.com/en/graphql) | repositories, releases, tags | GitHub API terms of service |
-| [Research Software Directory](https://research-software-directory.org) | literature mentions of software | platform Apache-2.0, content CC-BY |
-| [Docker Hub](https://hub.docker.com) | image pulls | Docker terms of service |
-
-If you maintain one of these services and would rather this project used your data
-differently, please [open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new).
-
 ## Blind spots { #blind-spots }
 
 A gap that is not declared reads as a zero, so:
@@ -85,37 +63,25 @@ number as if it were current.
 [Open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new). Every figure links
 to its data, and the run manifests record what each source returned and what failed.
 
-## Every call this page makes { #calls }
+## The sources { #sources }
 
-One section per source: the shape of what it asks for, every individual request from
-the last run, and the metrics that came out. Generated from the run manifest, so it
-describes what actually happened rather than what the code is supposed to do.
+One section per source: what it is, what this project takes from it, the shape of what
+it asks for, and every request from the last run. Generated from the run manifest, so
+it describes what actually happened rather than what the code is meant to do.
 
-If a number on this site looks wrong, this is where to start. Every URL below can be
-pasted into a browser — they are all public, none of them needs a key — and the answer
-you get is the answer this page got.
+What is republished here are derived aggregates, never a verbatim copy of anyone's
+dataset. Where a source publishes no licence for its statistics, the figure is shown
+with a link back rather than redistributed. If you maintain one of these services and
+would rather this project used your data differently, please
+[open an issue](https://github.com/TGX-UM/tgx-outputs/issues/new).
 
+Every URL below can be pasted into a browser — they are all public and none needs a
+key — and the answer you get is the answer this page got. In a diagram, requests are on
+the left, the collector in the middle, the metrics it produced on the right; a box
+marked `×19` is one endpoint asked nineteen times, and `…` marks a segment that varied
+between calls. The literal URLs are in the tables, never abbreviated.
 
-### How to read a diagram
-
-Requests on the left, the collector in the middle, the metrics it produced on the
-right. A box marked `×19` is one endpoint asked nineteen times, once per repository or
-package; the table underneath it lists all nineteen in the order they were made.
-
-An endpoint pattern with `…` in it means that segment varied between calls. The literal
-URLs are in the tables, never abbreviated.
-
-### The sources
-
---8<-- "calls.md"
-
-### What is not here
-
-The response bodies. They are large, they are somebody else's data, and republishing
-them wholesale is a different act from publishing what we derived. What each call
-returned in summary is in the right-hand column; the derived numbers are in
-[the CSVs](about.md#download-the-data); and the raw run manifests on the `data` branch record every
-call, every error and every quarantined record for every run, not just the last one.
+--8<-- "sources.md"
 
 ## Charts and icons
 

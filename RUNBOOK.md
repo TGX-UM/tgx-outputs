@@ -55,7 +55,7 @@ the top of the workflow page. Re-enable it and push something.
 
 **Everything is fine but a number looks wrong.** That is the most valuable kind of
 report. Every figure links to its CSV and names its source and collection date; the
-[methodology page](https://tgx-um.github.io/tgx-outputs/methods/) gives the exact
+[Methods page](https://tgx-um.github.io/tgx-outputs/methods/) gives the exact
 query. If the number is genuinely wrong, the fix is usually either a definition that
 does not say what people assume, or an entry for `config/exclusions.csv`.
 

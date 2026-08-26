@@ -46,17 +46,19 @@ def test_figure_caption_carries_source_date_and_csv_link():
     assert cfg.semantics()["releases_by_year"]["counts"][:40] in html
 
 
-def test_the_caveat_is_still_required_and_still_published():
-    """It is no longer printed under each chart, which is a presentation choice.
+def test_every_metric_still_declares_what_it_does_not_mean():
+    """The caveat is no longer rendered anywhere, which is a presentation choice.
 
     It is not an excuse to stop writing one. Every metric must still declare what its
-    number does not mean, and the Methods catalogue must still print it, or the page
-    has quietly dropped the thing it argues for.
+    number does not mean, and that declaration ships in config/metrics.csv, which the
+    site offers for download -- so the discipline survives even though the sentence is
+    not printed under the chart any more.
     """
-    catalogue = build._methodology(cfg.semantics(), _snapshot(0))
+    published = (cfg.CONFIG_DIR / "metrics.csv").read_text()
     for name, spec in cfg.semantics().items():
-        assert spec["caveat"].strip(), f"{name} has no caveat"
-        assert spec["caveat"].strip() in catalogue, f"{name}'s caveat is not published"
+        caveat = spec["caveat"].strip()
+        assert caveat, f"{name} has no caveat"
+        assert caveat in published, f"{name}'s caveat is not in the published table"
 
 
 def test_freshness_is_computed_from_the_data_not_the_clock():
@@ -187,7 +189,7 @@ def test_endpoint_patterns_collapse_repeated_shapes():
     assert "bridgedb" not in pattern, "a varying segment must not leak one call's value"
 
 
-def test_the_calls_page_lists_every_request_that_was_made(monkeypatch):
+def test_every_request_that_was_made_is_listed(monkeypatch):
     """The explainability promise: every URL asked for is on the page, in full."""
     manifest = {"sources": {"github": {
         "status": "ok", "fetched_at": "2026-08-25T00:00:00+00:00", "record_count": 2,
@@ -205,7 +207,7 @@ def test_the_calls_page_lists_every_request_that_was_made(monkeypatch):
                                   "record_count": 2, "records": [
                                       {"metric": "releases_by_year", "entity": "cdk",
                                        "value": 1.0, "period": "2026"}]}}
-    html = build._calls(snap, cfg.semantics())
+    html = build._sources(cfg.semantics(), snap)
 
     for call in manifest["sources"]["github"]["calls"]:
         assert call["url"] in html, "a call was made and not published"
@@ -213,17 +215,17 @@ def test_the_calls_page_lists_every_request_that_was_made(monkeypatch):
     assert "tgx-flow" in html
 
 
-def test_a_disabled_source_is_left_off_the_calls_page(monkeypatch):
-    """The page explains calls, and a disabled collector makes none.
+def test_a_disabled_source_with_nothing_to_say_is_left_out(monkeypatch):
+    """A collector that is off and publishes nothing has no section to fill.
 
-    Whether a source exists and is switched off is a question about the configuration,
-    and the collection status page answers it. A section here that said only "made no
-    requests" was noise between the sources that did.
+    Whether it exists and is switched off is a question about the configuration, and
+    the collection status table answers it. A section saying only "made no requests"
+    was noise between the sources that did.
     """
     monkeypatch.setattr(build, "_latest_manifest", lambda: {"sources": {"wikipathways": {
         "status": "skipped", "fetched_at": "2026-08-25T00:00:00+00:00",
         "record_count": 0, "calls": [], "errors": [], "quarantined": []}}})
-    html = build._calls(_snapshot(0), cfg.semantics())
+    html = build._sources(cfg.semantics(), _snapshot(0))
     assert "wikipathways" not in html
     assert "tgx-flow" not in html, "nothing to draw when nothing was requested"
 

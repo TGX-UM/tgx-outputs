@@ -34,7 +34,7 @@ Every figure links to the CSV behind it, and they are all here. Long format:
 - [Everything, one file](data/all_metrics.csv)
 
 Individual metrics are at `data/<metric>.csv`; the names are in the
-[indicator catalogue](methods.md#indicator-catalogue).
+[source sections on Methods](methods.md#sources).
 
 ### Raw snapshots
 

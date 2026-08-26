@@ -133,5 +133,5 @@ consumes that rather than rebuilding it.
 
 Code MIT. Figures are derived aggregates of public data; every source and its terms are
 listed on the site's
-[methodology page](https://tgx-um.github.io/tgx-outputs/methods/#sources), which is
+[Methods page](https://tgx-um.github.io/tgx-outputs/methods/#sources), which is
 generated from the same config the collectors read.
