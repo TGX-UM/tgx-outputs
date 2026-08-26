@@ -23,7 +23,7 @@ class Record:
     """One measurement.
 
     ``period`` is the calendar period the value belongs to (``2026`` or ``2026-07``).
-    A metric declared ``cumulative`` in metric_semantics.yml must leave it ``None`` --
+    A metric declared ``cumulative`` in metrics.csv must leave it ``None`` --
     an all-time counter does not belong to a month, and pretending it does is how a
     dashboard ends up summing the same lifetime figure once per refresh.
     """

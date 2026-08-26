@@ -4,7 +4,7 @@ Releases **and** tags are counted, deduplicated per repository and tag. Counting
 GitHub Releases would miss the flagships: BridgeDb ships as the tag `release_3.0.31`
 with no Release attached, and BridgeDbR ships through Bioconductor.
 
-One GraphQL query per repository listed in config/projects.yml. That is a couple of
+One GraphQL query per repository listed in config/identifiers.csv. That is a couple of
 dozen calls rather than a sweep of thirteen organisations, which is the point: the
 dashboard shows the things somebody chose to track.
 """

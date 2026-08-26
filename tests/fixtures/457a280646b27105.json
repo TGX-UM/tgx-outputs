@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.37044/osf.io/mhsqp",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.37044/osf.io/mhsqp\",\"title\":\"BioHackEU23 report: Extending interoperability of experimental data using modular queries across biomedical resources\",\"publication_year\":2023,\"cited_by_count\":2}\n"
-}

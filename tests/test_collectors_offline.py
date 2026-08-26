@@ -84,3 +84,34 @@ def test_a_rolling_window_is_not_declared_cumulative():
     """
     assert cfg.semantics()["package_downloads_recent"]["cumulative"] is False
     assert cfg.semantics()["package_downloads_total"]["cumulative"] is True
+
+
+def test_citations_asks_in_batches_not_once_per_doi(http):
+    """The failure of 2026-08-26: twenty-five requests, five of them 429s.
+
+    OpenAlex takes an OR filter, so every DOI fits in one request. Going back to a
+    request per DOI would not fail a build -- it would quietly lose whichever papers
+    happened to be throttled that morning, which reads on the page as a tool losing
+    citations overnight.
+    """
+    env = run_one(COLLECTORS["citations"], http)
+    papers = cfg.project_field("papers")
+    assert len(papers) > 10, "this test is only meaningful with a real paper list"
+    assert len(env.calls) <= (len(papers) // 20) + 1, (
+        f"{len(env.calls)} calls for {len(papers)} DOIs: the batch filter is not being used")
+    # and every paper still gets its own record
+    by_doi = [r for r in env.records if r.metric == "paper_citations_by_doi"]
+    assert len(by_doi) == len(papers)
+
+
+def test_citations_identifies_a_doi_however_it_is_written():
+    """OpenAlex answers with a full https://doi.org/ URL; the tables hold bare DOIs.
+
+    Matching the response back to what was asked for is what decides whether a paper
+    counts or is reported as unresolved, so the two forms have to compare equal.
+    """
+    from tgx_outputs.collect.citations import _bare
+
+    assert _bare("https://doi.org/10.1021/CI025584Y") == "10.1021/ci025584y"
+    assert _bare("doi:10.1021/ci025584y") == "10.1021/ci025584y"
+    assert _bare("  10.1021/ci025584y ") == "10.1021/ci025584y"

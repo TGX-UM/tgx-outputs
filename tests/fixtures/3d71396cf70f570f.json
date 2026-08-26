@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1093/nar/gkt293",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1093/nar/gkt293\",\"title\":\"User-friendly solutions for microarray quality control and pre-processing on ArrayAnalysis.org\",\"publication_year\":2013,\"cited_by_count\":137}\n"
-}

@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1089/aivt.2021.0010",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count,type"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1089/aivt.2021.0010\",\"title\":\"Providing Adverse Outcome Pathways from the AOP-Wiki in a Semantic Web Format to Increase Usability and Accessibility of the Content\",\"publication_year\":2022,\"cited_by_count\":38,\"type\":\"article\"}\n"
-}

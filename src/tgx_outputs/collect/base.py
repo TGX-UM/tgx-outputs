@@ -69,7 +69,7 @@ def run_all(
             continue
         if not only and not collector_enabled(name):
             out[name] = Envelope(source=name, status="skipped",
-                                 errors=["disabled in config/sources.yml"])
+                                 errors=["disabled in config/collectors.csv"])
             continue
         if on_start:
             on_start(name)

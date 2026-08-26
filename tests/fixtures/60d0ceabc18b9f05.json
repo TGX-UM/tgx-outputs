@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1371/journal.pcbi.1004085",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count,type"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1371/journal.pcbi.1004085\",\"title\":\"PathVisio 3: An Extendable Pathway Analysis Toolbox\",\"publication_year\":2015,\"cited_by_count\":501,\"type\":\"article\"}\n"
-}

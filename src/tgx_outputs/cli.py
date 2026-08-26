@@ -77,7 +77,7 @@ def cmd_build(args: argparse.Namespace) -> int:
 
 
 def cmd_doctor_projects() -> int:
-    """Check every identifier in projects.yml against the live APIs."""
+    """Check every identifier in the config tables against the live APIs."""
     import os
 
     from .http import HttpClient
@@ -182,7 +182,7 @@ def main(argv: list[str] | None = None) -> int:
 
     doc = sub.add_parser("doctor", help="validate config; makes no network calls")
     doc.add_argument("--projects", action="store_true",
-                     help="check every identifier in projects.yml against the live APIs")
+                     help="check every identifier in the config tables against the live APIs")
     doc.set_defaults(func=cmd_doctor)
 
     args = parser.parse_args(argv)

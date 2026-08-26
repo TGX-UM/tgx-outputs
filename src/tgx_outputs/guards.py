@@ -32,7 +32,7 @@ def _check_defined(rec: Record, semantics: dict[str, Any]) -> None:
     if rec.metric not in semantics:
         raise GuardFailure(
             "semantics_gate",
-            f"metric {rec.metric!r} has no entry in metric_semantics.yml",
+            f"metric {rec.metric!r} has no entry in metrics.csv",
         )
 
 

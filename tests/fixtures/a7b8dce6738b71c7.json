@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1371/journal.pone.0006447",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count,type"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1371/journal.pone.0006447\",\"title\":\"Mining Biological Pathways Using WikiPathways Web Services\",\"publication_year\":2009,\"cited_by_count\":125,\"type\":\"article\"}\n"
-}

@@ -2,7 +2,7 @@
 
 Two rules are enforced here rather than trusted to whoever writes the Markdown:
 
-1. **A metric with no entry in metric_semantics.yml does not render.** The definition
+1. **A metric with no entry in metrics.csv does not render.** The definition
    and the figure ship together or neither ships.
 2. **Every figure carries its caption block** -- what it counts, the source, when that
    source was last collected, and a link to the CSV behind it. A reader who wants to
@@ -68,7 +68,7 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
     if metric not in semantics:
         raise MissingDefinition(
             f"chart {name!r} renders metric {metric!r}, which has no entry in "
-            "config/metric_semantics.yml -- define what it counts before showing it")
+            "config/metrics.csv -- define what it counts before showing it")
     spec = semantics[metric]
     source = spec["source"]
     row = next((r for r in fresh["sources"] if r["source"] == source), None)
@@ -239,7 +239,7 @@ def _logo_aspect(filename: str) -> float:
 def _mark(proj: dict[str, Any]) -> str:
     """The letters on a tile when the project has no logo file.
 
-    Taken from `mark:` in projects.yml where a project sets one, because initials
+    Taken from `mark:` in the config tables where a project sets one, because initials
     derived from a name are wrong often enough to be worth overriding: molAOP is not
     "MB" and R-ODAF is not "RS". The derivation is the fallback, so a project added
     without the field still gets a tile rather than a blank square.

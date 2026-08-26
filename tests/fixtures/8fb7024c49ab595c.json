@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1016/j.yrtph.2022.105143",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1016/j.yrtph.2022.105143\",\"title\":\"R-ODAF: Omics data analysis framework for regulatory application\",\"publication_year\":2022,\"cited_by_count\":87}\n"
-}

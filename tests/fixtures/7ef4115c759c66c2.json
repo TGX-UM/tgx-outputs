@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.12688/f1000research.4521.1",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.12688/f1000research.4521.1\",\"title\":\"BridgeDb app: unifying identifier mapping services for Cytoscape\",\"publication_year\":2014,\"cited_by_count\":10}\n"
-}

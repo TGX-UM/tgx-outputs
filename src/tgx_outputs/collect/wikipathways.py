@@ -3,7 +3,7 @@
 These numbers are NOT department output and the page must never present them as such.
 Pathway content is curated by an international community. What TGX contributes is the
 infrastructure around it: the RDF layer, the SPARQL endpoint, GPML tooling and the R
-and Python clients. The framing lives in ``metric_semantics.yml`` so it cannot drift
+and Python clients. The framing lives in ``metrics.csv`` so it cannot drift
 from the figure.
 
 The community endpoint is used rather than the department's own AOP-Wiki multi-release

@@ -1,6 +1,6 @@
 """Package downloads, per project.
 
-One call per package listed in config/projects.yml.
+One call per package listed in config/identifiers.csv.
 
 Registries do not report the same thing, and the difference is not cosmetic.
 Bioconductor and CRAN publish a lifetime counter; npm and PyPI publish no such figure,

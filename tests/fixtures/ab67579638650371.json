@@ -1,8 +1,0 @@
-{
- "url": "https://api.openalex.org/works/doi:10.1186/1471-2105-9-399",
- "params": {
-  "select": "doi,title,publication_year,cited_by_count"
- },
- "status": 200,
- "text": "{\"doi\":\"https://doi.org/10.1186/1471-2105-9-399\",\"title\":\"Presenting and exploring biological pathways with PathVisio\",\"publication_year\":2008,\"cited_by_count\":366}\n"
-}
