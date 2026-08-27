@@ -38,7 +38,7 @@ cdk,paper,10.1021/ci025584y,"CDK, J Chem Inf Comput Sci 2003"
 cdk,paper,10.2174/138161206777585274,"CDK recent developments, 2006"
 cdk,paper,10.1186/s13321-017-0220-4,"CDK v2.0, J Cheminform 2017"
 bacting,repo,egonw/bacting,
-bacting,repo,egonw/pybacting,
+bacting,repo,blueobelisk/pybacting,
 bacting,package,pypi.org/pybacting,
 bacting,package,repo1.maven.org/io.github.egonw.bacting:managers-cheminfo,
 bacting,rsd,bacting,
