@@ -134,6 +134,14 @@ class GitHub(Collector):
                     # is private. Either way it is a config problem worth reporting.
                     env.degrade(f"{repo}: not visible")
                     continue
+                # GitHub serves a renamed or transferred repository under its new name
+                # and never errors, so a stale row keeps collecting and every check
+                # stays green. That is how `pybacting` spent a year reading a fork.
+                # The numbers here are still the right project's, so absorb them --
+                # but say so, because the config is now naming something that moved.
+                actual = node.get("nameWithOwner") or ""
+                if actual.lower() != repo.lower():
+                    env.degrade(f"{repo}: GitHub answered as {actual}; the repo moved")
                 self._absorb(node, project, cutoff, active, per_project, latest)
 
         for project, pairs in sorted(per_project.items()):

@@ -115,3 +115,40 @@ def test_citations_identifies_a_doi_however_it_is_written():
     assert _bare("https://doi.org/10.1021/CI025584Y") == "10.1021/ci025584y"
     assert _bare("doi:10.1021/ci025584y") == "10.1021/ci025584y"
     assert _bare("  10.1021/ci025584y ") == "10.1021/ci025584y"
+
+
+def test_a_moved_repo_is_reported_rather_than_silently_followed(tmp_path, monkeypatch):
+    """The pybacting bug, in the one place code could have caught it.
+
+    GitHub serves a renamed or transferred repository under its new name and never
+    errors, so a config row naming the old path keeps collecting and every check stays
+    green -- which is exactly how one project spent a year reading a fork.
+    """
+    from tgx_outputs import config as cfg
+    from tgx_outputs.collect.github_graphql import GitHub
+
+    for name, cols in cfg.COLUMNS.items():
+        (tmp_path / name).write_text(",".join(cols) + "\n")
+    (tmp_path / "projects.csv").write_text(
+        "id,name,what,mark,logo\np,P,A sentence.,P,\n")
+    (tmp_path / "identifiers.csv").write_text(
+        "project,kind,value,note\np,repo,olduser/thing,\n")
+    monkeypatch.setattr(cfg, "CONFIG_DIR", tmp_path)
+    for fn in (cfg.projects, cfg.exclusions, cfg.corrections):
+        fn.cache_clear()
+    monkeypatch.setenv("GITHUB_TOKEN", "x")
+
+    node = {"nameWithOwner": "neworg/thing", "pushedAt": "2026-01-01T00:00:00Z",
+            "isArchived": False, "releases": {"nodes": []}, "refs": {"nodes": []}}
+
+    class Http:
+        mode = "live"
+        def post_json(self, *a, **k):
+            return {"data": {"r0": node}}
+
+    env = GitHub(Http()).collect()
+    for fn in (cfg.projects, cfg.exclusions, cfg.corrections):
+        fn.cache_clear()
+
+    assert env.status == "degraded"
+    assert any("moved" in e and "neworg/thing" in e for e in env.errors), env.errors
