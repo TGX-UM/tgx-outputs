@@ -48,6 +48,13 @@ and is published on the methodology page, because an undeclared omission looks t
 as a bug. To have something removed, open an issue or email the contact in
 `config/settings.csv`; no reason needed.
 
+## Correct something upstream got wrong
+
+A row in `config/corrections.csv`, with a reason. Only for metadata a registry has
+plainly wrong — a mangled character in a paper title that Crossref and OpenAlex both
+carry, say. It changes no number, and the columns are in
+[`config/README.md`](config/README.md).
+
 ## Add a number to the page
 
 1. Define it in `config/metrics.csv` first: what one unit counts, whether it

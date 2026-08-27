@@ -125,6 +125,28 @@ optional.
 
 ---
 
+## `corrections.csv` — where upstream is wrong
+
+| column | what it is |
+|---|---|
+| `kind` | what is being corrected. Only `paper` so far |
+| `value` | the identifier it applies to — for `paper`, the DOI |
+| `field` | the field to replace. For `paper`, only `title` |
+| `to` | what it should say |
+| `reason` | why, and it is required |
+
+Registries are occasionally wrong in a way no re-fetch repairs. ACS published a
+literal `?` where an em dash belongs in the 2006 Blue Obelisk title, and Crossref and
+OpenAlex both carry it verbatim, so there is nowhere to fetch a correct one from.
+
+Use this only for that: metadata upstream has plainly wrong. It is not a place to
+retitle a paper you would have worded differently, and it does not change any number.
+A row whose DOI is not in `identifiers.csv` fails validation rather than sitting there
+after the paper it referred to has gone.
+
+Corrections apply when the site is built, not when a source is collected, so a fix
+reaches the page on the next build without waiting for a refresh.
+
 ## A note on privacy
 
 Nothing in these tables is personal data. Every target is a repository, a package, an

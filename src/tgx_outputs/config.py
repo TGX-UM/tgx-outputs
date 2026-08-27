@@ -17,6 +17,7 @@ sheet holds those only as delimiter-separated cells that nothing can validate:
     collectors.csv   which sources run, how they are credited, and how often
     settings.csv     the few single values that are not a list of anything
     exclusions.csv   kind, value, reason -- what is left out, and why
+    corrections.csv  kind, value, field, to, reason -- where upstream metadata is wrong
 
 ``projects()`` reassembles those into the same nested shape the collectors and the site
 builder already expect, so the tables are the storage format and nothing downstream
@@ -65,6 +66,7 @@ COLUMNS = {
                        "cadence_days", "note"],
     "settings.csv": ["key", "value"],
     "exclusions.csv": ["kind", "value", "reason"],
+    "corrections.csv": ["kind", "value", "field", "to", "reason"],
 }
 
 
@@ -76,7 +78,7 @@ def _read(name: str) -> list[dict[str, str]]:
     path = CONFIG_DIR / name
     if not path.exists():
         raise ConfigError(f"missing config table: {path}")
-    with path.open(newline="") as fh:
+    with path.open(newline="", encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
         expected = COLUMNS[name]
         if reader.fieldnames != expected:
@@ -188,6 +190,30 @@ def exclusions() -> dict[str, Any]:
     return out
 
 
+CORRECTABLE = {"paper": {"title"}}
+
+
+@functools.lru_cache(maxsize=1)
+def corrections() -> dict[tuple[str, str, str], str]:
+    """Upstream metadata this project overrides, keyed by (kind, value, field).
+
+    A registry is occasionally wrong in a way no re-fetch can repair -- a publisher
+    that put a literal ``?`` where an em dash belongs, which every downstream index
+    then carries verbatim. Overriding it silently would be indistinguishable from a
+    bug, so a correction is a row with a required reason and the table is public.
+    """
+    out: dict[tuple[str, str, str], str] = {}
+    for row in _read("corrections.csv"):
+        key = (row["kind"], row["value"].lower(), row["field"])
+        out[key] = row["to"]
+    return out
+
+
+def corrected(kind: str, value: str, field: str, upstream: str) -> str:
+    """``upstream`` unless a correction row replaces it."""
+    return corrections().get((kind, (value or "").lower(), field), upstream)
+
+
 def project_ids() -> list[str]:
     return [p["id"] for p in projects()]
 
@@ -287,5 +313,26 @@ def validate() -> list[str]:
         for entry in entries:
             if not entry.get("reason"):
                 problems.append(f"exclusion {kind}/{entry['value']} has no reason")
+
+    known_dois = {d.lower() for _, d in project_field("papers")}
+    for row in _read("corrections.csv"):
+        where = f"correction {row['kind']}/{row['value']}/{row['field']}"
+        if not row["reason"]:
+            problems.append(f"{where} has no reason")
+        if not row["to"]:
+            problems.append(f"{where} has nothing to correct it to")
+        fields = CORRECTABLE.get(row["kind"])
+        if fields is None:
+            problems.append(
+                f"{where} has kind {row['kind']!r}; correctable kinds are "
+                f"{sorted(CORRECTABLE)}")
+        elif row["field"] not in fields:
+            problems.append(
+                f"{where} corrects field {row['field']!r}; {row['kind']} allows "
+                f"{sorted(fields)}")
+        elif row["kind"] == "paper" and row["value"].lower() not in known_dois:
+            # A correction for a DOI nothing tracks is dead weight that will outlive
+            # whoever wrote it.
+            problems.append(f"{where} names a DOI that is not in identifiers.csv")
 
     return problems

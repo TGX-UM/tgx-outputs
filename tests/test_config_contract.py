@@ -121,3 +121,30 @@ def test_blank_spreadsheet_rows_are_not_data(tmp_path, monkeypatch):
     cfg.projects.cache_clear()
     assert cfg.project_ids() == ["real"]
     cfg.projects.cache_clear()
+
+
+def test_corrections_carry_a_reason_and_name_a_tracked_doi():
+    """A correction is an override of what a registry says, so it has to justify
+    itself and has to still apply to something the page renders."""
+    dois = {d.lower() for _, d in cfg.project_field("papers")}
+    for row in cfg._read("corrections.csv"):
+        assert row["reason"], f"{row['value']} corrects without a reason"
+        assert row["to"], f"{row['value']} has nothing to correct it to"
+        assert row["field"] in cfg.CORRECTABLE[row["kind"]]
+        if row["kind"] == "paper":
+            assert row["value"].lower() in dois, f"{row['value']} is not tracked"
+
+
+def test_a_correction_replaces_the_upstream_title():
+    doi = "10.1021/ci050400b"
+    assert cfg.corrected("paper", doi, "title", "The Blue Obelisk?Interop") != \
+        "The Blue Obelisk?Interop"
+    assert "—" in cfg.corrected("paper", doi, "title", "x")
+    # DOIs are quoted in every case upstream; matching must not depend on it.
+    assert cfg.corrected("paper", doi.upper(), "title", "x") == \
+        cfg.corrected("paper", doi, "title", "x")
+
+
+def test_an_uncorrected_value_passes_straight_through():
+    assert cfg.corrected("paper", "10.0000/nothing", "title", "As upstream had it") == \
+        "As upstream had it"

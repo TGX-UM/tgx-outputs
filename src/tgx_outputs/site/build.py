@@ -359,7 +359,11 @@ def _project_tiles(snapshot: dict[str, Any]) -> str:
         if pid:
             papers_of.setdefault(pid, []).append(
                 {"doi": r["entity"], "citations": r["value"],
-                 "title": extra.get("title") or r["entity"],
+                 # Applied here rather than in the collector so a correction reaches
+                 # the page on the next build, without waiting for a re-collect.
+                 "title": cfg.corrected(
+                     "paper", r["entity"], "title",
+                     extra.get("title") or r["entity"]),
                  "year": extra.get("year"), "type": extra.get("type")})
     for entries in papers_of.values():
         # Newest first: the current paper is the one to cite.
