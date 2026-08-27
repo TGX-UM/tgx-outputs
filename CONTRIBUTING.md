@@ -43,9 +43,10 @@ and it is maintained by someone else.
 
 ## Leave something out
 
-A row in `config/exclusions.csv`, by repository, package or DOI. A reason is required
-and is published on the methodology page, because an undeclared omission looks the same
-as a bug. To have something removed, open an issue or email the contact in
+A row in `config/exclusions.csv`, by repository, package or DOI. A reason is required,
+because an undeclared omission looks the same as a bug. The table is public and the
+reason is checked, so the omission is on the record even though the page does not
+list it. To have something removed, open an issue or email the contact in
 `config/settings.csv`; no reason needed.
 
 ## Correct something upstream got wrong
@@ -59,7 +60,7 @@ carry, say. It changes no number, and the columns are in
 
 1. Define it in `config/metrics.csv` first: what one unit counts, whether it
    is a running total or a per-period count, and what it does not mean. Nothing renders
-   without this, and the methodology page is generated from it.
+   without this, and the figure's caption is generated from it.
 2. Emit it from a collector in `src/tgx_outputs/collect/`.
 3. Add a chart in `src/tgx_outputs/site/charts.py` and reference it from a page.
 4. `make record`, then `make check` and `make offline`.

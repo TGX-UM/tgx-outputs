@@ -7,8 +7,8 @@ Two rules are enforced here rather than trusted to whoever writes the Markdown:
 2. **Every figure carries its caption block** -- what it counts, the source, when that
    source was last collected, and a link to the CSV behind it. A reader who wants to
    check a number should never have to ask how it was made. The caveat is still
-   required of every metric and is printed in full in the Methods catalogue; it is
-   simply not repeated under each chart.
+   required of every metric in ``metrics.csv`` and validated there, but it is not
+   rendered anywhere on the site.
 
 Freshness comes from the data's own timestamps. ``datetime.now()`` is never used to
 describe how current the page is.
