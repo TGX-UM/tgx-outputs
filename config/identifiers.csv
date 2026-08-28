@@ -1,5 +1,7 @@
 project,kind,value,note
+bridgedb,repo,bridgedb/datasources,
 bridgedb,repo,bridgedb/BridgeDb,
+bridgedb,repo,bridgedb/BridgeDbWebservice,
 bridgedb,repo,bridgedb/bridgedbjs,
 bridgedb,repo,bridgedb/docker,
 bridgedb,package,bioconductor.org/BridgeDbR,
@@ -15,6 +17,8 @@ wikipathways,repo,wikipathways/rWikiPathways,
 wikipathways,repo,wikipathways/pywikipathways,
 wikipathways,repo,wikipathways/pvjs,
 wikipathways,repo,wikipathways/wikipathways-database,
+wikipathways,repo,wikipathways/GPML2RDF,
+wikipathways,repo,wikipathways/WikiPathwaysCurator,
 wikipathways,package,bioconductor.org/rWikiPathways,
 wikipathways,package,pypi.org/pywikipathways,
 wikipathways,package,npmjs.org/@wikipathways/pvjs,
@@ -27,11 +31,13 @@ wikipathways,paper,10.1093/nar/gkaa1024,NAR 2021
 wikipathways,paper,10.1093/nar/gkad960,NAR 2024
 wikipathways,paper,10.1371/journal.pone.0006447,"Web services, PLoS ONE 2009"
 pathvisio,repo,PathVisio/pathvisio,
+pathvisio,repo,PathVisio/libGPML,
 pathvisio,rsd,pathvisio,
 pathvisio,rsd,libgpml,
 pathvisio,paper,10.1186/1471-2105-9-399,"PathVisio, BMC Bioinformatics 2008"
 pathvisio,paper,10.1371/journal.pcbi.1004085,"PathVisio 3, PLoS Comput Biol 2015"
 cdk,repo,cdk/cdk,
+cdk,repo,cdk/cdk-scaffold,
 cdk,package,repo1.maven.org/org.openscience.cdk:cdk-bundle,
 cdk,rsd,cdk,
 cdk,paper,10.1021/ci025584y,"CDK, J Chem Inf Comput Sci 2003"
