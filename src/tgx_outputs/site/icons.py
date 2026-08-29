@@ -43,19 +43,6 @@ _ICONS: dict[str, str] = {
         '4 12A1.5 1.5 0 0 1 1 10.94V2.5A1.5 1.5 0 0 1 2.5 1m0 1.5v8.44l10.25 10.25 8.44-8.44L10.9'
         '4 2.5Z"/>'
     ),
-    # Simple Icons, simple/r.svg -- Bioconductor ships R packages. Its own mark is a fine dotted
-    #   helix that turns to mush below about 24px, and these render at 15.
-    'r': (
-        '<path d="M12 2.746c-6.627 0-12 3.599-12 8.037 0 3.897 4.144 7.144 9.64 7.88V16.26c-2.924'
-        '-.915-4.925-2.755-4.925-4.877 0-3.035 4.084-5.494 9.12-5.494 5.038 0 8.757 1.683 8.757 5'
-        '.494 0 1.976-.999 3.379-2.662 4.272.09.066.174.128.258.216.169.149.25.363.372.544 2.128-'
-        '1.45 3.44-3.437 3.44-5.631 0-4.44-5.373-8.038-12-8.038m-2.111 4.99v13.516l4.093-.002-.00'
-        '2-5.291h1.1c.225 0 .321.066.549.25.272.22.715.982.715.982l2.164 4.063 4.627-.002-2.864-4'
-        '.826s-.086-.193-.265-.383a2.2 2.2 0 0 0-.582-.416c-.422-.214-1.149-.434-1.149-.434s3.578'
-        '-.264 3.578-3.826-3.744-3.63-3.744-3.63zm4.127 2.93 2.478.002s1.149-.062 1.149 1.127c0 1'
-        '.165-1.149 1.17-1.149 1.17h-2.478zm1.754 6.119c-.494.049-1.012.079-1.54.088v1.807a17 17 '
-        '0 0 0 2.37-.473l-.471-.891s-.108-.183-.248-.394c-.039-.054-.08-.098-.111-.137"/>'
-    ),
     # Simple Icons, simple/python.svg -- PyPI's own cube-cluster mark is unreadable at tile size;
     #   the language mark is not.
     'python': (
@@ -77,15 +64,41 @@ _ICONS: dict[str, str] = {
         '1.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.4'
         '1.08z"/>'
     ),
+    # Simple Icons, simple/bioconductor.svg -- the registry's own mark, cropped. The full
+    #   artwork is a note beneath a dotted helix arc; at 15px the dots dissolve into grey
+    #   haze and the note thins to a hairline. Bioconductor solved this the same way --
+    #   their favicon is the note alone -- so this crops to the bowl and foot of the stem.
+    'bioconductor': (
+        '<path d="M15.103 0a.649.649 0 1 0 .001 1.298.649.649 0 0 0 0-1.298m7.473.031a.69.69 0 1 '
+        '0 .001 1.38.69.69 0 0 0 0-1.38M7.757.727a.663.663 0 1 0 .001 1.325.663.663 0 0 0 0-1.325'
+        'm5.87.053a.495.495 0 1 0 0 .99.495.495 0 0 0 0-.99m3.256.07a.663.663 0 1 0 0 1.325.662.6'
+        '62 0 0 0 0-1.324m-7.275.596a.755.755 0 0 0-.756.758.755.755 0 1 0 1.51 0 .755.755 0 0 0-'
+        '.754-.758m-3.373.395a.59.59 0 0 0-.596.588c0 .325.267.59.596.59.33 0 .597-.265.596-.59a.'
+        '59.59 0 0 0-.596-.588m6.397.1a.347.347 0 1 0-.002.693.347.347 0 0 0 .002-.694m8.941.034a'
+        '.455.455 0 1 0 0 .91.455.455 0 0 0 0-.91m-3.065.108a.808.808 0 1 0-.002 1.615.808.808 0 '
+        '0 0 .002-1.615m-7.183.607a.935.935 0 1 0 0 1.87.935.935 0 0 0 0-1.87m-5.978.541a.39.39 0'
+        ' 1 0 0 .78.39.39 0 0 0 0-.78m15.203.217a.865.865 0 1 0 .003 1.73.865.865 0 0 0-.003-1.73'
+        'm-7.52.857a.736.736 0 1 0 .004 1.472.736.736 0 0 0-.003-1.472m-3.63.12a.579.579 0 1 0 .0'
+        '02 1.158.579.579 0 0 0-.002-1.158M22 4.762a.499.499 0 1 0 .002.998.499.499 0 0 0-.002-.9'
+        '98m-17.05.094c-.01 4.734.082 13.81-.009 14.286-.39-.202-1.113-.406-2.135-.012-1.13.435-2'
+        '.007 1.386-2.216 2.404a4 4 0 0 0-.004 1.24c.13.688.554 1.116 1.193 1.204a3.8 3.8 0 0 0 1'
+        '.182-.059c1.006-.262 1.94-1.01 2.38-1.91.291-.597.266.227.264-8.703L5.604 5.37c-.22-.167'
+        '-.435-.342-.652-.514m2.477.137a.792.792 0 1 0 .001 1.583.792.792 0 0 0 0-1.583m11.858.06'
+        'a.295.295 0 1 0 .001.59.295.295 0 0 0 0-.59m-4.245.516a.639.639 0 1 0 0 1.277.639.639 0 '
+        '0 0 0-1.277m8.068.078a.347.347 0 1 0 0 .694.347.347 0 0 0 0-.694m-4.82.08a.387.387 0 1 0'
+        ' 0 .774.387.387 0 0 0 0-.774m-1.294.58a.488.488 0 1 0 0 .975.488.488 0 0 0 0-.976"/>'
+    ),
     # Octicons, octicons/package-24.svg -- a stand-in for Maven Central. Its own mark, the
     #   Apache feather, is 5.7kB of path describing detail that is entirely lost at the 15px
-    #   these render at -- the same reason Bioconductor borrows the R mark above.
+    #   these render at, and unlike Bioconductor's there is no part of it that survives
+    #   cropping -- the whole mark is the feather.
     'package': (
-        '<path d="M12.876.64V.639l8.25 4.763c.541.313.875.89.875 1.515v9.525a1.75 1.75 0 0 1-.875 1.516l-'
-        '8.25 4.762a1.748 1.748 0 0 1-1.75 0l-8.25-4.763a1.75 1.75 0 0 1-.875-1.515V6.917c0-.625.334-1.20'
-        '2.875-1.515L11.126.64a1.748 1.748 0 0 1 1.75 0Zm-1 1.298L4.251 6.34l7.75 4.474 7.75-4.474-7.625-'
-        '4.402a.248.248 0 0 0-.25 0Zm.875 19.123 7.625-4.402a.25.25 0 0 0 .125-.216V7.639l-7.75 4.474ZM3.'
-        '501 7.64v8.803c0 .09.048.172.125.216l7.625 4.402v-8.947Z"/>'
+        '<path d="M12.876.64V.639l8.25 4.763c.541.313.875.89.875 1.515v9.525a1.75 1.75 0 0 1-.875'
+        ' 1.516l-8.25 4.762a1.748 1.748 0 0 1-1.75 0l-8.25-4.763a1.75 1.75 0 0 1-.875-1.515V6.917'
+        'c0-.625.334-1.202.875-1.515L11.126.64a1.748 1.748 0 0 1 1.75 0Zm-1 1.298L4.251 6.34l7.75'
+        ' 4.474 7.75-4.474-7.625-4.402a.248.248 0 0 0-.25 0Zm.875 19.123 7.625-4.402a.25.25 0 0 0'
+        ' .125-.216V7.639l-7.75 4.474ZM3.501 7.64v8.803c0 .09.048.172.125.216l7.625 4.402v-8.947Z'
+        '"/>'
     ),
     # Simple Icons, simple/npm.svg -- the registry's own mark.
     'npm': (
@@ -126,6 +139,12 @@ _ICONS: dict[str, str] = {
     ),
 }
 
+# Every mark above fills a 24x24 box except Bioconductor's, which is cropped out of the
+# full logo and so carries the window to crop to. Kept beside the paths rather than
+# inside them, so the common case stays a plain string.
+_VIEWBOX = {"bioconductor": "0 16 8 8"}
+_DEFAULT_VIEWBOX = "0 0 24 24"
+
 
 def svg(name: str, cls: str = "tgx-icon") -> str:
     """One inline SVG, or nothing at all if the name is not registered.
@@ -138,6 +157,7 @@ def svg(name: str, cls: str = "tgx-icon") -> str:
     if not body:
         return ""
     return (
-        f'<svg class="{cls}" viewBox="0 0 24 24" fill="currentColor" '
+        f'<svg class="{cls}" viewBox="{_VIEWBOX.get(name, _DEFAULT_VIEWBOX)}" '
+        f'fill="currentColor" '
         f'aria-hidden="true" focusable="false">{body}</svg>'
     )

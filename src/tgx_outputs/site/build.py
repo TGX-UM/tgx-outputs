@@ -155,7 +155,7 @@ def _cards(snapshot: dict[str, Any]) -> str:
         ("Projects tracked", float(len(cfg.projects())), "#", "", "repo"),
         ("Releases", releases, "#releases", f"since {year}", "tag"),
         ("Bioconductor", total("package_downloads_total", "bioconductor.org/"),
-         "#downloads", "downloads, all time", "r"),
+         "#downloads", "downloads, all time", "bioconductor"),
         # npm and PyPI publish no lifetime counter, so these are 30-day windows and the
         # sub-label has to say so. Reading one as "all time" is how this went wrong.
         ("PyPI", total("package_downloads_recent", "pypi.org/"), "#downloads",
