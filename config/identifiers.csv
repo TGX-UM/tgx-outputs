@@ -4,6 +4,7 @@ bridgedb,repo,bridgedb/BridgeDb,
 bridgedb,repo,bridgedb/BridgeDbWebservice,
 bridgedb,repo,bridgedb/bridgedbjs,
 bridgedb,repo,bridgedb/docker,
+bridgedb,repo,BiGCAT-UM/BridgeDbR,
 bridgedb,package,bioconductor.org/BridgeDbR,
 bridgedb,package,npmjs.org/bridgedb,
 bridgedb,package,repo1.maven.org/org.bridgedb:org.bridgedb.bio,
@@ -62,6 +63,9 @@ r-odaf,repo,TGX-UM/R-ODAF-Shiny,
 r-odaf,paper,10.1016/j.yrtph.2022.105143,"R-ODAF, Regul Toxicol Pharmacol 2022"
 r-odaf,paper,10.1016/j.yrtph.2020.104621,"Towards an omics data analysis framework, 2020"
 vhp,repo,VHP4Safety/virtual-human-platform,
+vhp,repo,VHP4Safety/cloud,
+vhp,repo,VHP4Safety/ui-casestudy-config,
+vhp,repo,VHP4Safety/glossary,
 vhp,docker,vhp4safety/virtual-human-platform,
 vhp,rsd,virtual-human-platform,
 vhp,paper,10.14573/altex.2407211,"The Virtual Human Platform, ALTEX 2024"
