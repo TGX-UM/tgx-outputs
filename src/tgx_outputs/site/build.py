@@ -162,6 +162,12 @@ def _cards(snapshot: dict[str, Any]) -> str:
          "downloads, last 30 days", "python"),
         ("npm", total("package_downloads_recent", "npmjs.org/"), "#downloads",
          "downloads, last 30 days", "npm"),
+        # Maven Central counts no downloads, so the card that would sit beside PyPI and
+        # npm carries the figure it does publish. The sub-label has to work hard here:
+        # this number sits in a row of download counts and is a tenth of their size
+        # while meaning something entirely different.
+        ("Maven", total("package_dependents", "repo1.maven.org/"), "#dependents",
+         "dependent packages", "package"),
         ("Docker Hub", total("docker_pulls_total"), "#containers", "pulls, all time",
          "docker"),
         ("Citations", total("paper_citations"), "#citations", "of these tools' papers",

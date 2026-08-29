@@ -137,8 +137,8 @@ def docker_pulls() -> dict[str, Any]:
     )
 
 
-def _downloads(csv: str, title: str) -> dict[str, Any]:
-    """Packages as bars, one panel per registry.
+def _by_registry(csv: str, title: str) -> dict[str, Any]:
+    """Packages as bars, one panel per registry, for any per-package figure.
 
     Faceted rather than merged into one ranking, because a registry is not a
     category of package but the thing that did the counting. Panels keep PyPI's
@@ -180,11 +180,11 @@ def _downloads(csv: str, title: str) -> dict[str, Any]:
 
 
 def downloads_lifetime() -> dict[str, Any]:
-    return _downloads("data/package_downloads_total.csv", "Downloads, all time")
+    return _by_registry("data/package_downloads_total.csv", "Downloads, all time")
 
 
 def downloads_recent() -> dict[str, Any]:
-    return _downloads("data/package_downloads_recent.csv", "Downloads, last 30 days")
+    return _by_registry("data/package_downloads_recent.csv", "Downloads, last 30 days")
 
 
 def citations() -> dict[str, Any]:
@@ -197,6 +197,10 @@ def citations() -> dict[str, Any]:
     )
 
 
+def dependents() -> dict[str, Any]:
+    return _by_registry("data/package_dependents.csv", "Dependent packages")
+
+
 CHARTS = {
     "downloads_lifetime": (downloads_lifetime, "package_downloads_total"),
     "downloads_recent": (downloads_recent, "package_downloads_recent"),
@@ -205,4 +209,5 @@ CHARTS = {
     "rsd_mentions": (rsd_mentions, "rsd_mentions"),
     "citations": (citations, "paper_citations"),
     "docker_pulls": (docker_pulls, "docker_pulls_total"),
+    "dependents": (dependents, "package_dependents"),
 }

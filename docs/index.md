@@ -28,6 +28,14 @@ Each registry counts over its own window, and the two are never added together.
 
 --8<-- "fig_bioc_ips.md"
 
+## Dependents { #dependents }
+
+Maven Central publishes no download figures, so for the Java libraries this is the
+only measure of use a registry offers. It is counted the same way everywhere, and the
+registries do not see each other.
+
+--8<-- "fig_dependents.md"
+
 ## Citations { #citations }
 
 --8<-- "fig_citations.md"

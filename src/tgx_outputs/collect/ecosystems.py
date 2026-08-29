@@ -77,6 +77,19 @@ class Ecosystems(Collector):
                 "registry_breadth", project, 1,
                 extra={"registry": reg, "package": name}))
 
+            # Maven Central publishes no download figures at all -- Sonatype does not
+            # count them -- so a Maven artefact would otherwise appear on the page as a
+            # registry with nothing beside it, which is what #6 was about. Dependents are
+            # the figure every registry does keep, and for a library they are arguably
+            # the better question anyway: not how often it was fetched, but how much
+            # other published software is built on it. Zero is a real answer here and is
+            # recorded as one, hence `is not None` rather than a truth test.
+            dependents = pkg.get("dependent_packages_count")
+            if dependents is not None:
+                env.records.append(Record(
+                    "package_dependents", ref, float(dependents),
+                    extra={"project": project, "registry": reg}))
+
             downloads = pkg.get("downloads")
             if downloads:
                 window = pkg.get("downloads_period") or "unknown"
