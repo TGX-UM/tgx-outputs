@@ -99,9 +99,21 @@ def test_citations_asks_in_batches_not_once_per_doi(http):
     assert len(papers) > 10, "this test is only meaningful with a real paper list"
     assert len(env.calls) <= (len(papers) // 20) + 1, (
         f"{len(env.calls)} calls for {len(papers)} DOIs: the batch filter is not being used")
-    # and every paper still gets its own record
-    by_doi = [r for r in env.records if r.metric == "paper_citations_by_doi"]
-    assert len(by_doi) == len(papers)
+    # and every paper OpenAlex knows about still gets its own record. A DOI it does not
+    # index yields none by necessity -- Figshare and Zenodo deposits routinely are not
+    # indexed -- but the collector has to say so out loud. That is the whole difference
+    # between a disclosed gap and a quietly smaller number, which is the same failure
+    # this test was written to catch.
+    from tgx_outputs.collect.citations import _bare
+
+    tracked = {_bare(doi) for _project, doi in papers} - cfg.excluded_dois()
+    by_doi = {r.entity for r in env.records if r.metric == "paper_citations_by_doi"}
+    assert by_doi <= tracked, f"records for DOIs nothing tracks: {by_doi - tracked}"
+    unindexed = tracked - by_doi
+    if unindexed:
+        assert any("no record" in err for err in env.errors), (
+            f"{len(unindexed)} DOI(s) produced no record and the collector said nothing: "
+            f"{sorted(unindexed)}")
 
 
 def test_citations_identifies_a_doi_however_it_is_written():

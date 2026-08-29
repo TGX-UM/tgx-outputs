@@ -129,7 +129,13 @@ class Citations(Collector):
                 extra={"papers": counts[project]}))
 
         if missing:
-            # A DOI that does not resolve is a config error, and silently returning a
-            # smaller number is exactly the failure this dashboard is built to avoid.
-            env.degrade(f"{len(missing)} DOI(s) did not resolve: {', '.join(missing[:3])}")
+            # OpenAlex returned no work for these. That is not the same as the DOI being
+            # broken: it resolves at doi.org perfectly well, OpenAlex simply does not
+            # index it, which is ordinary for Figshare and Zenodo deposits. Still worth
+            # degrading, because a tracked paper contributing zero to the total is a gap
+            # the page should admit to rather than absorb. The fix is either to wait for
+            # OpenAlex to pick it up or to record in exclusions.csv why it is not counted.
+            env.degrade(
+                f"OpenAlex has no record for {len(missing)} DOI(s): "
+                f"{', '.join(missing[:3])}")
         return env
