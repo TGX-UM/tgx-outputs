@@ -32,10 +32,12 @@ wikipathways,paper,10.1093/nar/gkad960,NAR 2024
 wikipathways,paper,10.1371/journal.pone.0006447,"Web services, PLoS ONE 2009"
 pathvisio,repo,PathVisio/pathvisio,
 pathvisio,repo,PathVisio/libGPML,
+pathvisio,repo,egonw/org.pathvisio.io.rdf,
 pathvisio,rsd,pathvisio,
 pathvisio,rsd,libgpml,
 pathvisio,paper,10.1186/1471-2105-9-399,"PathVisio, BMC Bioinformatics 2008"
 pathvisio,paper,10.1371/journal.pcbi.1004085,"PathVisio 3, PLoS Comput Biol 2015"
+pathvisio,package,repo1.maven.org/org.pathvisio:org.pathvisio.libgpml,
 cdk,repo,cdk/cdk,
 cdk,repo,cdk/cdk-scaffold,
 cdk,package,repo1.maven.org/org.openscience.cdk:cdk-bundle,
@@ -89,3 +91,7 @@ scholia,rsd,scholia,
 scholia,paper,10.1007/978-3-319-70407-4_36,"Scholia, Scientometrics and Wikidata, ESWC 2017"
 scholia,paper,10.3897/rio.5.e35820,"Robustifying Scholia, RIO 2019"
 scholia,paper,10.26434/chemrxiv-2025-53n0w,"Scholia Chemistry, ChemRxiv 2025"
+jqudt,repo,egonw/jqudt,
+jqudt,package,repo1.maven.org/com.github.egonw:jqudt,
+nanojava,repo,enanomapper/nanojava,
+nanojava,package,repo1.maven.org/io.github.egonw:nanojava,
