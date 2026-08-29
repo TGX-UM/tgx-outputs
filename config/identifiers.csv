@@ -87,6 +87,8 @@ blue-obelisk,repo,blueobelisk/euclid,
 blue-obelisk,repo,blueobelisk/cmlxom,
 blue-obelisk,repo,blueobelisk/iupac-names,
 blue-obelisk,repo,blueobelisk/bodr,
+blue-obelisk,rsd,blueobelisk-euclid,
+blue-obelisk,rsd,cmlxom,
 blue-obelisk,paper,10.1186/1758-2946-3-37,"Open Data, Open Source and Open Standards in chemistry: The Blue Obelisk five years on"
 blue-obelisk,paper,10.1021/ci050400b,"The Blue Obelisk - Interoperability in Chemical Informatics"
 scholia,repo,WDscholia/scholia,
@@ -95,6 +97,7 @@ scholia,paper,10.1007/978-3-319-70407-4_36,"Scholia, Scientometrics and Wikidata
 scholia,paper,10.3897/rio.5.e35820,"Robustifying Scholia, RIO 2019"
 scholia,paper,10.26434/chemrxiv-2025-53n0w,"Scholia Chemistry, ChemRxiv 2025"
 jqudt,repo,egonw/jqudt,
+jqudt,rsd,jqudt,
 jqudt,package,repo1.maven.org/com.github.egonw:jqudt,
 nanojava,repo,enanomapper/nanojava,
 nanojava,package,repo1.maven.org/io.github.egonw:nanojava,
