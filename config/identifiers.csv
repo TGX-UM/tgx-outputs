@@ -13,6 +13,7 @@ bridgedb,rsd,bridgedb-webservice,
 bridgedb,rsd,bridgedbr,
 bridgedb,paper,10.1186/1471-2105-11-5,"BridgeDb framework, BMC Bioinformatics 2010"
 bridgedb,paper,10.12688/f1000research.4521.1,"BridgeDb app for Cytoscape, 2014"
+bridgedb,paper,10.6084/m9.figshare.7346384,"Nanopublication recall with BridgeDb"
 wikipathways,repo,wikipathways/rWikiPathways,
 wikipathways,repo,wikipathways/pywikipathways,
 wikipathways,repo,wikipathways/pvjs,
@@ -30,6 +31,7 @@ wikipathways,paper,10.1093/nar/gkx1064,NAR 2018
 wikipathways,paper,10.1093/nar/gkaa1024,NAR 2021
 wikipathways,paper,10.1093/nar/gkad960,NAR 2024
 wikipathways,paper,10.1371/journal.pone.0006447,"Web services, PLoS ONE 2009"
+wikipathways,paper,10.1371/journal.pcbi.1004989,"Semantic Web for WikiPathways 2016"
 pathvisio,repo,PathVisio/pathvisio,
 pathvisio,repo,PathVisio/libGPML,
 pathvisio,repo,egonw/org.pathvisio.io.rdf,
@@ -70,6 +72,7 @@ aopwiki-rdf,paper,10.1089/aivt.2021.0010,"AOP-Wiki RDF, Appl In Vitro Toxicol 20
 aopwiki-rdf,paper,10.14573/altex.2307131,"Why AOPs need to be FAIR, ALTEX 2023"
 molaop,repo,marvinm2/molAOP-builder,
 molaop,repo,marvinm2/molAOP-analyser,
+molaop,paper,10.3389/fgene.2018.00661,"WikiPathways for AOPs 2018"
 molaop,paper,10.1101/2023.03.02.530766,"Molecular AOPs, bioRxiv 2023"
 biodatafuse,repo,BioDataFuse/pyBiodatafuse,
 biodatafuse,repo,BioDataFuse/biodatafuseUI,
