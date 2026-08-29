@@ -128,6 +128,7 @@ class Citations(Collector):
                 "paper_citations", project, total,
                 extra={"papers": counts[project]}))
 
+        env.expected, env.found, env.unit = len(order), len(order) - len(missing), "papers"
         if missing:
             # OpenAlex returned no work for these. That is not the same as the DOI being
             # broken: it resolves at doi.org perfectly well, OpenAlex simply does not

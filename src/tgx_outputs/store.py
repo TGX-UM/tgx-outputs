@@ -114,12 +114,19 @@ def write_run(
             "fetched_at": env.fetched_at,
             "collector_version": env.collector_version,
             "record_count": len(recs),
+            # How much of what was asked for came back, kept beside the records so the
+            # freshness strip can say "current but incomplete" without re-collecting.
+            "expected": env.expected,
+            "found": env.found,
+            "unit": env.unit,
             "records": [r.as_dict() for r in recs],
         }
         manifest["sources"][name] = {
             "status": env.status,
             "fetched_at": env.fetched_at,
             "record_count": len(recs),
+            "expected": env.expected,
+            "found": env.found,
             "quarantined": quarantine.get(name, []),
             "errors": env.errors,
             "calls": [{"url": c.url, "status": c.status, "ok": c.ok, "note": c.note}

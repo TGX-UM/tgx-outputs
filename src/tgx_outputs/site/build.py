@@ -74,7 +74,12 @@ def figure(name: str, snapshot: dict[str, Any], fresh: dict[str, Any]) -> str:
     row = next((r for r in fresh["sources"] if r["source"] == source), None)
     collected = row["fetched_at"][:10] if row else "unknown"
     level = row["level"] if row else "red"
+    # Stale and incomplete are different complaints and get different words. A figure
+    # drawn from numbers gathered minutes ago but missing one row is not stale, and
+    # calling it that sends the reader looking for a collection problem there isn't one.
     badge = {"fresh": "", "amber": " ⚠ stale", "red": " ⛔ stale"}[level]
+    if row and not row["complete"]:
+        badge += " ⚠ incomplete"
 
     # The spec goes in a child <script type="application/json">, not an attribute.
     # Vega-Lite filter expressions contain single quotes (datum.entity == 'all'), which
@@ -119,14 +124,19 @@ def _freshness_strip(fresh: dict[str, Any], *, table: bool) -> str:
     if not table:
         return (strip + '\n<small>Per-source detail is on the '
                 '[Methods page](methods.md#collection-status).</small>\n')
+    def got(r: dict[str, Any]) -> str:
+        if r["expected"] and r["found"] is not None:
+            return f"{r['found']} of {r['expected']} {r['unit']}"
+        return "—" if r["complete"] else "incomplete"
+
     rows = "\n".join(
         f"| `{r['source']}` | {r['status']} | {r['fetched_at'][:10]} | "
-        f"{r['age_days']:.0f} d | {r['record_count']:,} |"
+        f"{r['age_days']:.0f} d | {r['record_count']:,} | {got(r)} |"
         for r in fresh["sources"])
     return (
         strip + "\n"
-        '| Source | Status | Last collected | Age | Records |\n'
-        '|---|---|---|---|---|\n' + rows + "\n"
+        '| Source | Status | Last collected | Age | Records | Completeness |\n'
+        '|---|---|---|---|---|---|\n' + rows + "\n"
     )
 
 

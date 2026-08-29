@@ -67,9 +67,37 @@ def test_freshness_is_computed_from_the_data_not_the_clock():
     assert freshness.assess(_snapshot(60))["level"] == "red"      # > 5x
 
 
-def test_a_degraded_source_is_never_reported_as_fresh():
-    assert freshness.assess(_snapshot(0, status="degraded"))["level"] == "amber"
+def test_a_degraded_source_is_current_but_never_reported_as_complete():
+    """Degraded says the answer was partial, not that it was old.
+
+    These were one signal until a Figshare DOI that OpenAlex will never index made the
+    banner say "needs attention, 0d" -- a permanent warning about data gathered seconds
+    earlier. Age and completeness are now asked separately, and a source that answered
+    on time but short is current *and* incomplete.
+    """
+    fresh = freshness.assess(_snapshot(0, status="degraded"))
+    assert fresh["level"] == "fresh"
+    assert fresh["sources"][0]["complete"] is False
+    assert [r["source"] for r in fresh["incomplete"]] == ["github"]
+    assert "incomplete" in fresh["summary"]
+    assert "needs attention" not in fresh["summary"]
+
+    # A failure is still red whatever the clock says: the records on the page are then
+    # whatever the last good run left behind, and their real age is unknown.
     assert freshness.assess(_snapshot(0, status="failed"))["level"] == "red"
+
+
+def test_an_incomplete_source_reports_the_fraction_it_managed():
+    snap = _snapshot(0, status="degraded")
+    snap["sources"]["github"].update(expected=33, found=32, unit="papers")
+    summary = freshness.assess(snap)["summary"]
+    assert "32 of 33 papers found" in summary
+
+
+def test_a_complete_and_current_run_says_so_plainly():
+    fresh = freshness.assess(_snapshot(0))
+    assert fresh["incomplete"] == []
+    assert "—" not in fresh["summary"] and "incomplete" not in fresh["summary"]
 
 
 def test_stale_sources_are_named_in_the_summary():

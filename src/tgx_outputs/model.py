@@ -74,6 +74,16 @@ class Envelope:
     fetched_at: str = dataclasses.field(default_factory=utcnow)
     collector_version: str = "1"
 
+    # How much of what was asked for came back. Separate from ``status`` because they
+    # answer different questions: status says whether the source misbehaved, this says
+    # how much of the answer arrived. A source can be perfectly well behaved and still
+    # be missing a row -- OpenAlex simply does not index every DOI -- and the page has
+    # to be able to say "current but incomplete" without calling the data stale.
+    # Left None by collectors that have no meaningful denominator.
+    expected: int | None = None
+    found: int | None = None
+    unit: str = "records"
+
     def degrade(self, reason: str) -> None:
         """Mark the source unreliable. Never silently absorbed into 'handled'."""
         if self.status != "failed":
@@ -91,6 +101,9 @@ class Envelope:
             "fetched_at": self.fetched_at,
             "collector_version": self.collector_version,
             "record_count": len(self.records),
+            "expected": self.expected,
+            "found": self.found,
+            "unit": self.unit,
             "errors": self.errors,
             "calls": [dataclasses.asdict(c) for c in self.calls],
             "records": [r.as_dict() for r in self.records],
