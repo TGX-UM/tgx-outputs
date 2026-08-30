@@ -48,6 +48,8 @@ cdk,rsd,cdk,
 cdk,paper,10.1021/ci025584y,"CDK, J Chem Inf Comput Sci 2003"
 cdk,paper,10.2174/138161206777585274,"CDK recent developments, 2006"
 cdk,paper,10.1186/s13321-017-0220-4,"CDK v2.0, J Cheminform 2017"
+cdk,package,debian-13/cdk,
+cdk,package,ubuntu-24.04/cdk,
 bacting,repo,egonw/bacting,
 bacting,repo,blueobelisk/pybacting,
 bacting,package,pypi.org/pybacting,
@@ -93,6 +95,12 @@ blue-obelisk,repo,blueobelisk/iupac-names,
 blue-obelisk,repo,blueobelisk/bodr,
 blue-obelisk,rsd,blueobelisk-euclid,
 blue-obelisk,rsd,cmlxom,
+blue-obelisk,package,debian-13/cmlxom,
+blue-obelisk,package,ubuntu-24.04/cmlxom,
+blue-obelisk,package,debian-13/libeuclid-java,
+blue-obelisk,package,ubuntu-24.04/libeuclid-java,
+blue-obelisk,package,debian-13/bodr,
+blue-obelisk,package,ubuntu-24.04/bodr,
 blue-obelisk,paper,10.1186/1758-2946-3-37,"Open Data, Open Source and Open Standards in chemistry: The Blue Obelisk five years on"
 blue-obelisk,paper,10.1021/ci050400b,"The Blue Obelisk - Interoperability in Chemical Informatics"
 scholia,repo,WDscholia/scholia,
