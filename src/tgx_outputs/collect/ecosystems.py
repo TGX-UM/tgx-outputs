@@ -51,12 +51,14 @@ WINDOWS = {
 @register
 class Ecosystems(Collector):
     name = "ecosystems"
-    version = "4"
+    version = "5"
 
     def collect(self):
         env = self.envelope()
         dropped = excluded_packages()
         seen = 0
+        # project -> registry -> the packages found there, collapsed after the loop.
+        breadth: dict[str, dict[str, list[str]]] = {}
 
         for project, ref in project_field("packages"):
             if ref in dropped or "/" not in ref:
@@ -73,9 +75,12 @@ class Ecosystems(Collector):
             seen += 1
             env.calls.append(Call(url=url, status=200, ok=True, note=project))
 
-            env.records.append(Record(
-                "registry_breadth", project, 1,
-                extra={"registry": reg, "package": name}))
+            # One row per registry a project reaches, not per package it ships there.
+            # The metric is defined as *distinct* registries, and CDK alone publishes two
+            # artefacts to Maven and two to conda-forge, so a row per package counted
+            # those registries twice each and made the published CSV say CDK reaches
+            # seven registries when it reaches five.
+            breadth.setdefault(project, {}).setdefault(reg, []).append(name)
 
             # Maven Central publishes no download figures at all -- Sonatype does not
             # count them -- so a Maven artefact would otherwise appear on the page as a
@@ -104,6 +109,12 @@ class Ecosystems(Collector):
                     extra={"project": project, "registry": reg,
                            "period_label": window,
                            "latest_version": pkg.get("latest_release_number")}))
+
+        for project, registries in sorted(breadth.items()):
+            for reg, names in sorted(registries.items()):
+                env.records.append(Record(
+                    "registry_breadth", project, 1,
+                    extra={"registry": reg, "packages": sorted(names)}))
 
         if not seen:
             env.degrade("no configured package resolved")
