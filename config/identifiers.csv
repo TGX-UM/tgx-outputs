@@ -117,3 +117,6 @@ jqudt,rsd,jqudt,
 jqudt,package,repo1.maven.org/com.github.egonw:jqudt,
 nanojava,repo,enanomapper/nanojava,
 nanojava,package,repo1.maven.org/io.github.egonw:nanojava,
+cytargetlinker,repo,CyTargetLinker/cytargetlinker,
+cytargetlinker,paper,10.1371/journal.pone.0082160,"CyTargetLinker: A Cytoscape App to Integrate Regulatory Interactions in Network Analysis"
+cytargetlinker,paper,10.12688/f1000research.14613.1,"CyTargetLinker app update: A flexible solution for network extension in Cytoscape"

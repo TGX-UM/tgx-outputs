@@ -16,3 +16,4 @@ blue-obelisk,Blue Obelisk,"International team of chemists who share a belief in 
 scholia,Scholia,"Builds profile pages for researchers, topics, journals and chemicals out of what Wikidata already records, so the works, citations and co-authors behind a name can be read without writing a query.",SC,scholia.png
 nanojava,NanoJava,"Minimal cheminformatics Java library for nanomaterials.",NJ,
 jqudt,jQUDT,"Java library to handle units and convert quantities.",QUDT,
+cytargetlinker,CyTargetLinker,"Extend your biological networks in Cytoscape.",CTL,
