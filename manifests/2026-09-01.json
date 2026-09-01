@@ -1,0 +1,320 @@
+{
+ "collected_on": "2026-09-01",
+ "config_sha": "77d8eb757af5",
+ "sources": {
+  "bioconductor": {
+   "status": "ok",
+   "fetched_at": "2026-09-01T20:47:52+00:00",
+   "record_count": 518,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [],
+   "calls": [
+    {
+     "url": "https://bioconductor.org/packages/stats/bioc/bioc_pkg_stats.tab",
+     "status": 200,
+     "ok": true,
+     "note": "all packages, all months, one file"
+    },
+    {
+     "url": "https://bioconductor.org/packages/stats/bioc/bioc_pkg_scores.tab",
+     "status": 200,
+     "ok": true,
+     "note": "download score table"
+    }
+   ]
+  },
+  "citations": {
+   "status": "degraded",
+   "fetched_at": "2026-09-01T20:47:53+00:00",
+   "record_count": 48,
+   "expected": 35,
+   "found": 34,
+   "quarantined": [],
+   "errors": [
+    "OpenAlex has no record for 1 DOI(s): 10.6084/m9.figshare.7346384"
+   ],
+   "calls": [
+    {
+     "url": "https://api.openalex.org/works",
+     "status": 200,
+     "ok": true,
+     "note": "25 DOIs asked, 24 returned"
+    },
+    {
+     "url": "https://api.openalex.org/works",
+     "status": 200,
+     "ok": true,
+     "note": "10 DOIs asked, 10 returned"
+    }
+   ]
+  },
+  "dockerhub": {
+   "status": "ok",
+   "fetched_at": "2026-09-01T20:47:54+00:00",
+   "record_count": 2,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [],
+   "calls": [
+    {
+     "url": "https://hub.docker.com/v2/repositories/bigcatum/bridgedb/",
+     "status": 200,
+     "ok": true,
+     "note": "bridgedb"
+    },
+    {
+     "url": "https://hub.docker.com/v2/repositories/vhp4safety/virtual-human-platform/",
+     "status": 200,
+     "ok": true,
+     "note": "vhp"
+    }
+   ]
+  },
+  "ecosystems": {
+   "status": "ok",
+   "fetched_at": "2026-09-01T20:47:54+00:00",
+   "record_count": 60,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [],
+   "calls": [
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/bioconductor.org/packages/BridgeDbR",
+     "status": 200,
+     "ok": true,
+     "note": "bridgedb"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/bridgedb",
+     "status": 200,
+     "ok": true,
+     "note": "bridgedb"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.bridgedb:org.bridgedb.bio",
+     "status": 200,
+     "ok": true,
+     "note": "bridgedb"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/bioconductor.org/packages/rWikiPathways",
+     "status": 200,
+     "ok": true,
+     "note": "wikipathways"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pywikipathways",
+     "status": 200,
+     "ok": true,
+     "note": "wikipathways"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/npmjs.org/packages/@wikipathways/pvjs",
+     "status": 200,
+     "ok": true,
+     "note": "wikipathways"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.pathvisio:org.pathvisio.libgpml",
+     "status": 200,
+     "ok": true,
+     "note": "pathvisio"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.openscience.cdk:cdk-bundle",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/org.openscience.cdk:cdk-core",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/debian-13/packages/cdk",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/ubuntu-24.04/packages/cdk",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/conda-forge.org/packages/cdk",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/conda-forge.org/packages/r-rcdk",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/cran.r-project.org/packages/rcdk",
+     "status": 200,
+     "ok": true,
+     "note": "cdk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pybacting",
+     "status": 200,
+     "ok": true,
+     "note": "bacting"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/io.github.egonw.bacting:managers-cheminfo",
+     "status": 200,
+     "ok": true,
+     "note": "bacting"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pybiodatafuse",
+     "status": 200,
+     "ok": true,
+     "note": "biodatafuse"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/pysec2pri",
+     "status": 200,
+     "ok": true,
+     "note": "sec2pri"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages/rdfsolve",
+     "status": 200,
+     "ok": true,
+     "note": "rdfsolve"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/debian-13/packages/cmlxom",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/ubuntu-24.04/packages/cmlxom",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/debian-13/packages/libeuclid-java",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/ubuntu-24.04/packages/libeuclid-java",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/debian-13/packages/bodr",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/ubuntu-24.04/packages/bodr",
+     "status": 200,
+     "ok": true,
+     "note": "blue-obelisk"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/io.github.egonw:nanojava",
+     "status": 200,
+     "ok": true,
+     "note": "nanojava"
+    },
+    {
+     "url": "https://packages.ecosyste.ms/api/v1/registries/repo1.maven.org/packages/com.github.egonw:jqudt",
+     "status": 200,
+     "ok": true,
+     "note": "jqudt"
+    }
+   ]
+  },
+  "github": {
+   "status": "ok",
+   "fetched_at": "2026-09-01T20:48:04+00:00",
+   "record_count": 124,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [],
+   "calls": [
+    {
+     "url": "https://api.github.com/graphql (10 repositories)",
+     "status": 200,
+     "ok": true,
+     "note": "10 of 10 returned: bridgedb/datasources, bridgedb/BridgeDb, bridgedb/BridgeDbWebservice, bridgedb/bridgedbjs, bridgedb/docker, BiGCAT-UM/BridgeDbR, wikipathways/rWikiPathways, wikipathways/pywikipathways, wikipathways/pvjs, wikipathways/wikipathways-database"
+    },
+    {
+     "url": "https://api.github.com/graphql (10 repositories)",
+     "status": 200,
+     "ok": true,
+     "note": "10 of 10 returned: wikipathways/GPML2RDF, wikipathways/WikiPathwaysCurator, PathVisio/pathvisio, PathVisio/libGPML, egonw/org.pathvisio.io.rdf, cdk/cdk, cdk/cdk-scaffold, egonw/bacting, blueobelisk/pybacting, BiGCAT-UM/ArrayAnalysis"
+    },
+    {
+     "url": "https://api.github.com/graphql (10 repositories)",
+     "status": 200,
+     "ok": true,
+     "note": "10 of 10 returned: TGX-UM/R-ODAF-Shiny, VHP4Safety/virtual-human-platform, VHP4Safety/cloud, VHP4Safety/ui-casestudy-config, VHP4Safety/glossary, marvinm2/AOPWikiRDF, marvinm2/AOP-Wiki-Snorql-UI, marvinm2/AOP-Wiki-RDF-dashboard, marvinm2/molAOP-builder, marvinm2/molAOP-analyser"
+    },
+    {
+     "url": "https://api.github.com/graphql (10 repositories)",
+     "status": 200,
+     "ok": true,
+     "note": "10 of 10 returned: BioDataFuse/pyBiodatafuse, BioDataFuse/biodatafuseUI, sec2pri/pysec2pri, jmillanacosta/rdfsolve, blueobelisk/euclid, blueobelisk/cmlxom, blueobelisk/iupac-names, blueobelisk/bodr, WDscholia/scholia, enanomapper/nanojava"
+    },
+    {
+     "url": "https://api.github.com/graphql (2 repositories)",
+     "status": 200,
+     "ok": true,
+     "note": "2 of 2 returned: egonw/jqudt, CyTargetLinker/cytargetlinker"
+    }
+   ]
+  },
+  "rsd": {
+   "status": "ok",
+   "fetched_at": "2026-09-01T20:48:14+00:00",
+   "record_count": 10,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [],
+   "calls": [
+    {
+     "url": "https://research-software-directory.org/api/v1/rpc/software_by_organisation?organisation_id=34e58775-bba6-48ee-9e0e-d1821cd33108",
+     "status": 200,
+     "ok": true,
+     "note": "28 software entries"
+    }
+   ]
+  },
+  "wikipathways": {
+   "status": "skipped",
+   "fetched_at": "2026-09-01T20:48:15+00:00",
+   "record_count": 0,
+   "expected": null,
+   "found": null,
+   "quarantined": [],
+   "errors": [
+    "disabled in config/collectors.csv"
+   ],
+   "calls": []
+  }
+ }
+}

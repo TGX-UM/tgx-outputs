@@ -1,0 +1,103 @@
+{
+ "collected_on": "2026-09-01",
+ "sources": [
+  {
+   "source": "bioconductor",
+   "status": "ok",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": true,
+   "expected": null,
+   "found": null,
+   "unit": "records",
+   "record_count": 518,
+   "fetched_at": "2026-09-01T20:47:52+00:00"
+  },
+  {
+   "source": "citations",
+   "status": "degraded",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": false,
+   "expected": 35,
+   "found": 34,
+   "unit": "papers",
+   "record_count": 48,
+   "fetched_at": "2026-09-01T20:47:53+00:00"
+  },
+  {
+   "source": "dockerhub",
+   "status": "ok",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": true,
+   "expected": null,
+   "found": null,
+   "unit": "records",
+   "record_count": 2,
+   "fetched_at": "2026-09-01T20:47:54+00:00"
+  },
+  {
+   "source": "ecosystems",
+   "status": "ok",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": true,
+   "expected": null,
+   "found": null,
+   "unit": "records",
+   "record_count": 60,
+   "fetched_at": "2026-09-01T20:47:54+00:00"
+  },
+  {
+   "source": "github",
+   "status": "ok",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": true,
+   "expected": null,
+   "found": null,
+   "unit": "records",
+   "record_count": 124,
+   "fetched_at": "2026-09-01T20:48:04+00:00"
+  },
+  {
+   "source": "rsd",
+   "status": "ok",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": true,
+   "expected": null,
+   "found": null,
+   "unit": "records",
+   "record_count": 10,
+   "fetched_at": "2026-09-01T20:48:14+00:00"
+  }
+ ],
+ "ok": 5,
+ "refreshed": 6,
+ "incomplete": [
+  {
+   "source": "citations",
+   "status": "degraded",
+   "age_days": 0.0,
+   "cadence_days": 7,
+   "level": "fresh",
+   "complete": false,
+   "expected": 35,
+   "found": 34,
+   "unit": "papers",
+   "record_count": 48,
+   "fetched_at": "2026-09-01T20:47:53+00:00"
+  }
+ ],
+ "total": 6,
+ "level": "fresh",
+ "summary": "6 of 6 sources refreshed 2026-09-01 \u2014 1 source incomplete: citations (34 of 35 papers found)"
+}
