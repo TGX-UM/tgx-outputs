@@ -120,3 +120,7 @@ nanojava,package,repo1.maven.org/io.github.egonw:nanojava,
 cytargetlinker,repo,CyTargetLinker/cytargetlinker,
 cytargetlinker,paper,10.1371/journal.pone.0082160,"CyTargetLinker: A Cytoscape App to Integrate Regulatory Interactions in Network Analysis"
 cytargetlinker,paper,10.12688/f1000research.14613.1,"CyTargetLinker app update: A flexible solution for network extension in Cytoscape"
+cnvatlas,repo,CNVPathwayAtlas/cnv-website,
+cnvatlas,repo,CNVPathwayAtlas/cnv-data,
+cnvatlas,paper,10.1038/s41597-026-07345-6,"A dataset of rare copy number variants associated with neurodevelopmental and neuropsychiatric disorders"
+

@@ -17,3 +17,4 @@ scholia,Scholia,"Builds profile pages for researchers, topics, journals and chem
 nanojava,NanoJava,"Minimal cheminformatics Java library for nanomaterials.",NJ,
 jqudt,jQUDT,"Java library to handle units and convert quantities.",QUDT,
 cytargetlinker,CyTargetLinker,"Extend your biological networks in Cytoscape.",CTL,
+cnvatlas,CNVPathwayAtlas,"Exploring rare genetic copy number variants.",CNVA,
